@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-	"start": "npm run serve"
+	"start": "npm run serve",
+	"heroku-postbuild": "set NPM_CONFIG_PRODUCTION=false YARN_PRODUCTION=false"
   },
   "dependencies": {
     "core-js": "^3.8.3",
