@@ -1,7 +1,9 @@
 import { http } from "./config";
 
 export default {
-  getTableAtualizada: () => {
-    return http.get("season");
+  getTableAtualizada: (categoryId, seasonId) => {
+    return http.get(
+      `result/category/${categoryId}/position?seasonId=${seasonId}`
+    );
   },
 };
