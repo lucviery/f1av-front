@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <div class="container">
-      <table>
+      <table class="table_rodape">
         <thead>
           <tr style="text-align: left">
             <th rowspan="2">|</th>
@@ -11,6 +11,8 @@
             <th colspan="4" style="padding-bottom: 15px">PILOTOS</th>
           </tr>
         </thead>
+      </table>
+      <table>
         <tbody>
           <tr v-for="driver of tableDrivers" :key="driver.id">
             <td class="td" style="text-align: center">
@@ -173,6 +175,12 @@ td {
   width: 35px;
   background-color: white;
   color: black;
+}
+
+.td_pos_first_four {
+  width: 35px;
+  background-color: green;
+  color: white;
 }
 
 .td_traco {

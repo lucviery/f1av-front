@@ -6,4 +6,8 @@ export default {
       `result/category/${categoryId}/position?seasonId=${seasonId}`
     );
   },
+
+  getTableConstructor: (seasonId) => {
+    return http.get(`result/constructor?seasonId=${seasonId}`);
+  },
 };
