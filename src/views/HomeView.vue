@@ -1,6 +1,7 @@
 <template>
   <div class="about">
     <div class="container">
+      <div>{{ error }}</div>
       <table class="table_rodape">
         <thead>
           <tr style="text-align: left">
@@ -65,11 +66,36 @@ export default {
     };
   },
   mounted() {
-    TableDrivers.getTableAtualizada(6, 10)
+    if (
+      this.$route.query.temporada === null ||
+      isNaN(this.$route.query.temporada)
+    ) {
+      this.error =
+        "Temporada não informada, informe o número da temporada, exemplo: 10";
+      console.log(
+        "Temporada não informada, informe o número da temporada, exemplo: 10"
+      );
+      console.log(this.$route.query.temporada);
+    }
+
+    if (
+      this.$route.query.categoria === null ||
+      isNaN(this.$route.query.categoria)
+    ) {
+      this.error =
+        "Categoria não informada, informe o número da categoria, exemplo: 2";
+      console.log(
+        "Categoria não informada, informe o número da categoria, exemplo: 2"
+      );
+      console.log(this.$route.query.categoria);
+    }
+
+    TableDrivers.getTableAtualizada(
+      this.$route.query.categoria,
+      this.$route.query.temporada
+    )
       .then((result) => {
         this.tableDrivers = result.data;
-
-        console.log(this.tableDrivers);
       })
       .catch((e) => {
         console.log(e);
@@ -79,7 +105,6 @@ export default {
     getLogEquip(equip) {
       if (equip.trim() !== "") {
         let pic = equip.replace(/\s+/g, "");
-        console.log(pic);
 
         var images = require.context(
           "../assets/logos-equipes/",
