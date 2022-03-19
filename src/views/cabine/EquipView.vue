@@ -10,7 +10,7 @@
     </div>
     <div class="position_master" v-for="team of tableTeam" :key="team.position">
       <div class="position_equipe_logo table-cell">
-        <div class="coll_div_position">{{ team.position }}</div>
+        <div class="coll_div_position meio_position">{{ team.position }}</div>
         <div class="coll_div_barra">
           <img
             class="image_cabecalho"
@@ -113,3 +113,8 @@ export default {
   },
 };
 </script>
+<style>
+.meio_position {
+  background: #e6e6e6;
+}
+</style>

@@ -120,13 +120,22 @@ export default {
     },
     getClassColorPosition(position) {
       if (position <= 3) return "coll_div_position destaque_position";
-      else return "coll_div_position";
+      else if (position >= 17) return "coll_div_position descenso_position";
+      else return "coll_div_position meio_position";
     },
   },
 };
 </script>
 
 <style>
+.meio_position {
+  background: #e6e6e6;
+}
+
+.descenso_position {
+  background-color: #ff839f;
+}
+
 .destaque_position {
   background-color: #ffce7c;
 }
@@ -216,7 +225,6 @@ export default {
   line-height: 22px;
   /* BLACK */
   color: #161619;
-  background: #e6e6e6;
   border-radius: 0px 0px 0px 8px;
 }
 

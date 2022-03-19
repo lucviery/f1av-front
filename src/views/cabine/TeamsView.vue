@@ -19,7 +19,7 @@
             alt="Equipes"
           />
         </div>
-        <div class="coll_div_barra coll_texto_equipe">
+        <div class="coll_div_barra coll_texto_equipe" style="width: 280px">
           {{ team.nameTableResult }}
         </div>
       </div>
@@ -97,17 +97,17 @@ export default {
     },
     getClassColorPosition(position) {
       if (position <= 4) return "coll_div_position destaque_position";
-      else return "coll_div_position";
+      else return "coll_div_position meio_position";
     },
   },
 };
 </script>
 <style>
-.coll_texto_equipe {
-  width: 280px;
-}
-
 .destaque_position {
   background-color: #ffce7c;
+}
+
+.meio_position {
+  background: #e6e6e6;
 }
 </style>
