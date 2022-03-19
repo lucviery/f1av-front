@@ -1,5 +1,6 @@
 <template>
   <div class="frame1">
+    <div>{{ error }}</div>
     <div name="cabecalho" class="cabecalho">
       <img
         class="image_cabecalho"
@@ -7,238 +8,29 @@
         alt="Equipes"
       />
     </div>
-    <!--
-    <div class="position_master">
+    <div class="position_master" v-for="team of tableTeam" :key="team.position">
       <div class="position_equipe_logo table-cell">
-        <div class="coll_div_position">1</div>
+        <div class="coll_div_position">{{ team.position }}</div>
         <div class="coll_div_barra">
           <img
             class="image_cabecalho"
-            src="../../assets/barra_mercedez.png"
+            :src="getBarraEquip(driver.equip)"
             alt="Equipes"
           />
         </div>
-        <div class="coll_div_barra coll_texto_equipe">MERCEDES</div>
+        <div class="coll_div_barra coll_texto_equipe">{{ team.equip }}</div>
         <div class="coll_logo_equipe">
           <img
             class="image_cabecalho"
-            src="../../assets/logo_mercedes.png"
+            :src="getLogEquip(driver.equip)"
             alt="Equipes"
           />
         </div>
       </div>
       <div class="position_pts table-cell">
-        <div class="number_pts">128</div>
+        <div class="number_pts">{{ team.pts }}</div>
       </div>
     </div>
-    <div class="position_master">
-      <div class="position_equipe_logo table-cell">
-        <div class="coll_div_position">2</div>
-        <div class="coll_div_barra">
-          <img
-            class="image_cabecalho"
-            src="../../assets/barra_redbull.png"
-            alt="Equipes"
-          />
-        </div>
-        <div class="coll_div_barra coll_texto_equipe">REDBULL</div>
-        <div class="coll_logo_equipe">
-          <img
-            class="image_cabecalho"
-            src="../../assets/logo_redbull.png"
-            alt="Equipes"
-          />
-        </div>
-      </div>
-      <div class="position_pts table-cell">
-        <div class="number_pts">111</div>
-      </div>
-    </div>
-    <div class="position_master">
-      <div class="position_equipe_logo table-cell">
-        <div class="coll_div_position">3</div>
-        <div class="coll_div_barra">
-          <img
-            class="image_cabecalho"
-            src="../../assets/barra_maclaren.png"
-            alt="Equipes"
-          />
-        </div>
-        <div class="coll_div_barra coll_texto_equipe">MC LAREN</div>
-        <div class="coll_logo_equipe">
-          <img
-            class="image_cabecalho"
-            src="../../assets/logo_mclaren.png"
-            alt="Equipes"
-          />
-        </div>
-      </div>
-      <div class="position_pts table-cell">
-        <div class="number_pts">92</div>
-      </div>
-    </div>
-    <div class="position_master">
-      <div class="position_equipe_logo table-cell">
-        <div class="coll_div_position">4</div>
-        <div class="coll_div_barra">
-          <img
-            class="image_cabecalho"
-            src="../../assets/barra_ferrari.png"
-            alt="Equipes"
-          />
-        </div>
-        <div class="coll_div_barra coll_texto_equipe">FERRARI</div>
-        <div class="coll_logo_equipe">
-          <img
-            class="image_cabecalho"
-            src="../../assets/logo_ferrari.png"
-            alt="Equipes"
-          />
-        </div>
-      </div>
-      <div class="position_pts table-cell">
-        <div class="number_pts">82</div>
-      </div>
-    </div>
-    <div class="position_master">
-      <div class="position_equipe_logo table-cell">
-        <div class="coll_div_position">5</div>
-        <div class="coll_div_barra">
-          <img
-            class="image_cabecalho"
-            src="../../assets/barra_aston_martin.png"
-            alt="Equipes"
-          />
-        </div>
-        <div class="coll_div_barra coll_texto_equipe">ASTON MARTIN</div>
-        <div class="coll_logo_equipe">
-          <img
-            class="image_cabecalho"
-            src="../../assets/logo_aston.png"
-            alt="Equipes"
-          />
-        </div>
-      </div>
-      <div class="position_pts table-cell">
-        <div class="number_pts">52</div>
-      </div>
-    </div>
-    <div class="position_master">
-      <div class="position_equipe_logo table-cell">
-        <div class="coll_div_position">6</div>
-        <div class="coll_div_barra">
-          <img
-            class="image_cabecalho"
-            src="../../assets/barra_alfa_romeo.png"
-            alt="Equipes"
-          />
-        </div>
-        <div class="coll_div_barra coll_texto_equipe">ALFA ROMEO</div>
-        <div class="coll_logo_equipe">
-          <img
-            class="image_cabecalho"
-            src="../../assets/logo_alfaromeo.png"
-            alt="Equipes"
-          />
-        </div>
-      </div>
-      <div class="position_pts table-cell">
-        <div class="number_pts">48</div>
-      </div>
-    </div>
-    <div class="position_master">
-      <div class="position_equipe_logo table-cell">
-        <div class="coll_div_position">7</div>
-        <div class="coll_div_barra">
-          <img
-            class="image_cabecalho"
-            src="../../assets/barra_alfha_tauri.png"
-            alt="Equipes"
-          />
-        </div>
-        <div class="coll_div_barra coll_texto_equipe">ALPHA TAURI</div>
-        <div class="coll_logo_equipe">
-          <img
-            class="image_cabecalho"
-            src="../../assets/logo_alphatauri.png"
-            alt="Equipes"
-          />
-        </div>
-      </div>
-      <div class="position_pts table-cell">
-        <div class="number_pts">46</div>
-      </div>
-    </div>
-    <div class="position_master">
-      <div class="position_equipe_logo table-cell">
-        <div class="coll_div_position">8</div>
-        <div class="coll_div_barra">
-          <img
-            class="image_cabecalho"
-            src="../../assets/barra_alpine.png"
-            alt="Equipes"
-          />
-        </div>
-        <div class="coll_div_barra coll_texto_equipe">ALPINE</div>
-        <div class="coll_logo_equipe">
-          <img
-            class="image_cabecalho"
-            src="../../assets/logo_alpine.png"
-            alt="Equipes"
-          />
-        </div>
-      </div>
-      <div class="position_pts table-cell">
-        <div class="number_pts">36</div>
-      </div>
-    </div>
-    <div class="position_master">
-      <div class="position_equipe_logo table-cell">
-        <div class="coll_div_position">9</div>
-        <div class="coll_div_barra">
-          <img
-            class="image_cabecalho"
-            src="../../assets/barra_willians.png"
-            alt="Equipes"
-          />
-        </div>
-        <div class="coll_div_barra coll_texto_equipe">WILLIAMS</div>
-        <div class="coll_logo_equipe">
-          <img
-            class="image_cabecalho"
-            src="../../assets/logo_williams.png"
-            alt="Equipes"
-          />
-        </div>
-      </div>
-      <div class="position_pts table-cell">
-        <div class="number_pts">33</div>
-      </div>
-    </div>
-    <div class="position_master">
-      <div class="position_equipe_logo table-cell">
-        <div class="coll_div_position">10</div>
-        <div class="coll_div_barra">
-          <img
-            class="image_cabecalho"
-            src="../../assets/barra_haas.png"
-            alt="Equipes"
-          />
-        </div>
-        <div class="coll_div_barra coll_texto_equipe">HAAS</div>
-        <div class="coll_logo_equipe">
-          <img
-            class="image_cabecalho"
-            src="../../assets/logo_haas.png"
-            alt="Equipes"
-          />
-        </div>
-      </div>
-      <div class="position_pts table-cell">
-        <div class="number_pts">9</div>
-      </div>
-    </div>
-    -->
     <div name="rodape" class="rodape">
       <img
         class="image_cabecalho"
@@ -249,7 +41,92 @@
   </div>
 </template>
 
-<script></script>
+<script>
+import TableDrivers from "../../services/table-drivers-transmission";
+
+export default {
+  data() {
+    return {
+      team: {
+        teamId: null,
+        position: null,
+        pts: null,
+        equip: "",
+      },
+      tableTeam: [],
+      errors: [],
+    };
+  },
+  mounted() {
+    if (
+      this.$route.query.temporada === null ||
+      isNaN(this.$route.query.temporada)
+    ) {
+      this.error =
+        "Temporada não informada, informe o número da temporada, exemplo: 10";
+      console.log(
+        "Temporada não informada, informe o número da temporada, exemplo: 10"
+      );
+      console.log(this.$route.query.temporada);
+    }
+
+    if (
+      this.$route.query.categoria === null ||
+      isNaN(this.$route.query.categoria)
+    ) {
+      this.error =
+        "Categoria não informada, informe o número da categoria, exemplo: 2";
+      console.log(
+        "Categoria não informada, informe o número da categoria, exemplo: 2"
+      );
+      console.log(this.$route.query.categoria);
+    }
+
+    TableDrivers.getTableEquip(
+      this.$route.query.categoria,
+      this.$route.query.temporada
+    )
+      .then((result) => {
+        this.tableTeam = result.data;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  },
+  methods: {
+    getLogEquip(equip) {
+      if (equip.trim() !== "") {
+        let pic = equip.replace(/\s+/g, "");
+
+        var images = require.context(
+          "../../assets/logos-equipes/",
+          false,
+          /\.png$/
+        );
+
+        return images("./" + pic + ".png");
+      } else {
+        return "";
+      }
+    },
+    getBarraEquip(equip) {
+      if (equip.trim() !== "") {
+        let pic = equip.replace(/\s+/g, "");
+
+        var images = require.context(
+          "../../assets/barras-equipes/",
+          false,
+          /\.png$/
+        );
+
+        return images("./" + pic + ".png");
+      } else {
+        return "";
+      }
+    },
+  },
+};
+</script>
 
 <style>
 .frame1 {

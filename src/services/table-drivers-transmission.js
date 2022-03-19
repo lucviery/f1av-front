@@ -10,4 +10,10 @@ export default {
   getTableConstructor: (seasonId) => {
     return http.get(`result/constructor?seasonId=${seasonId}`);
   },
+
+  getTableEquip: (categoryId, seasonId) => {
+    return http.get(
+      `result/category/${categoryId}/equip-position?seasonId=${seasonId}`
+    );
+  },
 };
