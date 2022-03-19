@@ -3,17 +3,18 @@
     <div name="cabecalho" class="cabecalho">
       <img
         class="image_cabecalho"
-        src="../assets/equipes_top_2.png"
+        src="../../assets/equipes_top_2.png"
         alt="Equipes"
       />
     </div>
+    <!--
     <div class="position_master">
       <div class="position_equipe_logo table-cell">
         <div class="coll_div_position">1</div>
         <div class="coll_div_barra">
           <img
             class="image_cabecalho"
-            src="../assets/barra_mercedez.png"
+            src="../../assets/barra_mercedez.png"
             alt="Equipes"
           />
         </div>
@@ -21,7 +22,7 @@
         <div class="coll_logo_equipe">
           <img
             class="image_cabecalho"
-            src="../assets/logo_mercedes.png"
+            src="../../assets/logo_mercedes.png"
             alt="Equipes"
           />
         </div>
@@ -36,7 +37,7 @@
         <div class="coll_div_barra">
           <img
             class="image_cabecalho"
-            src="../assets/barra_redbull.png"
+            src="../../assets/barra_redbull.png"
             alt="Equipes"
           />
         </div>
@@ -44,7 +45,7 @@
         <div class="coll_logo_equipe">
           <img
             class="image_cabecalho"
-            src="../assets/logo_redbull.png"
+            src="../../assets/logo_redbull.png"
             alt="Equipes"
           />
         </div>
@@ -59,7 +60,7 @@
         <div class="coll_div_barra">
           <img
             class="image_cabecalho"
-            src="../assets/barra_maclaren.png"
+            src="../../assets/barra_maclaren.png"
             alt="Equipes"
           />
         </div>
@@ -67,7 +68,7 @@
         <div class="coll_logo_equipe">
           <img
             class="image_cabecalho"
-            src="../assets/logo_mclaren.png"
+            src="../../assets/logo_mclaren.png"
             alt="Equipes"
           />
         </div>
@@ -82,7 +83,7 @@
         <div class="coll_div_barra">
           <img
             class="image_cabecalho"
-            src="../assets/barra_ferrari.png"
+            src="../../assets/barra_ferrari.png"
             alt="Equipes"
           />
         </div>
@@ -90,7 +91,7 @@
         <div class="coll_logo_equipe">
           <img
             class="image_cabecalho"
-            src="../assets/logo_ferrari.png"
+            src="../../assets/logo_ferrari.png"
             alt="Equipes"
           />
         </div>
@@ -105,7 +106,7 @@
         <div class="coll_div_barra">
           <img
             class="image_cabecalho"
-            src="../assets/barra_aston_martin.png"
+            src="../../assets/barra_aston_martin.png"
             alt="Equipes"
           />
         </div>
@@ -113,7 +114,7 @@
         <div class="coll_logo_equipe">
           <img
             class="image_cabecalho"
-            src="../assets/logo_aston.png"
+            src="../../assets/logo_aston.png"
             alt="Equipes"
           />
         </div>
@@ -128,7 +129,7 @@
         <div class="coll_div_barra">
           <img
             class="image_cabecalho"
-            src="../assets/barra_alfa_romeo.png"
+            src="../../assets/barra_alfa_romeo.png"
             alt="Equipes"
           />
         </div>
@@ -136,7 +137,7 @@
         <div class="coll_logo_equipe">
           <img
             class="image_cabecalho"
-            src="../assets/logo_alfaromeo.png"
+            src="../../assets/logo_alfaromeo.png"
             alt="Equipes"
           />
         </div>
@@ -151,7 +152,7 @@
         <div class="coll_div_barra">
           <img
             class="image_cabecalho"
-            src="../assets/barra_alfha_tauri.png"
+            src="../../assets/barra_alfha_tauri.png"
             alt="Equipes"
           />
         </div>
@@ -159,7 +160,7 @@
         <div class="coll_logo_equipe">
           <img
             class="image_cabecalho"
-            src="../assets/logo_alphatauri.png"
+            src="../../assets/logo_alphatauri.png"
             alt="Equipes"
           />
         </div>
@@ -174,7 +175,7 @@
         <div class="coll_div_barra">
           <img
             class="image_cabecalho"
-            src="../assets/barra_alpine.png"
+            src="../../assets/barra_alpine.png"
             alt="Equipes"
           />
         </div>
@@ -182,7 +183,7 @@
         <div class="coll_logo_equipe">
           <img
             class="image_cabecalho"
-            src="../assets/logo_alpine.png"
+            src="../../assets/logo_alpine.png"
             alt="Equipes"
           />
         </div>
@@ -197,7 +198,7 @@
         <div class="coll_div_barra">
           <img
             class="image_cabecalho"
-            src="../assets/barra_willians.png"
+            src="../../assets/barra_willians.png"
             alt="Equipes"
           />
         </div>
@@ -205,7 +206,7 @@
         <div class="coll_logo_equipe">
           <img
             class="image_cabecalho"
-            src="../assets/logo_williams.png"
+            src="../../assets/logo_williams.png"
             alt="Equipes"
           />
         </div>
@@ -220,7 +221,7 @@
         <div class="coll_div_barra">
           <img
             class="image_cabecalho"
-            src="../assets/barra_haas.png"
+            src="../../assets/barra_haas.png"
             alt="Equipes"
           />
         </div>
@@ -228,7 +229,7 @@
         <div class="coll_logo_equipe">
           <img
             class="image_cabecalho"
-            src="../assets/logo_haas.png"
+            src="../../assets/logo_haas.png"
             alt="Equipes"
           />
         </div>
@@ -237,10 +238,11 @@
         <div class="number_pts">9</div>
       </div>
     </div>
+    -->
     <div name="rodape" class="rodape">
       <img
         class="image_cabecalho"
-        src="../assets/endereco_site.png"
+        src="../../assets/endereco_site.png"
         alt="Equipes"
       />
     </div>
