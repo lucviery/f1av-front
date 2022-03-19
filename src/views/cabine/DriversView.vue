@@ -1,5 +1,5 @@
 <template>
-  <div class="frame1">
+  <div class="frame">
     <div>{{ error }}</div>
     <div name="cabecalho" class="cabecalho">
       <img
@@ -136,7 +136,7 @@ export default {
 </script>
 
 <style>
-.frame1 {
+.frame {
   position: relative;
   width: 440px;
 }
