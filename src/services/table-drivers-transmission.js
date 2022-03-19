@@ -1,19 +1,15 @@
 import { http } from "./config";
 
 export default {
-  getTableAtualizada: (categoryId, seasonId) => {
-    return http.get(
-      `result/category/${categoryId}/position?seasonId=${seasonId}`
-    );
+  getTableAtualizada: (categoryId) => {
+    return http.get(`cabine/category/${categoryId}/position`);
   },
 
-  getTableConstructor: (seasonId) => {
-    return http.get(`result/constructor?seasonId=${seasonId}`);
+  getTableConstructor: () => {
+    return http.get(`cabine/constructor`);
   },
 
-  getTableEquip: (categoryId, seasonId) => {
-    return http.get(
-      `result/category/${categoryId}/equip-position?seasonId=${seasonId}`
-    );
+  getTableEquip: (categoryId) => {
+    return http.get(`cabine/category/${categoryId}/equip-position`);
   },
 };

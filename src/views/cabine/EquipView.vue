@@ -59,18 +59,6 @@ export default {
   },
   mounted() {
     if (
-      this.$route.query.temporada === null ||
-      isNaN(this.$route.query.temporada)
-    ) {
-      this.error =
-        "Temporada não informada, informe o número da temporada, exemplo: 10";
-      console.log(
-        "Temporada não informada, informe o número da temporada, exemplo: 10"
-      );
-      console.log(this.$route.query.temporada);
-    }
-
-    if (
       this.$route.query.categoria === null ||
       isNaN(this.$route.query.categoria)
     ) {
@@ -82,10 +70,7 @@ export default {
       console.log(this.$route.query.categoria);
     }
 
-    TableDrivers.getTableEquip(
-      this.$route.query.categoria,
-      this.$route.query.temporada
-    )
+    TableDrivers.getTableEquip(this.$route.query.categoria)
       .then((result) => {
         console.log(result.data);
         this.tableTeam = result.data;

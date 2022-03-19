@@ -14,7 +14,9 @@
       :key="driver.id"
     >
       <div class="position_equipe_logo table-cell">
-        <div class="coll_div_position">{{ driver.position }}</div>
+        <div :class="getClassColorPosition(driver.position)">
+          {{ driver.position }}
+        </div>
         <div class="coll_div_barra">
           <img
             class="image_cabecalho"
@@ -66,18 +68,6 @@ export default {
   },
   mounted() {
     if (
-      this.$route.query.temporada === null ||
-      isNaN(this.$route.query.temporada)
-    ) {
-      this.error =
-        "Temporada não informada, informe o número da temporada, exemplo: 10";
-      console.log(
-        "Temporada não informada, informe o número da temporada, exemplo: 10"
-      );
-      console.log(this.$route.query.temporada);
-    }
-
-    if (
       this.$route.query.categoria === null ||
       isNaN(this.$route.query.categoria)
     ) {
@@ -89,10 +79,7 @@ export default {
       console.log(this.$route.query.categoria);
     }
 
-    TableDrivers.getTableAtualizada(
-      this.$route.query.categoria,
-      this.$route.query.temporada
-    )
+    TableDrivers.getTableAtualizada(this.$route.query.categoria)
       .then((result) => {
         this.tableDrivers = result.data;
       })
@@ -131,11 +118,19 @@ export default {
         return "";
       }
     },
+    getClassColorPosition(position) {
+      if (position <= 3) return "coll_div_position destaque_position";
+      else return "coll_div_position";
+    },
   },
 };
 </script>
 
 <style>
+.destaque_position {
+  background-color: #ffce7c;
+}
+
 .frame {
   position: relative;
   width: 440px;

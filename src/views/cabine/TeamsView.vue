@@ -9,7 +9,9 @@
     </div>
     <div class="position_master" v-for="team of tableTeam" :key="team.teamId">
       <div class="position_equipe_logo table-cell">
-        <div class="coll_div_position">{{ team.position }}</div>
+        <div :class="getClassColorPosition(team.position)">
+          {{ team.position }}
+        </div>
         <div class="coll_div_barra">
           <img
             class="image_cabecalho"
@@ -52,7 +54,7 @@ export default {
     };
   },
   mounted() {
-    TableDrivers.getTableConstructor(10)
+    TableDrivers.getTableConstructor()
       .then((result) => {
         this.tableTeam = result.data;
 
@@ -93,11 +95,19 @@ export default {
         return "";
       }
     },
+    getClassColorPosition(position) {
+      if (position <= 4) return "coll_div_position destaque_position";
+      else return "coll_div_position";
+    },
   },
 };
 </script>
 <style>
 .coll_texto_equipe {
   width: 280px;
+}
+
+.destaque_position {
+  background-color: #ffce7c;
 }
 </style>
