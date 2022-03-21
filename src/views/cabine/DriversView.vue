@@ -26,6 +26,24 @@
         </div>
         <div class="coll_div_barra coll_texto_equipe">
           {{ driver.nameDriver }}
+          <div :style="getChampionSupremo(driver.championSupremo)">
+            <img
+              class="image_cabecalho"
+              src="../../assets/trofeu_supremo.png"
+              alt="Equipes"
+            />
+          </div>
+          <div
+            :style="
+              getChampionOuther(driver.championSupremo, driver.championOuther)
+            "
+          >
+            <img
+              class="image_cabecalho"
+              src="../../assets/trofeu_demais.png"
+              alt="Equipes"
+            />
+          </div>
         </div>
         <div class="coll_logo_equipe">
           <img
@@ -123,6 +141,14 @@ export default {
       else if (position >= 17) return "coll_div_position descenso_position";
       else return "coll_div_position meio_position";
     },
+    getChampionSupremo(championSupremo) {
+      if (championSupremo) return "display: inline";
+      else return "display: none";
+    },
+    getChampionOuther(championSupremo, championOuther) {
+      if (!championSupremo && championOuther) return "display: inline";
+      else return "display: none";
+    },
   },
 };
 </script>
@@ -142,7 +168,7 @@ export default {
 
 .frame {
   position: relative;
-  width: 440px;
+  width: 460px;
 }
 
 .rodape {
@@ -154,7 +180,7 @@ export default {
 .cabecalho {
   text-align: center;
   padding-top: 5px;
-  width: 440px;
+  width: 100%;
   height: 74px;
   left: 0px;
   top: 0px;
@@ -176,7 +202,7 @@ export default {
 .position_equipe_logo {
   text-align: left;
   vertical-align: middle;
-  width: 355px;
+  width: 375px;
   height: 41px;
   background: #161619;
   border: 1px solid #000000;
@@ -244,7 +270,7 @@ export default {
   font-weight: 700;
   font-size: 19px;
   line-height: 22px;
-  width: 207px;
+  width: 227px;
   color: #c4ccd6;
 }
 
