@@ -174,7 +174,7 @@ export default {
 .rodape {
   text-align: center;
   height: 85px;
-  background: rgba(22, 22, 25, 0.2);
+  background: rgba(22, 22, 25, 0.7);
 }
 
 .cabecalho {
