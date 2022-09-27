@@ -3,6 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import EquipView from "../views/cabine/EquipView.vue";
 import DriversView from "../views/cabine/DriversView.vue";
 import TeamsView from "../views/cabine/TeamsView.vue";
+import TelemetriaView from "../views/telemetria/TelemetriaView.vue";
 
 const routes = [
   {
@@ -25,6 +26,11 @@ const routes = [
     name: "teams",
     component: TeamsView,
   },
+  {
+    path: "/telemetria/weather",
+    name: "tabela",
+    component: TelemetriaView,
+  },  
 ];
 
 const router = createRouter({
