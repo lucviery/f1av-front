@@ -3,7 +3,7 @@
   <div style="display: inline-block;vertical-align: top">
     <div style="font-weight: bolder;">Qualy</div>
     <div class="frame"
-        v-for="weather of tableWeatherForecast"
+        v-for="weather of tableWeatherForecastQualy"
         :key="weather.id">
       <div name="icon" v-if="weather.sessionType == 'SHORT_Q'">
         <img
@@ -21,7 +21,7 @@
   <div style="display: inline-block;vertical-align: top">
     <div style="font-weight: bolder;">Corrida</div>
     <div class="frame"
-        v-for="weather of tableWeatherForecast"
+        v-for="weather of tableWeatherForecastCorrida"
         :key="weather.id">
       <div name="icon" v-if="weather.sessionType == 'R'">
         <img
@@ -48,19 +48,41 @@ export default {
         weather: "",
         rainPercentage: null,
       },
-      tableWeatherForecast: [],
+      tableWeatherForecastQualy: [],
+      tableWeatherForecastCorrida: [],
       errors: [],
     };
   },      
   mounted() {
-    TelemetryApi.getWeatherTelemetry()
-      .then((result) => {
-        console.log(result.data);
-        this.tableWeatherForecast = result.data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    if (
+      this.$route.query.season === null ||
+      isNaN(this.$route.query.season)
+    ) {
+      this.error =
+        "Sessão não informada, informe o número da Sessão, exemplo: 2";
+      console.log(
+        "Sessão não informada, informe o número da Sessão, exemplo: 2"
+      );
+      console.log(this.$route.query.season);
+    } else {    
+      TelemetryApi.getWeatherTelemetry(this.$route.query.season, "SHORT_Q")
+        .then((result) => {
+          this.tableWeatherForecastQualy = result.data;
+
+          TelemetryApi.getWeatherTelemetry(this.$route.query.season, "R")
+            .then((result) => {
+              this.tableWeatherForecastCorrida = result.data;
+
+              console.log(this.tableWeatherForecastCorrida);
+            })
+            .catch((e) => {
+              console.log(e);
+            });          
+            })
+        .catch((e) => {
+          console.log(e);
+        });	      
+    }
   },    
   methods: {
     getLogWeather(weather) {
