@@ -20,6 +20,7 @@
 				<div class="divTableCell">RWD</div>
 				<div class="divTableCell">Floor</div>
 				<div class="divTableCell">SID</div>
+				<div class="divTableCell">DIF</div>
 				<div class="divTableCell">Fuel</div>
 				<div class="divTableCell">TAL</div>
 				<div class="divTableCell">ERS</div>
@@ -29,6 +30,7 @@
 			</div>
 			<div class="divTableRow"       
 				v-for="telemetryRealTime of tableTelemetryRealTime" :key="telemetryRealTime.position">
+				<div class="divTableCell"> {{ telemetryRealTime.position }}</div>
 				<div class="divTableCell"> {{ telemetryRealTime.name }}</div>
 				<div class="divTableCell">{{ telemetryRealTime.currentLap }}</div>
 				<div class="divTableCell">{{ telemetryRealTime.penalties }}</div>
