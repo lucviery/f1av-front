@@ -1,7 +1,7 @@
 <template>
   <div>{{ error }}</div>
   <div style="display: inline-block;vertical-align: top">
-    <div style="font-weight: bolder;">Real Time</div>
+    <div style="font-weight: bolder;">Real Time: {{dateUpdate}}</div>
     <div class="divTable">
 		<div class="divTableBody">
 			<div class="divTableRow">
@@ -66,6 +66,7 @@
 <script>
 import RealTimeTelemetry from "../../services/telemetry";
 import TelemetryApi from "../../services/telemetry";
+
 export default {
   data() {
     return {
@@ -91,19 +92,25 @@ export default {
 		ersStoreEnergy: null,
 		tyre: null,
       },
-      tableTelemetryRealTime: [],
-      errors: [],
-      weather: {
-        id: null,
-        sessionType: "",
-        timeOffset: null,
-        weather: "",
-        rainPercentage: null,
-      },
-      tableWeatherForecastCorrida: [],  
+		timer: "",
+		dateUpdate: "", 
+		tableTelemetryRealTime: [],
+		errors: [],
+		weather: {
+			id: null,
+			sessionType: "",
+			timeOffset: null,
+			weather: "",
+			rainPercentage: null,
+		},
+		tableWeatherForecastCorrida: [],  
 		tableWeatherForecastQualy: [],
-    };
-  },      
+	};
+  },   
+  created() {  
+    this.fetchData();  
+    this.timer = setInterval(this.fetchData, 5000);  
+  },     
   mounted() {
     if (
       this.$route.query.season === null ||
@@ -125,7 +132,6 @@ export default {
 		});
 		TelemetryApi.getWeatherTelemetry(this.$route.query.season, "R")
 		.then((result) => {
-			console.log(result.data);
 			this.tableWeatherForecastCorrida = result.data;
 		})
 		.catch((e) => {
@@ -133,7 +139,6 @@ export default {
 		});
 		TelemetryApi.getWeatherTelemetry(this.$route.query.season, "SHORT_Q")
 		.then((result) => {
-			console.log(result.data);
 			this.tableWeatherForecastQualy = result.data;
 		})
 		.catch((e) => {
@@ -142,6 +147,46 @@ export default {
 	}  	     
   },    
   methods: {
+    async fetchData() {  
+		if (
+			this.$route.query.season === null ||
+			isNaN(this.$route.query.season)
+		) {
+		this.error =
+			"Sessão não informada, informe o número da Sessão, exemplo: 2";
+		console.log(
+			"Sessão não informada, informe o número da Sessão, exemplo: 2"
+		);
+		console.log(this.$route.query.season);
+		} else {
+			RealTimeTelemetry.getRealTimeTelemetry(this.$route.query.season)
+			.then((result) => {
+				this.tableTelemetryRealTime = result.data;
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+			TelemetryApi.getWeatherTelemetry(this.$route.query.season, "R")
+			.then((result) => {
+				this.tableWeatherForecastCorrida = result.data;
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+			TelemetryApi.getWeatherTelemetry(this.$route.query.season, "SHORT_Q")
+			.then((result) => {
+				this.tableWeatherForecastQualy = result.data;
+			})
+			.catch((e) => {
+				console.log(e);
+			});	
+
+			this.dateUpdate = formatDate(Date.now());
+		}  	    
+    },  
+    cancelAutoUpdate() {  
+		clearInterval(this.timer);  
+    }, 	
 	getLogWeatherQualy(index) {
 		index = index - 1;
 		if (this.tableWeatherForecastQualy.length > (index)) {
@@ -189,6 +234,25 @@ export default {
   },
 };
 
+function formatDate(date) {
+	var d = new Date(date),
+		month = '' + (d.getMonth() + 1),
+		day = '' + d.getDate(),
+		year = d.getFullYear();
+
+		let hour = d.getHours();
+		let minute = d.getMinutes();
+		let second = d.getSeconds();
+
+	if (month.length < 2) month = '0' + month;
+	if (day.length < 2) day = '0' + day;
+	
+	if (hour < 10) hour = '0' + hour;
+	if (minute < 10) minute = '0' + minute;
+	if (second < 10) second = '0' + second;
+
+	return [day, month, year].join('/') + ' ' + [hour, minute, second].join(':');
+}
 </script>
 <style>
   /* DivTable.com */
