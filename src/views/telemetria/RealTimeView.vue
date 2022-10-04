@@ -7,10 +7,9 @@
 			<div class="divTableRow">
 				<div class="divTableCell">POS</div>
 				<div class="divTableCell">Piloto</div>
-				<div class="divTableCell">Lap</div>
+				<div class="divTableCell">Voltas</div>
 				<div class="divTableCell">PU</div>
-				<div class="divTableCell">WA</div>
-				<div class="divTableCell">Status</div>
+				<div class="divTableCell">Avisos</div>
 				<div class="divTableCell">WFR</div>
 				<div class="divTableCell">WFL</div>
 				<div class="divTableCell">WRR</div>
@@ -18,8 +17,8 @@
 				<div class="divTableCell">FLWD</div>
 				<div class="divTableCell">FRWD</div>
 				<div class="divTableCell">RWD</div>
-				<div class="divTableCell">Floor</div>
-				<div class="divTableCell">SID</div>
+				<div class="divTableCell">Assoalho</div>
+				<div class="divTableCell">Sidepod</div>
 				<div class="divTableCell">DIF</div>
 				<div class="divTableCell">Fuel</div>
 				<div class="divTableCell">TAL</div>
@@ -35,7 +34,6 @@
 				<div class="divTableCell">{{ telemetryRealTime.currentLap }}</div>
 				<div class="divTableCell">{{ telemetryRealTime.penalties }}</div>
 				<div class="divTableCell">{{ telemetryRealTime.warnings }}</div>
-				<div class="divTableCell">{{ telemetryRealTime.status }}</div>
 				<div class="divTableCell">{{ telemetryRealTime.perWearFrontRight }}</div>
 				<div class="divTableCell">{{ telemetryRealTime.perWearFrontLeft }}</div>
 				<div class="divTableCell">{{ telemetryRealTime.perWearRearRight }}</div>
