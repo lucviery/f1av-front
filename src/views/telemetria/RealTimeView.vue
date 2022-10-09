@@ -174,7 +174,8 @@ export default {
 				console.log(this.$route.query.season);
 			} else {
 				if (this.tableTelemetryRealTime.length !== result.data.length) {
-					this.tableTelemetryRealTime = []
+					this.tableTelemetryRealTime = [];
+					console.log("Registros diferentes!");
 				}
 
 				RealTimeTelemetry.getRealTimeTelemetry(this.$route.query.season)
