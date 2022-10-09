@@ -175,6 +175,10 @@ export default {
 				);
 				console.log(this.$route.query.season);
 			} else {
+				if (this.tableTelemetryRealTime.length !== result.data.length) {
+					this.tableTelemetryRealTime = []
+				}
+				
 				RealTimeTelemetry.getRealTimeTelemetry(this.$route.query.season)
 					.then((result) => {
 						this.tableTelemetryRealTime = result.data;
