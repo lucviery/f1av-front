@@ -162,8 +162,6 @@ export default {
 	},
 	methods: {
 		async fetchData() {
-			this.tableTelemetryRealTime = [];
-
 			if (
 				this.$route.query.season === null ||
 				isNaN(this.$route.query.season)
@@ -178,7 +176,7 @@ export default {
 				if (this.tableTelemetryRealTime.length !== result.data.length) {
 					this.tableTelemetryRealTime = []
 				}
-				
+
 				RealTimeTelemetry.getRealTimeTelemetry(this.$route.query.season)
 					.then((result) => {
 						this.tableTelemetryRealTime = result.data;
