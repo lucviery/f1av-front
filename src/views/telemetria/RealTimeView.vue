@@ -173,13 +173,13 @@ export default {
 				);
 				console.log(this.$route.query.season);
 			} else {
-				if (this.tableTelemetryRealTime.length !== result.data.length) {
-					this.tableTelemetryRealTime = [];
-					console.log("Registros diferentes!");
-				}
-
 				RealTimeTelemetry.getRealTimeTelemetry(this.$route.query.season)
 					.then((result) => {
+						if (this.tableTelemetryRealTime.length !== result.data.length) {
+							this.tableTelemetryRealTime = [];
+							console.log("Registros diferentes!");
+						}
+
 						this.tableTelemetryRealTime = result.data;
 					})
 					.catch((e) => {
