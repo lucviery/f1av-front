@@ -66,17 +66,10 @@
 				<div class="op2">
 					<div class="divTableBody">
 						<div class="divTableRow">
-							<div class="divSpace" style="font-weight: bold">Qualy</div>
-							<div class="divSpace" style="font-weight: bold">Corrida</div>
+							<div class="divSpace" style="font-weight: bold">{{getsessionType()}}</div>
 						</div>						
-						<div class="divTableRow" v-for="itemWeatherForecast of tableWeatherForecastCorrida"
+						<div class="divTableRow" v-for="itemWeatherForecast of detailsEvent.weatherForecastSamples"
 									:key="itemWeatherForecast.id">
-							<div class="divSpace">
-								<img class="image_cabecalho" :src="getLogWeatherQualy(itemWeatherForecast.timeOffset)" width="50"
-									heigth="50" />
-								<br />
-								{{getOffSetQualy(itemWeatherForecast.timeOffset)}}
-							</div>
 							<div class="divSpace">
 								<img class="image_cabecalho" :src="getLogWeatherCorrida(itemWeatherForecast.timeOffset)" width="50"
 									heigth="50" />
@@ -86,9 +79,14 @@
 						</div>					
 					</div>
 					<div class="statusCorridaSC" :style="enableSC()">
-						<div style="background-color: black; font-size: xx-large; color: white;">
+						<div class="fa-blink" style="background-color: black; font-size: xx-large; color: white;">
 							{{getSCorVSC()}}		
+						</div>
 					</div>
+					<div class="statusCorridaFormation" :style="enableFormationLap()">
+						<div class="fa-blink" style="background-color: black; font-size: xx-large; color: white;">
+							{{getFormationLap()}}		
+						</div>
 					</div>					
 				</div>
 			</div>
@@ -128,6 +126,21 @@ export default {
 			dateUpdate: "",
 			tableTelemetryRealTime: [],
 			errors: [],
+			details: {
+				sessionType: "",
+				formula: "",
+				trackId: "",
+				trackLength: null,
+				totalLaps: null,
+				airTemperature: null,
+				trackTemperature: null,
+				sessionTimeLeft: null,
+				sessionDuration: null,
+				weather: "",
+				pitSpeedLimit: null,
+				safetyCarStatus: "",
+				weatherForecastSamples: [],
+			},
 			weather: {
 				id: null,
 				sessionType: "",
@@ -135,8 +148,7 @@ export default {
 				weather: "",
 				rainPercentage: null,
 			},
-			tableWeatherForecastCorrida: [],
-			tableWeatherForecastQualy: [],
+			detailsEvent: null,
 		};
 	},
 	created() {
@@ -162,16 +174,9 @@ export default {
 				.catch((e) => {
 					console.log(e);
 				});
-			TelemetryApi.getWeatherTelemetry(this.$route.query.season, "R")
+			TelemetryApi.getDetailsEvent(this.$route.query.season)
 				.then((result) => {
-					this.tableWeatherForecastCorrida = result.data;
-				})
-				.catch((e) => {
-					console.log(e);
-				});
-			TelemetryApi.getWeatherTelemetry(this.$route.query.season, "SHORT_Q")
-				.then((result) => {
-					this.tableWeatherForecastQualy = result.data;
+					this.detailsEvent = result.data;
 				})
 				.catch((e) => {
 					console.log(e);
@@ -203,16 +208,10 @@ export default {
 					.catch((e) => {
 						console.log(e);
 					});
-				TelemetryApi.getWeatherTelemetry(this.$route.query.season, "R")
+
+				TelemetryApi.getDetailsEvent(this.$route.query.season)
 					.then((result) => {
-						this.tableWeatherForecastCorrida = result.data;
-					})
-					.catch((e) => {
-						console.log(e);
-					});
-				TelemetryApi.getWeatherTelemetry(this.$route.query.season, "SHORT_Q")
-					.then((result) => {
-						this.tableWeatherForecastQualy = result.data;
+						this.detailsEvent = result.data;
 					})
 					.catch((e) => {
 						console.log(e);
@@ -227,7 +226,7 @@ export default {
 		getLogWeatherQualy(offSet) {
 			let weather = "";
 
-			this.tableWeatherForecastQualy.forEach(i => {
+			this.detailsEvent.weatherForecastSamples.forEach(i => {
 				if (offSet === i.timeOffset)
 					weather = i.weather;
 			});
@@ -247,7 +246,7 @@ export default {
 		getOffSetQualy(offSet) {
 			let timeOffset = -1;
 
-			this.tableWeatherForecastQualy.forEach(i => {
+			this.detailsEvent.weatherForecastSamples.forEach(i => {
 				if (offSet === i.timeOffset)
 					timeOffset = i.timeOffset;
 			});
@@ -260,12 +259,10 @@ export default {
 		getLogWeatherCorrida(offSet) {
 			let weather = "";
 
-			this.tableWeatherForecastCorrida.forEach(i => {
+			this.detailsEvent.weatherForecastSamples.forEach(i => {
 				if (offSet === i.timeOffset)
 					weather = i.weather;
 			});
-
-			console.log("corrida: " + weather);
 
 			if (weather !== "") {
 				var images = require.context(
@@ -282,7 +279,7 @@ export default {
 		getOffSetCorrida(offSet) {
 			let timeOffset = -1;
 
-			this.tableWeatherForecastCorrida.forEach(i => {
+			this.detailsEvent.weatherForecastSamples.forEach(i => {
 				if (offSet === i.timeOffset)
 					timeOffset = i.timeOffset;
 			});
@@ -293,11 +290,43 @@ export default {
 				return "";
 		},
 		enableSC() {
-			//return "visibility: hidden;";
-			return "visibility: visible;";
+			if (this.detailsEvent.safetyCarStatus === "FULL_SAFETY_CAR")
+				return "visibility: visible;";			
+
+			if (this.detailsEvent.safetyCarStatus === "VIRTUAL_SAFETY_CAR")
+				return "visibility: visible;";			
+
+			return "visibility: hidden;";	
 		},
 		getSCorVSC() {
-			return "SC";
+			if (this.detailsEvent.safetyCarStatus === "FULL_SAFETY_CAR")
+				return "SC";
+
+			if (this.detailsEvent.safetyCarStatus === "VIRTUAL_SAFETY_CAR")
+				return "VSC";											
+			
+			return "";
+		},
+		getsessionType() {
+			if (this.detailsEvent.sessionType === "R")
+				return "Corrida";
+				else
+					if (this.detailsEvent.sessionType === "SHORT_Q")
+						return "Qualy";
+						else 
+							return this.detailsEvent.sessionType;
+		},
+		enableFormationLap() {
+			if (this.detailsEvent.safetyCarStatus === "FORMATION_LAP")
+				return "visibility: visible;";			
+			else
+				return "visibility: hidden;";
+		},
+		getFormationLap() {
+			if (this.detailsEvent.safetyCarStatus === "FORMATION_LAP")
+				return "FL";	
+
+			return "";
 		},
 	},
 };
@@ -375,6 +404,7 @@ function formatDate(date) {
 	text-align: left;
 	position: relative;
 	padding: 5px;
+	color: aliceblue;
 }
 .ctnFlex{
 	display: flex;
@@ -396,5 +426,30 @@ div.statusCorridaSC {
 	vertical-align: middle; 
 	text-align: center; 
 	background-color: yellow;
+}
+div.statusCorridaFormation {
+	padding: 8px; 
+	vertical-align: middle; 
+	text-align: center; 
+	background-color: green;
+}
+div.statusCorridaDisabled {
+	padding: 8px; 
+	vertical-align: middle; 
+	text-align: center; 
+	background-color: black;
+}
+
+@keyframes fa-blink {
+     0% { opacity: 1; }
+     50% { opacity: 0.5; }
+     100% { opacity: 0; }
+ }
+.fa-blink {
+   -webkit-animation: fa-blink .75s linear infinite;
+   -moz-animation: fa-blink .75s linear infinite;
+   -ms-animation: fa-blink .75s linear infinite;
+   -o-animation: fa-blink .75s linear infinite;
+   animation: fa-blink .75s linear infinite;
 }
 </style>
