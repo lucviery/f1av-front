@@ -332,7 +332,10 @@ export default {
 			return "";
 		},
 		getDescription() {
-			return this.detailsEvent.trackId;
+			if (this.detailsEvent !== null)
+				return this.detailsEvent.trackId;
+			else
+				return "Evento não iniciado!";
 		},
 	},
 };
