@@ -2,7 +2,10 @@
 	<div>{{ error }}</div>
 	<div style="display: inline-block;vertical-align: top">
 		<div class="container">
-			<div class="titulo"><div style="font-weight: bolder;">Real Time: {{dateUpdate}}</div></div>
+			<div class="titulo">
+				<div style="font-weight: bolder;display: inline-block;">{{getDescription()}}</div>
+				<div style="font-weight: bolder;display: inline-block; padding-left: 400px;">Real Time: {{dateUpdate}}</div>
+			</div>
 			<div class="ctnFlex">
 				<div class="op1">
 					<div class="divTable">
@@ -328,27 +331,24 @@ export default {
 
 			return "";
 		},
+		getDescription() {
+			return this.detailsEvent.trackId;
+		},
 	},
 };
 
 function formatDate(date) {
-	var d = new Date(date),
-		month = '' + (d.getMonth() + 1),
-		day = '' + d.getDate(),
-		year = d.getFullYear();
+	var d = new Date(date);
 
 	let hour = d.getHours();
 	let minute = d.getMinutes();
 	let second = d.getSeconds();
 
-	if (month.length < 2) month = '0' + month;
-	if (day.length < 2) day = '0' + day;
-
 	if (hour < 10) hour = '0' + hour;
 	if (minute < 10) minute = '0' + minute;
 	if (second < 10) second = '0' + second;
 
-	return [day, month, year].join('/') + ' ' + [hour, minute, second].join(':');
+	return [hour, minute, second].join(':');
 }
 </script>
 <style>
