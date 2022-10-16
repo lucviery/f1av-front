@@ -71,7 +71,7 @@
 						<div class="divTableRow">
 							<div class="divSpace" style="font-weight: bold">{{getsessionType()}}</div>
 						</div>						
-						<div class="divTableRow" v-for="itemWeatherForecast of detailsEvent.weatherForecastSamples"
+						<div class="divTableRow" v-for="itemWeatherForecast of tableWeather"
 									:key="itemWeatherForecast.id">
 							<div class="divSpace">
 								<img class="image_cabecalho" :src="getLogWeatherCorrida(itemWeatherForecast.timeOffset)" width="50"
@@ -126,8 +126,10 @@ export default {
 				tyre: null,
 			},
 			timer: "",
+			filterWeather: "SHORT_Q",
 			dateUpdate: "",
 			tableTelemetryRealTime: [],
+			tableWeather: [],
 			errors: [],
 			details: {
 				sessionType: "",
@@ -179,7 +181,23 @@ export default {
 				});
 			TelemetryApi.getDetailsEvent(this.$route.query.season)
 				.then((result) => {
+					this.tableWeather.forEach(w => {
+						if (w.sessionType === "R" && this.detailsEvent.sessionType === "SHORT_Q")
+							this.filterWeather = "SHORT_Q";
+						else
+							this.filterWeather = "R";
+					});
+
+					this.tableWeather = [];
+
 					this.detailsEvent = result.data;
+
+					this.detailsEvent.weatherForecastSamples.forEach(i => {						
+						if (i.sessionType === this.filterWeather) {
+							console.log(i);
+							this.tableWeather.push(i);
+						}
+					});					
 				})
 				.catch((e) => {
 					console.log(e);
@@ -206,7 +224,7 @@ export default {
 							console.log("Registros diferentes!");
 						}
 
-						this.tableTelemetryRealTime = result.data;
+						this.tableTelemetryRealTime = result.data;						
 					})
 					.catch((e) => {
 						console.log(e);
@@ -214,7 +232,23 @@ export default {
 
 				TelemetryApi.getDetailsEvent(this.$route.query.season)
 					.then((result) => {
+						this.tableWeather.forEach(w => {
+							if (w.sessionType === "R" && this.detailsEvent.sessionType === "SHORT_Q")
+								this.filterWeather = "SHORT_Q";
+							else
+								this.filterWeather = "R";
+						});
+
+						this.tableWeather = [];
+
 						this.detailsEvent = result.data;
+
+						this.detailsEvent.weatherForecastSamples.forEach(i => {						
+							if (i.sessionType === this.filterWeather) {
+								console.log(i);
+								this.tableWeather.push(i);
+							}
+						});							
 					})
 					.catch((e) => {
 						console.log(e);
@@ -318,11 +352,11 @@ export default {
 			return "";
 		},
 		getsessionType() {
-			if (this.detailsEvent !== null) {
-				if (this.detailsEvent.sessionType === "R")
+			if (this.tableWeather.length > 0) {
+				if (this.tableWeather[0].sessionType === "R")
 					return "Corrida";
 					else
-						if (this.detailsEvent.sessionType === "SHORT_Q")
+						if (this.tableWeather[0].sessionType === "SHORT_Q")
 							return "Qualy";
 							else 
 								return this.detailsEvent.sessionType;
