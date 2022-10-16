@@ -156,7 +156,7 @@ export default {
 	},
 	created() {
 		this.fetchData();
-		this.timer = setInterval(this.fetchData, 5000);
+		this.timer = setInterval(this.fetchData, 5000);		
 	},
 	mounted() {
 		if (
@@ -280,53 +280,68 @@ export default {
 				return "";
 		},
 		getOffSetCorrida(offSet) {
-			let timeOffset = -1;
+			if (this.detailsEvent !== null) {
+				let timeOffset = -1;
 
-			this.detailsEvent.weatherForecastSamples.forEach(i => {
-				if (offSet === i.timeOffset)
-					timeOffset = i.timeOffset;
-			});
+				this.detailsEvent.weatherForecastSamples.forEach(i => {
+					if (offSet === i.timeOffset)
+						timeOffset = i.timeOffset;
+				});
 
-			if (timeOffset >= 0)
-				return timeOffset.toString() + " min";
-			else
-				return "";
+				if (timeOffset >= 0)
+					return timeOffset.toString() + " min";
+				else
+					return "";
+			}
+			
+			return "";
 		},
 		enableSC() {
-			if (this.detailsEvent.safetyCarStatus === "FULL_SAFETY_CAR")
-				return "visibility: visible;";			
+			if (this.detailsEvent !== null) {
+				if (this.detailsEvent.safetyCarStatus === "FULL_SAFETY_CAR")
+					return "visibility: visible;";			
 
-			if (this.detailsEvent.safetyCarStatus === "VIRTUAL_SAFETY_CAR")
-				return "visibility: visible;";			
+				if (this.detailsEvent.safetyCarStatus === "VIRTUAL_SAFETY_CAR")
+					return "visibility: visible;";			
+			}
 
 			return "visibility: hidden;";	
 		},
 		getSCorVSC() {
-			if (this.detailsEvent.safetyCarStatus === "FULL_SAFETY_CAR")
-				return "SC";
+			if (this.detailsEvent !== null) {
+				if (this.detailsEvent.safetyCarStatus === "FULL_SAFETY_CAR")
+					return "SC";
 
-			if (this.detailsEvent.safetyCarStatus === "VIRTUAL_SAFETY_CAR")
-				return "VSC";											
-			
+				if (this.detailsEvent.safetyCarStatus === "VIRTUAL_SAFETY_CAR")
+					return "VSC";											
+			}
 			return "";
 		},
 		getsessionType() {
-			if (this.detailsEvent.sessionType === "R")
-				return "Corrida";
-				else
-					if (this.detailsEvent.sessionType === "SHORT_Q")
-						return "Qualy";
-						else 
-							return this.detailsEvent.sessionType;
+			if (this.detailsEvent !== null) {
+				if (this.detailsEvent.sessionType === "R")
+					return "Corrida";
+					else
+						if (this.detailsEvent.sessionType === "SHORT_Q")
+							return "Qualy";
+							else 
+								return this.detailsEvent.sessionType;
+			} else {
+				return "";
+			}
 		},
 		enableFormationLap() {
-			if (this.detailsEvent.safetyCarStatus === "FORMATION_LAP")
-				return "visibility: visible;";			
-			else
-				return "visibility: hidden;";
+			if (this.detailsEvent !== null) {
+				if (this.detailsEvent.safetyCarStatus === "FORMATION_LAP")
+					return "visibility: visible;";			
+				else
+					return "visibility: hidden;";
+			}
+
+			return "visibility: hidden;";
 		},
 		getFormationLap() {
-			if (this.detailsEvent.safetyCarStatus === "FORMATION_LAP")
+			if (this.detailsEvent !== null && this.detailsEvent.safetyCarStatus === "FORMATION_LAP")
 				return "FL";	
 
 			return "";
@@ -334,7 +349,7 @@ export default {
 		getDescription() {
 			if (this.detailsEvent !== null)
 				return this.detailsEvent.trackId;
-			else
+			else 
 				return "Evento não iniciado!";
 		},
 	},
