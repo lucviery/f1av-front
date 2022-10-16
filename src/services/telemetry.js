@@ -9,4 +9,8 @@ export default {
     return http.get(`telemetry/real-time?scheduleId=${schedule}`);
   },
 
+  getDetailsEvent: (schedule) => {
+    return http.get(`telemetry/details-event?scheduleId=${schedule}`);
+  },  
+
 };

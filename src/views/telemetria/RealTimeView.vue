@@ -1,77 +1,95 @@
 <template>
 	<div>{{ error }}</div>
 	<div style="display: inline-block;vertical-align: top">
-		<div style="font-weight: bolder;">Real Time: {{dateUpdate}}</div>
-		<div class="divTable">
-			<div class="divTableBody">
-				<div class="divTableRow">
-					<div class="divTableCell" style="font-weight: bold">POS</div>
-					<div class="divTableCell" style="font-weight: bold">Piloto</div>
-					<div class="divTableCell" style="font-weight: bold">Voltas</div>
-					<div class="divTableCell" style="font-weight: bold">PU</div>
-					<div class="divTableCell" style="font-weight: bold">Avisos</div>
-					<div class="divTableCell"><img class="image_cabecalho"
-							src="../../assets/icons-telemetry/79700-rodaeDireita.png" width="55" heigth="55" /></div>
-					<div class="divTableCell"><img class="image_cabecalho"
-							src="../../assets/icons-telemetry/79700-rodaesquerda.png" width="55" heigth="55" /></div>
-					<div class="divTableCell"><img class="image_cabecalho"
-							src="../../assets/icons-telemetry/79700-traseiraDir.png" width="55" heigth="55" /></div>
-					<div class="divTableCell"><img class="image_cabecalho"
-							src="../../assets/icons-telemetry/79700-traseiraEsqr.png" width="55" heigth="55" /></div>
-					<div class="divTableCell"><img class="image_cabecalho"
-							src="../../assets/icons-telemetry/79700-ASA_esq.png" width="55" heigth="55" /></div>
-					<div class="divTableCell"><img class="image_cabecalho"
-							src="../../assets/icons-telemetry/79700-ASA_dir.png" width="55" heigth="55" /></div>
-					<div class="divTableCell"><img class="image_cabecalho"
-							src="../../assets/icons-telemetry/79700-AsaTraseira.png" width="55" heigth="55" /></div>
-					<div class="divTableCell"><img class="image_cabecalho"
-							src="../../assets/icons-telemetry/79700-assoalho.png" width="55" heigth="55" /></div>
-					<div class="divTableCell"><img class="image_cabecalho"
-							src="../../assets/icons-telemetry/79700-SidePod-duplo.png" width="55" heigth="55" /></div>
-					<div class="divTableCell"><img class="image_cabecalho"
-							src="../../assets/icons-telemetry/79700-diferencial.png" width="55" heigth="55" /></div>
-					<div class="divTableCell" style="font-weight: bold">Fuel</div>
-					<div class="divTableCell" style="font-weight: bold">TAL</div>
-					<div class="divTableCell" style="font-weight: bold">ERS</div>
-					<div class="divTableCell" style="font-weight: bold">Pneus</div>
-					<div class="divSpace" style="font-weight: bold"></div>
-					<div class="divSpace" style="font-weight: bold">Qualy</div>
-					<div class="divSpace" style="font-weight: bold">Corrida</div>
+		<div class="container">
+			<div class="titulo"><div style="font-weight: bolder;">Real Time: {{dateUpdate}}</div></div>
+			<div class="ctnFlex">
+				<div class="op1">
+					<div class="divTable">
+						<div class="divTableBody">
+							<div class="divTableRow">
+								<div class="divTableCell" style="font-weight: bold">POS</div>
+								<div class="divTableCell divTableCellName" style="font-weight: bold">Piloto</div>
+								<div class="divTableCell" style="font-weight: bold">Voltas</div>
+								<div class="divTableCell" style="font-weight: bold">PU</div>
+								<div class="divTableCell" style="font-weight: bold">Avisos</div>
+								<div class="divTableCell"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/79700-rodaeDireita.png" width="55" heigth="55" /></div>
+								<div class="divTableCell"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/79700-rodaesquerda.png" width="55" heigth="55" /></div>
+								<div class="divTableCell"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/79700-traseiraDir.png" width="55" heigth="55" /></div>
+								<div class="divTableCell"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/79700-traseiraEsqr.png" width="55" heigth="55" /></div>
+								<div class="divTableCell"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/79700-ASA_esq.png" width="55" heigth="55" /></div>
+								<div class="divTableCell"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/79700-ASA_dir.png" width="55" heigth="55" /></div>
+								<div class="divTableCell"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/79700-AsaTraseira.png" width="55" heigth="55" /></div>
+								<div class="divTableCell"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/79700-assoalho.png" width="55" heigth="55" /></div>
+								<div class="divTableCell"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/79700-SidePod-duplo.png" width="55" heigth="55" /></div>
+								<div class="divTableCell"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/79700-diferencial.png" width="55" heigth="55" /></div>
+								<div class="divTableCell" style="font-weight: bold">Fuel</div>
+								<div class="divTableCell" style="font-weight: bold">TAL</div>
+								<div class="divTableCell" style="font-weight: bold">ERS</div>
+								<div class="divTableCell" style="font-weight: bold">Pneus</div>
+							</div>
+							<div class="divTableRow" v-for="telemetryRealTime of tableTelemetryRealTime"
+								:key="telemetryRealTime.position">
+								<div class="divTableCell"> {{ telemetryRealTime.position }}</div>
+								<div class="divTableCell divTableCellName"> {{ telemetryRealTime.name }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.currentLap }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.penalties }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.warnings }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.perWearFrontRight }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.perWearFrontLeft }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.perWearRearRight }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.perWearRearLeft }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.perFrontLeftWingDamage }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.perFrontRightWingDamage }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.perRearWingDamage }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.floorDamage }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.sidpodDamage }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.diffuserDamage }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.fuelRemainingLaps }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.tyresAgeLpas }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.ersStoreEnergy }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.tyre }}</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="divTableRow" v-for="telemetryRealTime of tableTelemetryRealTime"
-					:key="telemetryRealTime.position">
-					<div class="divTableCell"> {{ telemetryRealTime.position }}</div>
-					<div class="divTableCell"> {{ telemetryRealTime.name }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.currentLap }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.penalties }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.warnings }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.perWearFrontRight }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.perWearFrontLeft }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.perWearRearRight }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.perWearRearLeft }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.perFrontLeftWingDamage }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.perFrontRightWingDamage }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.perRearWingDamage }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.floorDamage }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.sidpodDamage }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.diffuserDamage }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.fuelRemainingLaps }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.tyresAgeLpas }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.ersStoreEnergy }}</div>
-					<div class="divTableCell">{{ telemetryRealTime.tyre }}</div>
-					<div class="divSpace"></div>
-					<div class="divSpace">
-						<img class="image_cabecalho" :src="getLogWeatherQualy(telemetryRealTime.position)" width="50"
-							heigth="50" />
-						<br />
-						{{getOffSetQualy(telemetryRealTime.position)}}
+				<div class="op2">
+					<div class="divTableBody">
+						<div class="divTableRow">
+							<div class="divSpace" style="font-weight: bold">Qualy</div>
+							<div class="divSpace" style="font-weight: bold">Corrida</div>
+						</div>						
+						<div class="divTableRow" v-for="itemWeatherForecast of tableWeatherForecastCorrida"
+									:key="itemWeatherForecast.id">
+							<div class="divSpace">
+								<img class="image_cabecalho" :src="getLogWeatherQualy(itemWeatherForecast.timeOffset)" width="50"
+									heigth="50" />
+								<br />
+								{{getOffSetQualy(itemWeatherForecast.timeOffset)}}
+							</div>
+							<div class="divSpace">
+								<img class="image_cabecalho" :src="getLogWeatherCorrida(itemWeatherForecast.timeOffset)" width="50"
+									heigth="50" />
+								<br />
+								{{getOffSetCorrida(itemWeatherForecast.timeOffset)}}
+							</div>
+						</div>					
 					</div>
-					<div class="divSpace">
-						<img class="image_cabecalho" :src="getLogWeatherCorrida(telemetryRealTime.position)" width="50"
-							heigth="50" />
-						<br />
-						{{getOffSetCorrida(telemetryRealTime.position)}}
+					<div class="statusCorridaSC" :style="enableSC()">
+						<div style="background-color: black; font-size: xx-large; color: white;">
+							{{getSCorVSC()}}		
 					</div>
+					</div>					
 				</div>
 			</div>
 		</div>
@@ -206,49 +224,80 @@ export default {
 		cancelAutoUpdate() {
 			clearInterval(this.timer);
 		},
-		getLogWeatherQualy(index) {
-			index = index - 1;
-			if (this.tableWeatherForecastQualy.length > (index)) {
+		getLogWeatherQualy(offSet) {
+			let weather = "";
+
+			this.tableWeatherForecastQualy.forEach(i => {
+				if (offSet === i.timeOffset)
+					weather = i.weather;
+			});
+
+			if (weather !== "") {
 				var images = require.context(
 					"../../assets/icons-telemetry/",
 					false,
 					/\.jpg$/
 				);
 
-				return images("./" + this.tableWeatherForecastQualy[index].weather + ".jpg");
-			} else {
-				return "";
+				return images("./" + weather + ".jpg");
 			}
-		},
-		getOffSetQualy(index) {
-			index = index - 1;
-			if (this.tableWeatherForecastQualy.length > (index)) {
-				return this.tableWeatherForecastQualy[index].timeOffset + " min";
-			} else {
+			else
 				return "";
-			}
 		},
-		getLogWeatherCorrida(index) {
-			index = index - 1;
-			if (this.tableWeatherForecastCorrida.length > (index)) {
+		getOffSetQualy(offSet) {
+			let timeOffset = -1;
+
+			this.tableWeatherForecastQualy.forEach(i => {
+				if (offSet === i.timeOffset)
+					timeOffset = i.timeOffset;
+			});
+
+			if (timeOffset >= 0)
+				return timeOffset.toString() + " min";
+			else
+				return "";
+		},
+		getLogWeatherCorrida(offSet) {
+			let weather = "";
+
+			this.tableWeatherForecastCorrida.forEach(i => {
+				if (offSet === i.timeOffset)
+					weather = i.weather;
+			});
+
+			console.log("corrida: " + weather);
+
+			if (weather !== "") {
 				var images = require.context(
 					"../../assets/icons-telemetry/",
 					false,
 					/\.jpg$/
 				);
 
-				return images("./" + this.tableWeatherForecastCorrida[index].weather + ".jpg");
-			} else {
-				return "";
+				return images("./" + weather + ".jpg");
 			}
+			else
+				return "";
 		},
-		getOffSetCorrida(index) {
-			index = index - 1;
-			if (this.tableWeatherForecastCorrida.length > (index)) {
-				return this.tableWeatherForecastCorrida[index].timeOffset + " min";
-			} else {
+		getOffSetCorrida(offSet) {
+			let timeOffset = -1;
+
+			this.tableWeatherForecastCorrida.forEach(i => {
+				if (offSet === i.timeOffset)
+					timeOffset = i.timeOffset;
+			});
+
+			if (timeOffset >= 0)
+				return timeOffset.toString() + " min";
+			else
 				return "";
-			}
+		},
+		enableSC() {
+			//return "visibility: hidden;";
+			return "visibility: visible;";
+		},
+		getSCorVSC() {
+			return "SC";
 		},
 	},
 };
@@ -295,8 +344,11 @@ function formatDate(date) {
 .divTableHead {
 	border: 1px solid #999999;
 	display: table-cell;
-	padding: 3px 10px;
+	padding: 3px 8px;
 	vertical-align: middle;
+}
+.divTableCellName {
+	text-align: left;
 }
 .divTableHeading {
 	background-color: #EEE;
@@ -312,5 +364,37 @@ function formatDate(date) {
 
 .divTableBody {
 	display: table-row-group;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+}
+.titulo {
+	background-color: rgb(100, 100, 102);
+	text-align: left;
+	position: relative;
+	padding: 5px;
+}
+.ctnFlex{
+	display: flex;
+	justify-content: space-between;
+}
+ div.op1 {
+	display: inline-block;
+	background-color: rgb(243, 237, 237);
+	text-align: center;
+}
+div.op2 {
+	background-color: #809983;
+	display: inline-block;
+	margin-right: 0vw;
+	text-align: center;
+}
+div.statusCorridaSC {
+	padding: 8px; 
+	vertical-align: middle; 
+	text-align: center; 
+	background-color: yellow;
 }
 </style>

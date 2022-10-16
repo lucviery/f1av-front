@@ -72,8 +72,6 @@ export default {
           TelemetryApi.getWeatherTelemetry(this.$route.query.season, "R")
             .then((result) => {
               this.tableWeatherForecastCorrida = result.data;
-
-              console.log(this.tableWeatherForecastCorrida);
             })
             .catch((e) => {
               console.log(e);
