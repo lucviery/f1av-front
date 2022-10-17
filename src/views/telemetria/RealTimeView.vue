@@ -15,28 +15,29 @@
 								<div class="divTableCell" style="font-weight: bold">POS</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">Piloto</div>
 								<div class="divTableCell" style="font-weight: bold">P/A</div>
-								<div class="divTableCell"><img class="image_cabecalho"
+								<div title="Danos a Asa dianteira esquerda." class="divTableCell"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/79700-ASA_esq.png" width="55" heigth="55" /></div>
-								<div class="divTableCell"><img class="image_cabecalho"
+								<div title="Danos a Asa dianteira direita." class="divTableCell"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/79700-ASA_dir.png" width="55" heigth="55" /></div>
-								<div class="divTableCell"><img class="image_cabecalho"
+								<div title="Danos a Asa Traseira." class="divTableCell"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/79700-AsaTraseira.png" width="55" heigth="55" /></div>
-								<div class="divTableCell"><img class="image_cabecalho"
+								<div title="Danos ao Assoalho." class="divTableCell"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/79700-assoalho.png" width="55" heigth="55" /></div>
-								<div class="divTableCell"><img class="image_cabecalho"
+								<div title="Danos ao SIDEPOD´s." class="divTableCell"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/79700-SidePod-duplo.png" width="55" heigth="55" /></div>
-								<div class="divTableCell"><img class="image_cabecalho"
+								<div title="Danos ao diferencial." class="divTableCell"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/79700-diferencial.png" width="55" heigth="55" /></div>
-								<div class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
+								<div title="Quantidade de voltas de cobustível excedente." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/fuel.png" width="30" heigth="30" /></div>
-								<div class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
+								<div title="Uso do ERS." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/ers.png" width="30" heigth="30" /></div>
-								<div class="divTableCell"><img class="image_cabecalho"
-										src="../../assets/icons-telemetry/79700-rodaeDireita.png" width="55" heigth="55" /></div>
-								<div class="divTableCell"><img class="image_cabecalho"
-										src="../../assets/icons-telemetry/79700-traseiraDir.png" width="55" heigth="55" /></div>																		
-								<div class="divTableCell" style="font-weight: bold">Pneus</div>
-								<div class="divTableCell" style="font-weight: bold">TAL</div>								
+								<div title="Desgaste pneus dianteiros." class="divTableCell"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/79700-pneus-frente.png" width="55" heigth="55" /></div>
+								<div title="Desgaste pneus traseiros." class="divTableCell"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/79700-pneus-traseira.png" width="55" heigth="55" /></div>																		
+								<div class="divTableCell" style="font-weight: bold">P/V</div>																		
+								<div class="divTableCell" style="font-weight: bold"><img title="Pneus usados no atual momento pelos pilotos." class="image_cabecalho"
+										src="../../assets/icons-telemetry/icon-pneus.png" width="40" heigth="40" /></div>
 							</div>
 							<div :class="getStatusRow(telemetryRealTime.status)" v-for="telemetryRealTime of tableTelemetryRealTime"
 								:key="telemetryRealTime.position">
@@ -53,8 +54,8 @@
 								<div class="divTableCell">{{ telemetryRealTime.ersStoreEnergy }}</div>
 								<div class="divTableCell" :style="getCorPneus(telemetryRealTime.perWearFrontRight, telemetryRealTime.perWearFrontLeft)">{{ telemetryRealTime.perWearFrontRight }} | {{ telemetryRealTime.perWearFrontLeft }}</div>
 								<div class="divTableCell" :style="getCorPneus(telemetryRealTime.perWearFrontRight, telemetryRealTime.perWearFrontLeft)">{{ telemetryRealTime.perWearRearRight }} | {{ telemetryRealTime.perWearRearLeft }}</div>								
-								<div class="divTableCell">{{ telemetryRealTime.tyre }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.tyresAgeLpas }}</div>								
+								<div class="divTableCell">{{ telemetryRealTime.tyresAgeLpas }}</div>
+								<div class="divTableCell" style="background-color: #999999;"><img class="image_cabecalho" style="vertical-align:middle;" :src="getPneus(telemetryRealTime.tyre)" width="20"	heigth="20" /></div>								
 							</div>
 						</div>
 					</div>
@@ -152,50 +153,10 @@ export default {
 	},
 	created() {
 		this.fetchData();
-		this.timer = setInterval(this.fetchData, 5000);		
+		this.timer = setInterval(this.fetchData, 5000);
 	},
 	mounted() {
-		if (
-			this.$route.query.season === null ||
-			isNaN(this.$route.query.season)
-		) {
-			this.error =
-				"Sessão não informada, informe o número da Sessão, exemplo: 2";
-			console.log(
-				"Sessão não informada, informe o número da Sessão, exemplo: 2"
-			);
-			console.log(this.$route.query.season);
-		} else {
-			RealTimeTelemetry.getRealTimeTelemetry(this.$route.query.season)
-				.then((result) => {
-					this.tableTelemetryRealTime = result.data;
-				})
-				.catch((e) => {
-					console.log(e);
-				});
-			TelemetryApi.getDetailsEvent(this.$route.query.season)
-				.then((result) => {
-					this.tableWeather.forEach(w => {
-						if (w.sessionType === "R" && this.detailsEvent.sessionType === "SHORT_Q")
-							this.filterWeather = "SHORT_Q";
-						else
-							this.filterWeather = "R";
-					});
-
-					this.tableWeather = [];
-
-					this.detailsEvent = result.data;
-
-					this.detailsEvent.weatherForecastSamples.forEach(i => {						
-						if (i.sessionType === this.filterWeather) {
-							this.tableWeather.push(i);
-						}
-					});					
-				})
-				.catch((e) => {
-					console.log(e);
-				});
-		}
+		
 	},
 	methods: {
 		async fetchData() {
@@ -394,7 +355,6 @@ export default {
 				return "";
 		},	
 		getStatusRow(status) {
-			console.log(status);
 			if (status === "IN_GARAGE" || status === "IN_GARAGE")
 				return "divTableRow statusPiloto";
 			
@@ -419,6 +379,19 @@ export default {
 			else if (floatFrontLeftWingDamage > 50)
 				return "divTableCell alert-critical";
 				else return "divTableCell";
+		},
+		getPneus(pneu) {
+			if (pneu !== "") {
+				var images = require.context(
+					"../../assets/icons-telemetry/",
+					false,
+					/\.png$/
+				);
+
+				return images("./" + pneu + ".png");
+			}
+			else
+				return "";
 		},
 		getCorPneus(right, left) {
 			let percR = parseFloat(right);
@@ -523,6 +496,7 @@ function formatDate(date) {
 .container{
   display: flex;
   flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .titulo {
 	background-color: rgb(100, 100, 102);
@@ -534,6 +508,8 @@ function formatDate(date) {
 .ctnFlex{
 	display: flex;
 	justify-content: space-between;
+	font-size: 3mm;
+	text-transform: uppercase;
 }
  div.op1 {
 	display: inline-block;
