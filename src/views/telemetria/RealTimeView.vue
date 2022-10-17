@@ -29,7 +29,6 @@
 										src="../../assets/icons-telemetry/79700-diferencial.png" width="55" heigth="55" /></div>
 								<div class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/fuel.png" width="30" heigth="30" /></div>
-								<div class="divTableCell" style="font-weight: bold">TAL</div>
 								<div class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/ers.png" width="30" heigth="30" /></div>
 								<div class="divTableCell"><img class="image_cabecalho"
@@ -37,6 +36,7 @@
 								<div class="divTableCell"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/79700-traseiraDir.png" width="55" heigth="55" /></div>																		
 								<div class="divTableCell" style="font-weight: bold">Pneus</div>
+								<div class="divTableCell" style="font-weight: bold">TAL</div>								
 							</div>
 							<div :class="getStatusRow(telemetryRealTime.status)" v-for="telemetryRealTime of tableTelemetryRealTime"
 								:key="telemetryRealTime.position">
@@ -50,11 +50,11 @@
 								<div :class="getCorAerodinamic(telemetryRealTime.sidpodDamage)">{{ telemetryRealTime.sidpodDamage }}</div>
 								<div :class="getCorAerodinamic(telemetryRealTime.diffuserDamage)">{{ telemetryRealTime.diffuserDamage }}</div>
 								<div :class="getCorFuel(telemetryRealTime.fuelRemainingLaps)">{{ telemetryRealTime.fuelRemainingLaps }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.tyresAgeLpas }}</div>
 								<div class="divTableCell">{{ telemetryRealTime.ersStoreEnergy }}</div>
 								<div class="divTableCell" :style="getCorPneus(telemetryRealTime.perWearFrontRight, telemetryRealTime.perWearFrontLeft)">{{ telemetryRealTime.perWearFrontRight }} | {{ telemetryRealTime.perWearFrontLeft }}</div>
 								<div class="divTableCell" :style="getCorPneus(telemetryRealTime.perWearFrontRight, telemetryRealTime.perWearFrontLeft)">{{ telemetryRealTime.perWearRearRight }} | {{ telemetryRealTime.perWearRearLeft }}</div>								
 								<div class="divTableCell">{{ telemetryRealTime.tyre }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.tyresAgeLpas }}</div>								
 							</div>
 						</div>
 					</div>
