@@ -16,14 +16,6 @@
 								<div class="divTableCell divTableCellName" style="font-weight: bold">Piloto</div>
 								<div class="divTableCell" style="font-weight: bold">P/A</div>
 								<div class="divTableCell"><img class="image_cabecalho"
-										src="../../assets/icons-telemetry/79700-rodaeDireita.png" width="55" heigth="55" /></div>
-								<div class="divTableCell"><img class="image_cabecalho"
-										src="../../assets/icons-telemetry/79700-rodaesquerda.png" width="55" heigth="55" /></div>
-								<div class="divTableCell"><img class="image_cabecalho"
-										src="../../assets/icons-telemetry/79700-traseiraDir.png" width="55" heigth="55" /></div>
-								<div class="divTableCell"><img class="image_cabecalho"
-										src="../../assets/icons-telemetry/79700-traseiraEsqr.png" width="55" heigth="55" /></div>
-								<div class="divTableCell"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/79700-ASA_esq.png" width="55" heigth="55" /></div>
 								<div class="divTableCell"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/79700-ASA_dir.png" width="55" heigth="55" /></div>
@@ -38,26 +30,28 @@
 								<div class="divTableCell" style="font-weight: bold">Fuel</div>
 								<div class="divTableCell" style="font-weight: bold">TAL</div>
 								<div class="divTableCell" style="font-weight: bold">ERS</div>
+								<div class="divTableCell"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/79700-rodaeDireita.png" width="55" heigth="55" /></div>
+								<div class="divTableCell"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/79700-traseiraDir.png" width="55" heigth="55" /></div>																		
 								<div class="divTableCell" style="font-weight: bold">Pneus</div>
 							</div>
 							<div :class="getStatusRow(telemetryRealTime.status)" v-for="telemetryRealTime of tableTelemetryRealTime"
 								:key="telemetryRealTime.position">
 								<div class="divTableCell"> {{ telemetryRealTime.position }}</div>
 								<div class="divTableCell divTableCellName"><img class="image_cabecalho" style="vertical-align:middle;" :src="getLogoEquipe(telemetryRealTime.equip)" width="25"	heigth="25" /> {{ telemetryRealTime.name }}</div>								
-								<div class="divTableCell">{{ telemetryRealTime.penalties }} / {{ telemetryRealTime.warnings }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.perWearFrontRight }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.perWearFrontLeft }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.perWearRearRight }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.perWearRearLeft }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.perFrontLeftWingDamage }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.perFrontRightWingDamage }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.perRearWingDamage }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.floorDamage }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.sidpodDamage }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.diffuserDamage }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.fuelRemainingLaps }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.penalties }} | {{ telemetryRealTime.warnings }}</div>
+								<div :class="getCorAerodinamic(telemetryRealTime.perFrontLeftWingDamage)">{{ telemetryRealTime.perFrontLeftWingDamage }}</div>
+								<div :class="getCorAerodinamic(telemetryRealTime.perFrontRightWingDamage)">{{ telemetryRealTime.perFrontRightWingDamage }}</div>
+								<div :class="getCorAerodinamic(telemetryRealTime.perRearWingDamage)">{{ telemetryRealTime.perRearWingDamage }}</div>
+								<div :class="getCorAerodinamic(telemetryRealTime.floorDamage)">{{ telemetryRealTime.floorDamage }}</div>
+								<div :class="getCorAerodinamic(telemetryRealTime.sidpodDamage)">{{ telemetryRealTime.sidpodDamage }}</div>
+								<div :class="getCorAerodinamic(telemetryRealTime.diffuserDamage)">{{ telemetryRealTime.diffuserDamage }}</div>
+								<div :class="getCorFuel(telemetryRealTime.fuelRemainingLaps)">{{ telemetryRealTime.fuelRemainingLaps }}</div>
 								<div class="divTableCell">{{ telemetryRealTime.tyresAgeLpas }}</div>
 								<div class="divTableCell">{{ telemetryRealTime.ersStoreEnergy }}</div>
+								<div class="divTableCell" :style="getCorPneus(telemetryRealTime.perWearFrontRight, telemetryRealTime.perWearFrontLeft)">{{ telemetryRealTime.perWearFrontRight }} | {{ telemetryRealTime.perWearFrontLeft }}</div>
+								<div class="divTableCell" :style="getCorPneus(telemetryRealTime.perWearFrontRight, telemetryRealTime.perWearFrontLeft)">{{ telemetryRealTime.perWearRearRight }} | {{ telemetryRealTime.perWearRearLeft }}</div>								
 								<div class="divTableCell">{{ telemetryRealTime.tyre }}</div>
 							</div>
 						</div>
@@ -403,7 +397,65 @@ export default {
 				return "divTableRow statusPiloto";
 			
 			return "divTableRow";
-		},		
+		},
+		getCorFuel(fuelRemainingLaps) {
+			let floatFuel = parseFloat(fuelRemainingLaps);
+			if (floatFuel < 0.20 && floatFuel > 0)
+				return "divTableCell alert3";
+			else if (floatFuel <= 0.0)
+				return "divTableCell alert-critical";
+				else return "divTableCell";
+		},
+		getCorAerodinamic(perFrontLeftWingDamage) {
+			let floatFrontLeftWingDamage = parseFloat(perFrontLeftWingDamage);
+			if (floatFrontLeftWingDamage > 0.0 && floatFrontLeftWingDamage < 10)
+				return "divTableCell alert1";
+			else if (floatFrontLeftWingDamage > 10.0 && floatFrontLeftWingDamage <= 30)
+				return "divTableCell alert2";
+			else if (floatFrontLeftWingDamage > 30.0 && floatFrontLeftWingDamage <= 50)
+				return "divTableCell alert3";				
+			else if (floatFrontLeftWingDamage > 50)
+				return "divTableCell alert-critical";
+				else return "divTableCell";
+		},
+		getCorPneus(right, left) {
+			let percR = parseFloat(right);
+			let percL = parseFloat(left);
+			let perc = 0.0;
+
+			if (percR > percL)
+				perc = percR;
+			else
+				perc = percL;
+
+			if (perc <= 10)
+				return "background-color:#ffff001c";
+			else if (perc <= 20)
+				return "background-color:#ffff002e";
+			else if (perc <= 25)
+				return "background-color:#ffff004a";				
+			else if (perc <= 30)
+				return "background-color:#ffff0050";
+			else if (perc <= 35)
+				return "background-color:#ffff0061";
+			else if (perc <= 40)
+				return "background-color:#ffff006b";
+			else if (perc <= 45)
+				return "background-color:#ffff00a3";												
+			else if (perc <= 50)
+				return "background-color:#ffff00bf";
+			else if (perc <= 55)
+				return "background-color:#ff9900a6";
+			else if (perc <= 60)
+				return "background-color:#ff9900ba";
+			else if (perc <= 70)
+				return "background-color:#ff9900d6";
+			else if (perc <= 75)
+				return "background-color:#ff3b00d6";				
+			else if (perc <= 80)
+				return "background-color:#ff3b00eb";																				
+			else return "background-color:#ff0000fc";
+		},
 	},
 };
 
@@ -513,6 +565,19 @@ div.statusCorridaDisabled {
 div.statusPiloto {
 	background-color: #999999;
 	text-decoration: line-through;
+}
+div.alert1 {
+	background-color: rgb(253, 255, 164);
+}
+div.alert2 {
+	background-color: rgb(250, 229, 108);
+}
+div.alert3 {
+	background-color: rgb(251, 255, 0);
+}
+div.alert-critical {
+	background-color: maroon;
+	color: white;
 }
 
 @keyframes fa-blink {
