@@ -14,7 +14,8 @@
 							<div class="divTableRow">
 								<div class="divTableCell" style="font-weight: bold">POS</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">Piloto</div>
-								<div class="divTableCell" style="font-weight: bold">P/A</div>
+								<div title="Punições e Avisos." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/icon-pa.png" width="25" heigth="25" /></div>
 								<div title="Danos a Asa dianteira esquerda." class="divTableCell"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/79700-ASA_esq.png" width="55" heigth="55" /></div>
 								<div title="Danos a Asa dianteira direita." class="divTableCell"><img class="image_cabecalho"
@@ -35,7 +36,8 @@
 										src="../../assets/icons-telemetry/79700-pneus-frente.png" width="55" heigth="55" /></div>
 								<div title="Desgaste pneus traseiros." class="divTableCell"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/79700-pneus-traseira.png" width="55" heigth="55" /></div>																		
-								<div class="divTableCell" style="font-weight: bold">P/V</div>																		
+								<div title="Pitstops e Voltas do atual pneu." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/icon-pv.png" width="25" heigth="25" /></div>																		
 								<div class="divTableCell" style="font-weight: bold"><img title="Pneus usados no atual momento pelos pilotos." class="image_cabecalho"
 										src="../../assets/icons-telemetry/icon-pneus.png" width="40" heigth="40" /></div>
 							</div>
@@ -54,7 +56,7 @@
 								<div class="divTableCell">{{ telemetryRealTime.ersStoreEnergy }}</div>
 								<div class="divTableCell" :style="getCorPneus(telemetryRealTime.perWearFrontRight, telemetryRealTime.perWearFrontLeft)">{{ telemetryRealTime.perWearFrontRight }} | {{ telemetryRealTime.perWearFrontLeft }}</div>
 								<div class="divTableCell" :style="getCorPneus(telemetryRealTime.perWearFrontRight, telemetryRealTime.perWearFrontLeft)">{{ telemetryRealTime.perWearRearRight }} | {{ telemetryRealTime.perWearRearLeft }}</div>								
-								<div class="divTableCell">{{ telemetryRealTime.tyresAgeLpas }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.pitStops }} | {{ telemetryRealTime.tyresAgeLpas }}</div>
 								<div class="divTableCell" style="background-color: #999999;"><img class="image_cabecalho" style="vertical-align:middle;" :src="getPneus(telemetryRealTime.tyre)" width="20"	heigth="20" /></div>								
 							</div>
 						</div>
