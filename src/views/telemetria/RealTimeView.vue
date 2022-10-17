@@ -4,6 +4,7 @@
 		<div class="container">
 			<div class="titulo">
 				<div style="font-weight: bolder;display: inline-block;">{{getDescription()}}</div>
+				<div style="font-weight: bolder;display: inline-block; padding-left: 50px;">Voltas: {{voltas}}</div>
 				<div style="font-weight: bolder;display: inline-block; padding-left: 400px;">Real Time: {{dateUpdate}}</div>
 			</div>
 			<div class="ctnFlex">
@@ -13,9 +14,7 @@
 							<div class="divTableRow">
 								<div class="divTableCell" style="font-weight: bold">POS</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">Piloto</div>
-								<div class="divTableCell" style="font-weight: bold">Voltas</div>
-								<div class="divTableCell" style="font-weight: bold">PU</div>
-								<div class="divTableCell" style="font-weight: bold">Avisos</div>
+								<div class="divTableCell" style="font-weight: bold">P/A</div>
 								<div class="divTableCell"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/79700-rodaeDireita.png" width="55" heigth="55" /></div>
 								<div class="divTableCell"><img class="image_cabecalho"
@@ -41,13 +40,11 @@
 								<div class="divTableCell" style="font-weight: bold">ERS</div>
 								<div class="divTableCell" style="font-weight: bold">Pneus</div>
 							</div>
-							<div class="divTableRow" v-for="telemetryRealTime of tableTelemetryRealTime"
+							<div :class="getStatusRow(telemetryRealTime.status)" v-for="telemetryRealTime of tableTelemetryRealTime"
 								:key="telemetryRealTime.position">
 								<div class="divTableCell"> {{ telemetryRealTime.position }}</div>
-								<div class="divTableCell divTableCellName"> {{ telemetryRealTime.name }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.currentLap }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.penalties }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.warnings }}</div>
+								<div class="divTableCell divTableCellName"><img class="image_cabecalho" style="vertical-align:middle;" :src="getLogoEquipe(telemetryRealTime.equip)" width="25"	heigth="25" /> {{ telemetryRealTime.name }}</div>								
+								<div class="divTableCell">{{ telemetryRealTime.penalties }} / {{ telemetryRealTime.warnings }}</div>
 								<div class="divTableCell">{{ telemetryRealTime.perWearFrontRight }}</div>
 								<div class="divTableCell">{{ telemetryRealTime.perWearFrontLeft }}</div>
 								<div class="divTableCell">{{ telemetryRealTime.perWearRearRight }}</div>
@@ -131,6 +128,7 @@ export default {
 			tableTelemetryRealTime: [],
 			tableWeather: [],
 			errors: [],
+			voltas: "",
 			details: {
 				sessionType: "",
 				formula: "",
@@ -194,7 +192,6 @@ export default {
 
 					this.detailsEvent.weatherForecastSamples.forEach(i => {						
 						if (i.sessionType === this.filterWeather) {
-							console.log(i);
 							this.tableWeather.push(i);
 						}
 					});					
@@ -224,7 +221,7 @@ export default {
 							console.log("Registros diferentes!");
 						}
 
-						this.tableTelemetryRealTime = result.data;						
+						this.tableTelemetryRealTime = result.data;
 					})
 					.catch((e) => {
 						console.log(e);
@@ -245,10 +242,11 @@ export default {
 
 						this.detailsEvent.weatherForecastSamples.forEach(i => {						
 							if (i.sessionType === this.filterWeather) {
-								console.log(i);
 								this.tableWeather.push(i);
 							}
-						});							
+						});
+						
+						this.voltas = this.detailsEvent.currentLap + "/" + this.detailsEvent.totalLaps;
 					})
 					.catch((e) => {
 						console.log(e);
@@ -386,6 +384,26 @@ export default {
 			else 
 				return "Evento não iniciado!";
 		},
+		getLogoEquipe(equip) {
+			if (equip !== "") {
+				var images = require.context(
+					"../../assets/logos-equipes/",
+					false,
+					/\.png$/
+				);
+
+				return images("./" + equip + ".png");
+			}
+			else
+				return "";
+		},	
+		getStatusRow(status) {
+			console.log(status);
+			if (status === "IN_GARAGE" || status === "IN_GARAGE")
+				return "divTableRow statusPiloto";
+			
+			return "divTableRow";
+		},		
 	},
 };
 
@@ -430,6 +448,7 @@ function formatDate(date) {
 }
 .divTableCellName {
 	text-align: left;
+	vertical-align: middle;
 }
 .divTableHeading {
 	background-color: #EEE;
@@ -490,6 +509,10 @@ div.statusCorridaDisabled {
 	vertical-align: middle; 
 	text-align: center; 
 	background-color: black;
+}
+div.statusPiloto {
+	background-color: #999999;
+	text-decoration: line-through;
 }
 
 @keyframes fa-blink {
