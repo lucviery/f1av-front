@@ -27,9 +27,11 @@
 										src="../../assets/icons-telemetry/79700-SidePod-duplo.png" width="55" heigth="55" /></div>
 								<div class="divTableCell"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/79700-diferencial.png" width="55" heigth="55" /></div>
-								<div class="divTableCell" style="font-weight: bold">Fuel</div>
+								<div class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/fuel.png" width="30" heigth="30" /></div>
 								<div class="divTableCell" style="font-weight: bold">TAL</div>
-								<div class="divTableCell" style="font-weight: bold">ERS</div>
+								<div class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/ers.png" width="30" heigth="30" /></div>
 								<div class="divTableCell"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/79700-rodaeDireita.png" width="55" heigth="55" /></div>
 								<div class="divTableCell"><img class="image_cabecalho"
