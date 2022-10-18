@@ -28,7 +28,7 @@
 										src="../../assets/icons-telemetry/79700-SidePod-duplo.png" width="55" heigth="55" /></div>
 								<div title="Danos ao diferencial." class="divTableCell"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/79700-diferencial.png" width="55" heigth="55" /></div>
-								<div title="Quantidade de voltas de cobustível excedente." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
+								<div title="Quantidade de voltas de combustível excedente." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/fuel.png" width="30" heigth="30" /></div>
 								<div title="Uso do ERS." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/ers.png" width="30" heigth="30" /></div>
