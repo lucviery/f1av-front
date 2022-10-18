@@ -220,7 +220,7 @@ export default {
 		getLogWeatherQualy(offSet) {
 			let weather = "";
 
-			this.detailsEvent.weatherForecastSamples.forEach(i => {
+			this.tableWeather.forEach(i => {
 				if (offSet === i.timeOffset)
 					weather = i.weather;
 			});
@@ -240,7 +240,7 @@ export default {
 		getOffSetQualy(offSet) {
 			let timeOffset = -1;
 
-			this.detailsEvent.weatherForecastSamples.forEach(i => {
+			this.tableWeather.forEach(i => {
 				if (offSet === i.timeOffset)
 					timeOffset = i.timeOffset;
 			});
@@ -253,7 +253,7 @@ export default {
 		getLogWeatherCorrida(offSet) {
 			let weather = "";
 
-			this.detailsEvent.weatherForecastSamples.forEach(i => {
+			this.tableWeather.forEach(i => {
 				if (offSet === i.timeOffset)
 					weather = i.weather;
 			});
@@ -274,7 +274,7 @@ export default {
 			if (this.detailsEvent !== null) {
 				let timeOffset = -1;
 
-				this.detailsEvent.weatherForecastSamples.forEach(i => {
+				this.tableWeather.forEach(i => {
 					if (offSet === i.timeOffset)
 						timeOffset = i.timeOffset;
 				});
