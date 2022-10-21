@@ -3,10 +3,51 @@
 	<div style="display: inline-block;vertical-align: top">
 		<div class="container">
 			<div class="titulo">
-				<div style="font-weight: bolder;display: inline-block;">{{getDescription()}}</div>
-				<div style="font-weight: bolder;display: inline-block; padding-left: 50px;">Voltas: {{voltas}}</div>
-				<div style="font-weight: bolder;display: inline-block; padding-left: 400px;">Real Time: {{dateUpdate}}</div>
+				<div class="ctnFlex">
+					<div class="op2" style="font-weight: bolder;display: inline-block;" v-on:click="visibleCabecalho = !visibleCabecalho">
+						<img v-if="visibleCabecalho" class="image_cabecalho" style="padding-right: 10px; vertical-align:middle;"
+											src="../../assets/icons-telemetry/seta-baixo.png" width="20" heigth="20" />
+						<img v-if="!visibleCabecalho" class="image_cabecalho" style="padding-right: 10px; vertical-align:middle;"
+											src="../../assets/icons-telemetry/seta-direita.png" width="20" heigth="20" />
+					</div>				
+					<div class="op2">
+						<div style="font-weight: bolder;display: inline-block;">Sessão: {{sessaoNome}}</div>
+					</div>
+					<div class="op2">
+						<div style="font-weight: bolder;display: inline-block;">Tempo Sessão: {{sessionTimeLeft}}</div>
+					</div>	
+					<div class="op2">
+						<div style="font-weight: bolder;display: inline-block;">Voltas: {{voltas}}</div>
+					</div>	
+					<div class="op2">
+						<div style="font-weight: bolder;display: inline-block;">Real Time: {{dateUpdate}}</div>
+					</div>													
+				</div>								
 			</div>
+			<div v-if="visibleCabecalho" id="hide" class="titulo">
+				<div class="ctnFlex">
+					<div class="op2" style="text-align: left; padding: 5px; background-color: teal;">
+						Circuito: <strong>{{circuito}}</strong><br />
+						Grid: <strong>{{grid}}</strong><br />
+						Data: <strong>{{data}}</strong><br />
+					</div>
+					<div class="op2" style="text-align: left; padding: 5px; background-color: teal;">
+						Comprimento: <strong>{{trackLength}} metros</strong><br />
+						Pit Speed: <strong>{{pitSpeedLimit}} km/h</strong><br />
+						Sessão Duração: <strong>{{sessionDuration}}</strong><br />
+					</div>	
+					<div class="op2" style="text-align: left; padding: 5px; background-color: teal;">
+						Clima: <strong>{{weatherDesc}}</strong><br />
+						Temperatura Pista: <strong>{{trackTemperature}}º</strong><br />
+						Temperatura Ar: <strong>{{airTemperature}}º</strong><br />
+					</div>	
+					<div class="op2" style="padding: 5px; background-color: darkviolet;">
+						Melhor Volta<br />
+						<strong>{{driverFastLap}}</strong><br />
+						<strong>{{fastLap}}</strong><br />
+					</div>													
+				</div>
+			</div>		
 			<div class="ctnFlex">
 				<div class="op1">
 					<div class="divTable">
@@ -62,7 +103,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="op2">
+				<div class="op2 op2-backcolor">
 					<div class="divTableBody">
 						<div class="divTableRow">
 							<div class="divSpace" style="font-weight: bold">{{getsessionType()}}</div>
@@ -151,6 +192,20 @@ export default {
 				rainPercentage: null,
 			},
 			detailsEvent: null,
+			visibleCabecalho: true,
+			sessaoNome: "",
+			circuito: "",
+			grid: "",
+			data: "",
+			trackTemperature: 0,
+			airTemperature: 0,
+			pitSpeedLimit: 0,
+			trackLength: 0,
+			sessionDuration: "",
+			sessionTimeLeft: "",
+			weatherDesc: "",
+			driverFastLap: "",
+			fastLap: "",
 		};
 	},
 	created() {
@@ -206,6 +261,24 @@ export default {
 						});
 						
 						this.voltas = this.detailsEvent.currentLap + "/" + this.detailsEvent.totalLaps;
+
+						if (this.detailsEvent.sessionType === "R")
+							this.sessaoNome = "Corrida";
+						else
+							this.sessaoNome = "Qualy";
+						
+						this.circuito = this.detailsEvent.circuito;
+						this.grid = this.detailsEvent.grid;
+						this.data = this.detailsEvent.data;
+						this.trackTemperature = this.detailsEvent.trackTemperature;
+						this.airTemperature = this.detailsEvent.airTemperature;
+						this.pitSpeedLimit = this.detailsEvent.pitSpeedLimit;
+						this.trackLength = this.detailsEvent.trackLength;
+						this.sessionDuration = this.detailsEvent.sessionDuration;
+						this.sessionTimeLeft = this.detailsEvent.sessionTimeLeft;
+						this.weatherDesc = this.detailsEvent.weather;
+						this.driverFastLap = this.detailsEvent.driverFastLap;
+						this.fastLap = this.detailsEvent.fastLap;
 					})
 					.catch((e) => {
 						console.log(e);
@@ -519,10 +592,12 @@ function formatDate(date) {
 	text-align: center;
 }
 div.op2 {
-	background-color: #809983;
 	display: inline-block;
 	margin-right: 0vw;
 	text-align: center;
+}
+div.op2-backcolor {
+	background-color: #809983;
 }
 div.statusCorridaSC {
 	padding: 8px; 
