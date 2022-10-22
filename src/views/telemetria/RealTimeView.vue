@@ -55,6 +55,7 @@
 							<div class="divTableRow">
 								<div class="divTableCell" style="font-weight: bold">POS</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">Piloto</div>
+								<div class="divTableCell divTableCellName" style="font-weight: bold">U. Volta</div>
 								<div title="Punições e Avisos." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/icon-pa.png" width="25" heigth="25" /></div>
 								<div title="Danos a Asa dianteira esquerda." class="divTableCell"><img class="image_cabecalho"
@@ -84,8 +85,9 @@
 							</div>
 							<div :class="getStatusRow(telemetryRealTime.status)" v-for="telemetryRealTime of tableTelemetryRealTime"
 								:key="telemetryRealTime.position">
-								<div class="divTableCell"> {{ telemetryRealTime.position }}</div>
+								<div class="divTableCell" style="text-align: left;"> <label style="font-size: 16px;font-weight: bold;">{{ telemetryRealTime.position }}</label> <label :style="getCorGainLostPostion(telemetryRealTime.gainPosition)">{{ telemetryRealTime.gainPosition }}</label></div>								
 								<div class="divTableCell divTableCellName"><img class="image_cabecalho" style="vertical-align:middle;" :src="getLogoEquipe(telemetryRealTime.equip)" width="25"	heigth="25" /> {{ telemetryRealTime.name }}</div>								
+								<div class="divTableCell">{{ telemetryRealTime.lastLap }}</div>
 								<div class="divTableCell">{{ telemetryRealTime.penalties }} | {{ telemetryRealTime.warnings }}</div>
 								<div :class="getCorAerodinamic(telemetryRealTime.perFrontLeftWingDamage)">{{ telemetryRealTime.perFrontLeftWingDamage }}</div>
 								<div :class="getCorAerodinamic(telemetryRealTime.perFrontRightWingDamage)">{{ telemetryRealTime.perFrontRightWingDamage }}</div>
@@ -161,6 +163,7 @@ export default {
 				tyresAgeLpas: null,
 				ersStoreEnergy: null,
 				tyre: null,
+				gainPosition: null,
 			},
 			timer: "",
 			filterWeather: "SHORT_Q",
@@ -243,6 +246,10 @@ export default {
 
 				TelemetryApi.getDetailsEvent(this.$route.query.season)
 					.then((result) => {
+						if (this.tableWeather.length === 0) {
+							this.filterWeather = "R";
+						}
+
 						this.tableWeather.forEach(w => {
 							if (w.sessionType === "R" && this.detailsEvent.sessionType === "SHORT_Q")
 								this.filterWeather = "SHORT_Q";
@@ -505,6 +512,18 @@ export default {
 			else if (perc <= 80)
 				return "background-color:#ff3b00eb";																				
 			else return "background-color:#ff0000fc";
+		},
+		getCorGainLostPostion(gainPosition) {
+			if (gainPosition > 0) {
+				return "font-size: 8px; color: green; font-weight: bold;";
+			} else {
+				if (gainPosition < 0) {
+					return "font-size: 8px; color: red; font-weight: bold;";
+				}
+				else {
+					return "font-size: 8px; font-weight: bold;";
+				}				
+			}
 		},
 	},
 };
