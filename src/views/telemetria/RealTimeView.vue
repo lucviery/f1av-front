@@ -56,6 +56,7 @@
 								<div class="divTableCell" style="font-weight: bold">POS</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">Piloto</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">U. Volta</div>
+								<div class="divTableCell divTableCellName" style="font-weight: bold">Delta</div>
 								<div title="Punições e Avisos." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/icon-pa.png" width="25" heigth="25" /></div>
 								<div title="Danos a Asa dianteira esquerda." class="divTableCell"><img class="image_cabecalho"
@@ -86,8 +87,9 @@
 							<div :class="getStatusRow(telemetryRealTime.status)" v-for="telemetryRealTime of tableTelemetryRealTime"
 								:key="telemetryRealTime.position">
 								<div class="divTableCell" style="text-align: left;"> <label style="font-size: 16px;font-weight: bold;">{{ telemetryRealTime.position }}</label> <label :style="getCorGainLostPostion(telemetryRealTime.gainPosition)">{{ telemetryRealTime.gainPosition }}</label></div>								
-								<div class="divTableCell divTableCellName"><img class="image_cabecalho" style="vertical-align:middle;" :src="getLogoEquipe(telemetryRealTime.equip)" width="25"	heigth="25" /> {{ telemetryRealTime.name }}</div>								
+								<div class="divTableCell divTableCellName"><img class="image_cabecalho" style="vertical-align:middle;" :src="getLogoEquipe(telemetryRealTime.equip)" width="25"	heigth="25" /> {{ telemetryRealTime.name }}</div>
 								<div class="divTableCell">{{ telemetryRealTime.lastLap }}</div>
+								<div class="divTableCell">{{ telemetryRealTime.deltaCarFront }}</div>
 								<div class="divTableCell">{{ telemetryRealTime.penalties }} | {{ telemetryRealTime.warnings }}</div>
 								<div :class="getCorAerodinamic(telemetryRealTime.perFrontLeftWingDamage)">{{ telemetryRealTime.perFrontLeftWingDamage }}</div>
 								<div :class="getCorAerodinamic(telemetryRealTime.perFrontRightWingDamage)">{{ telemetryRealTime.perFrontRightWingDamage }}</div>
