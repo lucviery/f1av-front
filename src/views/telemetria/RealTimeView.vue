@@ -89,7 +89,7 @@
 								<div class="divTableCell" style="text-align: left;"> <label style="font-size: 16px;font-weight: bold;">{{ telemetryRealTime.position }}</label> <label :style="getCorGainLostPostion(telemetryRealTime.gainPosition)">{{ telemetryRealTime.gainPosition }}</label></div>								
 								<div class="divTableCell divTableCellName"><img class="image_cabecalho" style="vertical-align:middle;" :src="getLogoEquipe(telemetryRealTime.equip)" width="25"	heigth="25" /> {{ telemetryRealTime.name }}</div>
 								<div class="divTableCell">{{ telemetryRealTime.lastLap }}</div>
-								<div class="divTableCell">{{ telemetryRealTime.deltaCarFront }}</div>
+								<div :class="getFont(telemetryRealTime.deltaCarFront)">{{ telemetryRealTime.deltaCarFront }}</div>
 								<div class="divTableCell">{{ telemetryRealTime.penalties }} | {{ telemetryRealTime.warnings }}</div>
 								<div :class="getCorAerodinamic(telemetryRealTime.perFrontLeftWingDamage)">{{ telemetryRealTime.perFrontLeftWingDamage }}</div>
 								<div :class="getCorAerodinamic(telemetryRealTime.perFrontRightWingDamage)">{{ telemetryRealTime.perFrontRightWingDamage }}</div>
@@ -527,6 +527,12 @@ export default {
 				}				
 			}
 		},
+		getFont(delta) {
+			if (delta === "Interval")
+				return "divTableCell font7";
+			else
+				return "divTableCell";
+		}
 	},
 };
 
@@ -654,6 +660,9 @@ div.alert3 {
 div.alert-critical {
 	background-color: maroon;
 	color: white;
+}
+div.font7 {
+	font-size: 7px;
 }
 
 @keyframes fa-blink {
