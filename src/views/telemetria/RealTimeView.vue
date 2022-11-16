@@ -56,7 +56,7 @@
 								<div class="divTableCell" style="font-weight: bold">POS</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">Piloto</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">U. Volta</div>
-								<div class="divTableCell divTableCellName" style="font-weight: bold">Delta</div>
+								<div class="divTableCell divTableCellName" style="font-weight: bold">GAP</div>
 								<div title="Punições e Avisos." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/icon-pa.png" width="25" heigth="25" /></div>
 								<div title="Danos a Asa dianteira esquerda." class="divTableCell"><img class="image_cabecalho"
