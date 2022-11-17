@@ -166,6 +166,7 @@ export default {
 				ersStoreEnergy: null,
 				tyre: null,
 				gainPosition: null,
+				index: null,
 			},
 			timer: "",
 			filterWeather: "SHORT_Q",
@@ -211,14 +212,44 @@ export default {
 			weatherDesc: "",
 			driverFastLap: "",
 			fastLap: "",
+			lapList: "",
 		};
 	},
 	created() {
 		this.fetchData();
-		this.timer = setInterval(this.fetchData, 5000);
+		this.timer = setInterval(this.fetchData, 5000);			
 	},
 	mounted() {
-		
+		//let socket = new WebSocket("ws://localhost:8999/telemetria/socket/connect/1");
+		let socket = new WebSocket("ws://206.189.254.33:8999/telemetria/socket/connect/1");
+
+		socket.onopen = () => {
+			console.log("Websocket conectado!");
+		};
+
+		socket.onmessage = (event) => {
+			// Converting a string to JSON
+			let jsonData = JSON.parse(event.data);
+			this.lapList = jsonData;
+			console.log(this.lapList);
+			
+			this.tableTelemetryRealTime.forEach(driver => {
+				this.lapList.forEach(lap => {
+					if (lap.index === driver.index) {
+						driver.deltaCarFront = lap.deltaCarFront;
+					}
+				});
+			});
+		};
+
+		socket.onclose = () => {
+			console.log("Websocket fechado!");
+		};
+
+		socket.onerror = (error) => {
+			console.log(error.toString());
+			console.log(`[error]`);
+		};			
 	},
 	methods: {
 		async fetchData() {
@@ -241,6 +272,16 @@ export default {
 						}
 
 						this.tableTelemetryRealTime = result.data;
+
+						if (this.lapList.length > 0) {
+							this.tableTelemetryRealTime.forEach(driver => {
+								this.lapList.forEach(lap => {
+									if (lap.index === driver.index) {
+										driver.deltaCarFront = lap.deltaCarFront;
+									}
+								});
+							});	
+						}					
 					})
 					.catch((e) => {
 						console.log(e);
