@@ -1,5 +1,5 @@
 <template>
-	<div>{{ error }}</div>
+	<div>{{ msgError }}</div>
 	<div style="display: inline-block;vertical-align: top">
 		<div class="container">
 			<div class="titulo">
@@ -213,6 +213,8 @@ export default {
 			driverFastLap: "",
 			fastLap: "",
 			lapList: "",
+			msgError: "",
+			webSocketEnabled: false,
 		};
 	},
 	created() {
@@ -220,44 +222,55 @@ export default {
 		this.timer = setInterval(this.fetchData, 5000);			
 	},
 	mounted() {
-		//let socket = new WebSocket("ws://localhost:8999/telemetria/socket/connect/1");
-		let socket = new WebSocket("ws://206.189.254.33:8999/telemetria/socket/connect/1");
-
-		socket.onopen = () => {
-			console.log("Websocket conectado!");
-		};
-
-		socket.onmessage = (event) => {
-			// Converting a string to JSON
-			let jsonData = JSON.parse(event.data);
-			this.lapList = jsonData;
-			console.log(this.lapList);
-			
-			this.tableTelemetryRealTime.forEach(driver => {
-				this.lapList.forEach(lap => {
-					if (lap.index === driver.index) {
-						driver.deltaCarFront = lap.deltaCarFront;
-					}
-				});
-			});
-		};
-
-		socket.onclose = () => {
-			console.log("Websocket fechado!");
-		};
-
-		socket.onerror = (error) => {
-			console.log(error.toString());
-			console.log(`[error]`);
-		};			
+		this.webSocketInit();
+		this.timer = setInterval(this.webSocketInit, 30000);				
 	},
 	methods: {
+		async webSocketInit() {
+			if (!this.webSocketEnabled) {
+				//let socket = new WebSocket("ws://localhost:8999/telemetria/socket/connect/1");
+				let socket = new WebSocket("ws://206.189.254.33:8999/telemetria/socket/connect/1");
+
+				socket.onopen = () => {
+					console.log("Websocket conectado!");
+					this.webSocketEnabled = true;
+				};
+
+				socket.onmessage = (event) => {
+					// Converting a string to JSON
+					let jsonData = JSON.parse(event.data);
+					this.lapList = jsonData;
+					console.log(this.lapList);
+					
+					this.tableTelemetryRealTime.forEach(driver => {
+						this.lapList.forEach(lap => {
+							if (lap.index === driver.index) {
+								driver.deltaCarFront = lap.deltaCarFront;
+							}
+						});
+					});
+
+					this.webSocketEnabled = true;
+				};
+
+				socket.onclose = () => {
+					console.log("Websocket fechado!");
+					this.webSocketEnabled = false;
+				};
+
+				socket.onerror = (error) => {
+					this.webSocketEnabled = false;
+					console.log(error.toString());
+					console.log(`[error]`);
+				};		
+			}		
+		},
 		async fetchData() {
 			if (
 				this.$route.query.season === null ||
 				isNaN(this.$route.query.season)
 			) {
-				this.error =
+				this.msgError =
 					"Sessão não informada, informe o número da Sessão, exemplo: 2";
 				console.log(
 					"Sessão não informada, informe o número da Sessão, exemplo: 2"
