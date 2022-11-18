@@ -191,7 +191,7 @@ export default {
 				weatherForecastSamples: [],
 			},
 			weather: {
-				id: null,
+				id: null,	
 				sessionType: "",
 				timeOffset: null,
 				weather: "",
@@ -244,7 +244,10 @@ export default {
 					this.tableTelemetryRealTime.forEach(driver => {
 						this.lapList.forEach(lap => {
 							if (lap.index === driver.index) {
-								driver.deltaCarFront = lap.deltaCarFront;
+								if (lap.deltaCarFront > 0)
+									driver.deltaCarFront = lap.deltaCarFront;
+								else if (lap.deltaCarFront === 0 && lap.position === 1)
+									driver.deltaCarFront = "Interval";
 							}
 						});
 					});
@@ -289,7 +292,10 @@ export default {
 							this.tableTelemetryRealTime.forEach(driver => {
 								this.lapList.forEach(lap => {
 									if (lap.index === driver.index) {
-										driver.deltaCarFront = lap.deltaCarFront;
+										if (lap.deltaCarFront > 0)
+											driver.deltaCarFront = lap.deltaCarFront;
+										else if (lap.deltaCarFront === 0 && lap.position === 1)
+											driver.deltaCarFront = "Interval";
 									}
 								});
 							});	
