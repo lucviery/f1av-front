@@ -240,7 +240,6 @@ export default {
 					// Converting a string to JSON
 					let jsonData = JSON.parse(event.data);
 					this.lapList = jsonData;
-					console.log(this.lapList);
 					
 					this.tableTelemetryRealTime.forEach(driver => {
 						this.lapList.forEach(lap => {
