@@ -311,12 +311,51 @@ export default {
 							this.filterWeather = "R";
 						}
 
-						this.tableWeather.forEach(w => {
-							if (w.sessionType === "R" && this.detailsEvent.sessionType === "SHORT_Q")
-								this.filterWeather = "SHORT_Q";
-							else
-								this.filterWeather = "R";
-						});
+						if (this.sessaoNome !== "Corrida") {
+							if (this.sessaoNome === "Qualy") {
+								if (this.getsessionType() === "Qualy")
+									this.filterWeather = "R";
+								else
+									if (this.getsessionType() === "Corrida")
+										this.filterWeather = "SHORT_Q";
+							}
+							else {
+								if (this.sessaoNome === "Q1") {
+									if (this.getsessionType() === "Q1")
+										this.filterWeather = "Q2";
+									else
+										if (this.getsessionType() === "Q2")
+											this.filterWeather = "Q3";
+										else
+											if (this.getsessionType() === "Q3")
+												this.filterWeather = "R";											
+											else
+												if (this.getsessionType() === "Corrida")
+													this.filterWeather = "Q1";																							
+								}
+								else {
+									if (this.sessaoNome === "Q2") {
+											if (this.getsessionType() === "Q2")
+												this.filterWeather = "Q3";
+											else
+												if (this.getsessionType() === "Q3")
+													this.filterWeather = "R";											
+												else
+													if (this.getsessionType() === "Corrida")
+														this.filterWeather = "Q2";																							
+									}
+									else {
+											if (this.getsessionType() === "Q3")
+												this.filterWeather = "R";											
+											else
+												if (this.getsessionType() === "Corrida")
+													this.filterWeather = "Q3";											
+									}									
+								}							
+							}
+						} else {
+							this.filterWeather = "R";
+						}
 
 						this.tableWeather = [];
 
@@ -333,8 +372,18 @@ export default {
 						if (this.detailsEvent.sessionType === "R")
 							this.sessaoNome = "Corrida";
 						else
-							this.sessaoNome = "Qualy";
-						
+							if (this.detailsEvent.sessionType === "SHORT_Q")
+								this.sessaoNome = "Qualy";
+							else
+								if (this.detailsEvent.sessionType === "Q1")
+									this.sessaoNome = "Q1";
+								else
+									if (this.detailsEvent.sessionType === "Q2")
+										this.sessaoNome = "Q2";
+									else
+										if (this.detailsEvent.sessionType === "Q3")
+											this.sessaoNome = "Q3";						
+
 						this.circuito = this.detailsEvent.circuito;
 						this.grid = this.detailsEvent.grid;
 						this.data = this.detailsEvent.data;
@@ -453,11 +502,11 @@ export default {
 			if (this.tableWeather.length > 0) {
 				if (this.tableWeather[0].sessionType === "R")
 					return "Corrida";
-					else
-						if (this.tableWeather[0].sessionType === "SHORT_Q")
-							return "Qualy";
-							else 
-								return this.detailsEvent.sessionType;
+				else
+					if (this.tableWeather[0].sessionType === "SHORT_Q")
+						return "Qualy";
+					else 
+						return this.tableWeather[0].sessionType;
 			} else {
 				return "";
 			}
