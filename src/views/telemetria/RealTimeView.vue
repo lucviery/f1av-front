@@ -236,7 +236,7 @@ export default {
 					this.webSocketEnabled = true;
 				};
 
-				socket.onmessage = (event) => {
+				/*socket.onmessage = (event) => {
 					// Converting a string to JSON
 					let jsonData = JSON.parse(event.data);
 					this.lapList = jsonData;
@@ -253,7 +253,7 @@ export default {
 					});
 
 					this.webSocketEnabled = true;
-				};
+				};*/
 
 				socket.onclose = () => {
 					console.log("Websocket fechado!");
@@ -287,7 +287,7 @@ export default {
 						}
 
 						this.tableTelemetryRealTime = result.data;
-
+						/*
 						if (this.lapList.length > 0) {
 							this.tableTelemetryRealTime.forEach(driver => {
 								this.lapList.forEach(lap => {
@@ -299,7 +299,7 @@ export default {
 									}
 								});
 							});	
-						}					
+						}*/					
 					})
 					.catch((e) => {
 						console.log(e);
