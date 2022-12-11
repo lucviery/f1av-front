@@ -96,7 +96,7 @@ export default {
       }
     },
     getClassColorPosition(position) {
-      if (position <= 5) return "coll_div_position destaque_position";
+      if (position <= 4) return "coll_div_position destaque_position";
       else return "coll_div_position meio_position";
     },
   },
