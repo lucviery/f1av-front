@@ -57,7 +57,7 @@
 								<div class="divTableCell divTableCellName" style="font-weight: bold">Piloto</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">U. Volta</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">GAP</div>
-								<div title="Punições e Avisos." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
+								<div title="Punições e Avisos (O F122 alterou a forma de computar os avisos, agora são computados todos  os avisos ao piloto do jogo)." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/icon-pa.png" width="25" heigth="25" /></div>
 								<div title="Danos a Asa dianteira esquerda." class="divTableCell"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/79700-ASA_esq.png" width="55" heigth="55" /></div>

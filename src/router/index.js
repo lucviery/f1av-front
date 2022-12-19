@@ -5,6 +5,7 @@ import DriversView from "../views/cabine/DriversView.vue";
 import TeamsView from "../views/cabine/TeamsView.vue";
 import TelemetriaView from "../views/telemetria/TelemetriaView.vue";
 import RealTimeView from "../views/telemetria/RealTimeView.vue";
+import OpponentDriverView from "../views/telemetria/OpponentDriverView.vue";
 
 const routes = [
   {
@@ -36,7 +37,12 @@ const routes = [
     path: "/telemetria/real-time",
     name: "realtime",
     component: RealTimeView,
-  },    
+  }, 
+  {
+    path: "/telemetria/opponent-driver",
+    name: "opponentdriver",
+    component: OpponentDriverView,
+  },  
 ];
 
 const router = createRouter({
