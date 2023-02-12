@@ -12,4 +12,12 @@ export default {
   getTableEquip: (categoryId) => {
     return http.get(`cabine/category/${categoryId}/equip-position`);
   },
+
+  getTableEquipCopaComData: (categoryId, seasonId, dateCopa) => {
+    return http.get(`result/category/${categoryId}/season/${seasonId}/classificationEquip?dateLocal=${dateCopa}`);
+  },
+
+  getTableEquipCopa: (categoryId, seasonId) => {
+    return http.get(`result/category/${categoryId}/season/${seasonId}/classificationEquip`);
+  },
 };

@@ -6,6 +6,7 @@ import TeamsView from "../views/cabine/TeamsView.vue";
 import TelemetriaView from "../views/telemetria/TelemetriaView.vue";
 import RealTimeView from "../views/telemetria/RealTimeView.vue";
 import OpponentDriverView from "../views/telemetria/OpponentDriverView.vue";
+import ClassificationEquipCopa from "../views/cabine/ClassificationEquipCopa.vue"
 
 const routes = [
   {
@@ -27,6 +28,11 @@ const routes = [
     path: "/cabine/teams",
     name: "teams",
     component: TeamsView,
+  },
+  {
+    path: "/cabine/copa",
+    name: "copa",
+    component: ClassificationEquipCopa,
   },
   {
     path: "/telemetria/weather",
