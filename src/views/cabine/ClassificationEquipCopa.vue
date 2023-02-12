@@ -143,4 +143,8 @@ export default {
     line-height: 22px;
     color: white;
   }
+
+  .destaque_position {
+    background-color: #24dd5c;
+  }  
 </style>
