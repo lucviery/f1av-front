@@ -18,7 +18,7 @@
             alt="Equipes"
           />
         </div>
-        <div class="coll_div_barra coll_texto_equipe">{{ team.equip }}</div>
+        <div class="coll_div_barra coll_texto_equipe">{{ team.teamName !== null ? team.teamName : team.equip }}</div>
         <div class="coll_logo_equipe">
           <img
             class="image_cabecalho"

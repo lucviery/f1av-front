@@ -87,7 +87,13 @@
 							<div :class="getStatusRow(telemetryRealTime.status)" v-for="telemetryRealTime of tableTelemetryRealTime"
 								:key="telemetryRealTime.position">
 								<div class="divTableCell" style="text-align: left;"> <label style="font-size: 16px;font-weight: bold;">{{ telemetryRealTime.position }}</label> <label :style="getCorGainLostPostion(telemetryRealTime.gainPosition)">{{ telemetryRealTime.gainPosition }}</label></div>								
-								<div class="divTableCell divTableCellName"><img class="image_cabecalho" style="vertical-align:middle;" :src="getLogoEquipe(telemetryRealTime.equip)" width="25"	heigth="25" /> {{ telemetryRealTime.name }}</div>
+								<div class="divTableCell divTableCellName">
+									<img class="image_cabecalho" style="vertical-align:middle;" :src="getLogoEquipe(telemetryRealTime.equip)" width="25"	heigth="25" /> 
+									{{ telemetryRealTime.name }}
+									<div style="text-align: center; font-size: 7px;">
+										{{ telemetryRealTime.teamName }}
+									</div>
+								</div>
 								<div class="divTableCell">{{ telemetryRealTime.lastLap }}</div>
 								<div :class="getFont(telemetryRealTime.deltaCarFront)">{{ telemetryRealTime.deltaCarFront }}</div>
 								<div class="divTableCell">{{ telemetryRealTime.penalties }} | {{ telemetryRealTime.warnings }}</div>
