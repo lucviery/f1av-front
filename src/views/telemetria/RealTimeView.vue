@@ -87,7 +87,7 @@
 							<div :class="getStatusRow(telemetryRealTime)" v-for="telemetryRealTime of tableTelemetryRealTime"
 								:key="telemetryRealTime.position">
 								<div class="divTableCell" style="text-align: left;"> <label style="font-size: 16px;font-weight: bold;">{{ telemetryRealTime.position }}</label> <label :style="getCorGainLostPostion(telemetryRealTime.gainPosition)">{{ telemetryRealTime.gainPosition }}</label></div>								
-								<div class="divTableCell divTableCellName">
+								<div :class="getStatusPilotoIA(telemetryRealTime)">
 									<img class="image_cabecalho" style="vertical-align:middle;" :src="getLogoEquipe(telemetryRealTime.equip)" width="25"	heigth="25" /> 
 									{{ telemetryRealTime.name }}
 									<div style="text-align: center; font-size: 7px;">
@@ -412,6 +412,12 @@ export default {
 		},
 		cancelAutoUpdate() {
 			clearInterval(this.timer);
+		},
+		getStatusPilotoIA(obj) {
+			if (obj.isIA === 1)
+				return "divTableCell divTableCellName statusPilotoIA";
+			else
+				return "divTableCell divTableCellName";
 		},
 		getLogWeatherQualy(offSet) {
 			let weather = "";
@@ -775,6 +781,9 @@ div.statusCorridaDisabled {
 }
 div.statusPiloto {
 	background-color: #999999;
+	text-decoration: line-through;
+}
+div.statusPilotoIA {
 	text-decoration: line-through;
 }
 div.alert1 {
