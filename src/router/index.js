@@ -48,7 +48,7 @@ const routes = [
     path: "/telemetria/opponent-driver",
     name: "opponentdriver",
     component: OpponentDriverView,
-  },  
+  }
 ];
 
 const router = createRouter({
