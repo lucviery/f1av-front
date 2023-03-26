@@ -84,7 +84,7 @@
 								<div class="divTableCell" style="font-weight: bold"><img title="Pneus usados no atual momento pelos pilotos." class="image_cabecalho"
 										src="../../assets/icons-telemetry/icon-pneus.png" width="40" heigth="40" /></div>
 							</div>
-							<div :class="getStatusRow(telemetryRealTime.status)" v-for="telemetryRealTime of tableTelemetryRealTime"
+							<div :class="getStatusRow(telemetryRealTime)" v-for="telemetryRealTime of tableTelemetryRealTime"
 								:key="telemetryRealTime.position">
 								<div class="divTableCell" style="text-align: left;"> <label style="font-size: 16px;font-weight: bold;">{{ telemetryRealTime.position }}</label> <label :style="getCorGainLostPostion(telemetryRealTime.gainPosition)">{{ telemetryRealTime.gainPosition }}</label></div>								
 								<div class="divTableCell divTableCellName">
@@ -107,8 +107,8 @@
 								<div class="divTableCell">{{ telemetryRealTime.ersStoreEnergy }}</div>
 								<div class="divTableCell" :style="getCorPneus(telemetryRealTime.perWearFrontRight, telemetryRealTime.perWearFrontLeft)">{{ telemetryRealTime.perWearFrontRight }} | {{ telemetryRealTime.perWearFrontLeft }}</div>
 								<div class="divTableCell" :style="getCorPneus(telemetryRealTime.perWearFrontRight, telemetryRealTime.perWearFrontLeft)">{{ telemetryRealTime.perWearRearRight }} | {{ telemetryRealTime.perWearRearLeft }}</div>								
-								<div class="divTableCell">{{ telemetryRealTime.pitStops }} | {{ telemetryRealTime.tyresAgeLpas }}</div>
-								<div class="divTableCell" style="background-color: #999999;"><img class="image_cabecalho" style="vertical-align:middle;" :src="getPneus(telemetryRealTime.tyre)" width="20"	heigth="20" /></div>								
+								<div class="divTableCell">{{ getPitVoltasOutlap(telemetryRealTime) }}</div>
+								<div class="divTableCell" style="background-color: #999999;"><img class="image_cabecalho" style="vertical-align:middle;" :src="getPneus(telemetryRealTime)" width="20"	heigth="20" /></div>								
 							</div>
 						</div>
 					</div>
@@ -552,9 +552,15 @@ export default {
 			else
 				return "";
 		},	
-		getStatusRow(status) {
-			if (status === "IN_GARAGE" || status === "IN_GARAGE")
-				return "divTableRow statusPiloto";
+		getPitVoltasOutlap(obj) {
+			if (obj.resultStatus === "ACTIVE" && obj.status === "OUT_LAP")
+				return "OL";
+			else
+				return obj.pitStops.toString() + "|" + obj.tyresAgeLpas.toString();
+		},
+		getStatusRow(obj) {
+			if (obj.resultStatus !== "ACTIVE" && obj.resultStatus !== "FINISHED")
+			return "divTableRow statusPiloto";
 			
 			return "divTableRow";
 		},
@@ -578,18 +584,27 @@ export default {
 				return "divTableCell alert-critical";
 				else return "divTableCell";
 		},
-		getPneus(pneu) {
-			if (pneu !== "") {
-				var images = require.context(
-					"../../assets/icons-telemetry/",
-					false,
-					/\.png$/
-				);
+		getPneus(obj) {
+			var images = require.context(
+						"../../assets/icons-telemetry/",
+						false,
+						/\.png$/
+					);
 
-				return images("./" + pneu + ".png");
+			if (obj.resultStatus === 'FINISHED') {
+				return images("./bandeirada.png");
+			} else {
+				if (obj.status === 'IN_GARAGE') {
+					return images("./pit-stop.png");
+				}
+				else {
+					if (obj.tyre !== "") {
+						return images("./" + obj.tyre + ".png");
+					}
+					else
+						return "";
+				}
 			}
-			else
-				return "";
 		},
 		getCorPneus(right, left) {
 			let percR = parseFloat(right);
