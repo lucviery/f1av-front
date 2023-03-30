@@ -1,10 +1,46 @@
 <template>
 	<div>{{ msgError }}</div>
 	<div style="display: inline-block;vertical-align: top">
-		<div class="container">
-			<div class="titulo">
+		<div v-if="visibleDetailLap" id="demo-modal" class="modal" style="z-index: 10;">
+			<div class="content-modal" style="height: 700px; overflow: scroll;">
 				<div class="ctnFlex">
-					<div class="op2" style="font-weight: bolder;display: inline-block;" v-on:click="visibleCabecalho = !visibleCabecalho">
+					<div class="op1" style="width: 100%; z-index: 10;">
+						<div style="padding: 10px;">Piloto: <b>{{ driverName }}</b> | Volta Ideal do Piloto: <b>{{ voltaIdeal }}</b></div>
+						<div class="divTable">
+							<div class="divTableBody">
+								<div class="divTableRow">
+									<div class="divTableCell divTableCellName" style="font-weight: bold">VOLTA</div>
+									<div class="divTableCell divTableCellName" style="font-weight: bold">SETOR 1</div>
+									<div class="divTableCell divTableCellName" style="font-weight: bold">SETOR 2</div>
+									<div class="divTableCell divTableCellName" style="font-weight: bold">SETOR 3</div>
+									<div class="divTableCell divTableCellName" style="font-weight: bold">TEMPO</div>
+									<div class="divTableCell divTableCellName" style="font-weight: bold">POSIÇÃO</div>
+									<div class="divTableCell divTableCellName" style="font-weight: bold">PNEU</div>
+									<div class="divTableCell divTableCellName" style="font-weight: bold">PUNIÇÃO</div>
+								</div>
+								<div class="divTableRow" v-for="lap of lapsHistory"
+								:key="lap.number">
+									<div class="divTableCell">{{ lap.number }}</div>								
+									<div :class="verifiedFastSectorOrLap(lap.setor1Fast)">{{ lap.setor1 }}</div>
+									<div :class="verifiedFastSectorOrLap(lap.setor2Fast)">{{ lap.setor2 }}</div>
+									<div :class="verifiedFastSectorOrLap(lap.setor3Fast)">{{ lap.setor3 }}</div>
+									<div :class="verifiedFastSectorOrLap(lap.lapFast)">{{ lap.tempo }}</div>
+									<div class="divTableCell">{{ lap.posicao }}</div>
+									<div class="divTableCell" style="background-color: #999999;"><img class="image_cabecalho" style="vertical-align:middle;" :src="getPneusLap(lap.pneu)" width="10"	heigth="10" /></div>
+									<div class="divTableCell">{{ lap.punicao }}</div>								
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+				<div style="cursor: pointer;" v-on:click="closeDetailLap()" class="close">&times;</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="titulo" style="z-index: 0;">
+				<div class="ctnFlex" >
+					<div class="op2" style="font-weight: bolder;display: inline-block; cursor: pointer;" v-on:click="visibleCabecalho = !visibleCabecalho">
 						<img v-if="visibleCabecalho" class="image_cabecalho" style="padding-right: 10px; vertical-align:middle;"
 											src="../../assets/icons-telemetry/seta-baixo.png" width="20" heigth="20" />
 						<img v-if="!visibleCabecalho" class="image_cabecalho" style="padding-right: 10px; vertical-align:middle;"
@@ -24,7 +60,7 @@
 					</div>													
 				</div>								
 			</div>
-			<div v-if="visibleCabecalho" id="hide" class="titulo">
+			<div v-if="visibleCabecalho" id="hide" class="titulo" style="z-index: 0;">
 				<div class="ctnFlex">
 					<div class="op2" style="text-align: left; padding: 5px; background-color: teal;">
 						Circuito: <strong>{{circuito}}</strong><br />
@@ -94,7 +130,7 @@
 										{{ telemetryRealTime.teamName }}
 									</div>
 								</div>
-								<div class="divTableCell">{{ telemetryRealTime.lastLap }}</div>
+								<div class="divTableCell" style="cursor: pointer;" v-on:click="openDetailLap(telemetryRealTime)">{{ telemetryRealTime.lastLap }}</div>
 								<div :class="getFont(telemetryRealTime.deltaCarFront)">{{ telemetryRealTime.deltaCarFront }}</div>
 								<div class="divTableCell">{{ telemetryRealTime.penalties }} | {{ telemetryRealTime.warnings }}</div>
 								<div :class="getCorAerodinamic(telemetryRealTime.perFrontLeftWingDamage)">{{ telemetryRealTime.perFrontLeftWingDamage }}</div>
@@ -173,14 +209,18 @@ export default {
 				tyre: null,
 				gainPosition: null,
 				index: null,
-			},
+			},		
 			timer: "",
 			filterWeather: "SHORT_Q",
 			dateUpdate: "",
 			tableTelemetryRealTime: [],
+			lapsHistory: [],
 			tableWeather: [],
+			driverName: "",
+			idealLap: "",
 			errors: [],
 			voltas: "",
+			voltaIdeal: "",
 			details: {
 				sessionType: "",
 				formula: "",
@@ -205,6 +245,7 @@ export default {
 			},
 			detailsEvent: null,
 			visibleCabecalho: true,
+			visibleDetailLap: false,
 			sessaoNome: "",
 			circuito: "",
 			grid: "",
@@ -229,7 +270,7 @@ export default {
 	},
 	mounted() {
 		this.webSocketInit();
-		this.timer = setInterval(this.webSocketInit, 30000);				
+		this.timer = setInterval(this.webSocketInit, 30000);
 	},
 	methods: {
 		async webSocketInit() {
@@ -612,6 +653,19 @@ export default {
 				}
 			}
 		},
+		getPneusLap(obj) {
+			var images = require.context(
+						"../../assets/icons-telemetry/",
+						false,
+						/\.png$/
+					);
+
+			if (obj.tyre !== "") {
+				return images("./" + obj + ".png");
+			}
+			else
+				return "";
+		},		
 		getCorPneus(right, left) {
 			let percR = parseFloat(right);
 			let percL = parseFloat(left);
@@ -666,6 +720,34 @@ export default {
 			if (delta === "Interval")
 				return "divTableCell font7";
 			else
+				return "divTableCell";
+		},
+		openDetailLap(driver) {
+			this.driverName = driver.name;
+
+			RealTimeTelemetry.getLapHistory(driver.scheduleParticipantId)
+					.then((result) => {
+						
+						if (result.data !== null && result.data.lapHistoryTelemetryResource.length > 0) {
+							this.lapsHistory = result.data.lapHistoryTelemetryResource;
+
+							if (result.data.idealLap !== null && result.data.idealLap !== "")
+								this.voltaIdeal = result.data.idealLap;
+						}	
+					})
+					.catch((e) => {
+						console.log(e);
+					});
+
+			this.visibleDetailLap = true;
+		},
+		closeDetailLap() {
+			this.visibleDetailLap = false;
+		},
+		verifiedFastSectorOrLap(enabled) {
+			if (enabled)
+				return "divTableCell fastSectorOrLap";
+			else 
 				return "divTableCell";
 		}
 	},
@@ -814,5 +896,54 @@ div.font7 {
    -ms-animation: fa-blink .75s linear infinite;
    -o-animation: fa-blink .75s linear infinite;
    animation: fa-blink .75s linear infinite;
+}
+.modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(77, 77, 77, 0.7);
+  transition: all 0.4s;
+  opacity: 1;
+}
+
+.content-modal {
+  border-radius: 4px;
+  position: relative;
+  width: 700px;
+  max-width: 90%;
+  background: #fff;
+  padding: 1em 2em;
+}
+ 
+.footer {
+  text-align: right;
+  margin-top: 50px;
+}
+ 
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #585858;
+  text-decoration: none;
+}
+ 
+.footer-btn-close {
+  width: 150px;
+  padding: 10px;
+  text-decoration: none;
+  background-color: #cfcca8;
+  color: #000000;
+  border-radius: 3px;
+}
+
+.fastSectorOrLap {
+	background-color: darkviolet;
+    color: white;
 }
 </style>

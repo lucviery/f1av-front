@@ -13,4 +13,7 @@ export default {
     return http.get(`telemetry/details-event?scheduleId=${schedule}`);
   },  
 
+  getLapHistory: (participantId) => {
+    return http.get(`telemetry/lap-history?participantId=${participantId}`);
+  },  
 };

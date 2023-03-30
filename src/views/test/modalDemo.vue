@@ -1,0 +1,99 @@
+<template>
+  <div class="wrapper">
+    <a href="#/test/modal-demo#demo-modal">Abrir modal</a>
+  </div>
+  
+  <div id="demo-modal" class="modal">
+    <div class="modal__content">
+      <h1>Modal com HTML e CSS</h1>
+  
+      <p>
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+      </p>
+  
+      <div class="modal__footer">
+        <a href="#" class="modal__footer-btn-close"> Fechar </a>
+      </div>
+  
+      <a href="#" class="modal__close">&times;</a>
+    </div>
+  </div>
+</template>
+<style>
+.wrapper {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(52, 52, 52);
+  background: linear-gradient(
+    90deg,
+    rgba(52, 52, 52, 1) 0%,
+    rgba(97, 119, 255, 1) 0%,
+    rgba(33, 57, 189, 1) 100%
+  );
+}
+ 
+.wrapper a {
+  display: inline-block;
+  text-decoration: none;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 3px;
+  text-transform: uppercase;
+  color: #585858;
+  font-family: "Roboto", sans-serif;
+}
+
+.modal {
+  visibility: visible;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(77, 77, 77, 0.7);
+  transition: all 0.4s;
+  opacity: 1;
+}
+ 
+.modal:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.content {
+  border-radius: 4px;
+  position: relative;
+  width: 500px;
+  max-width: 90%;
+  background: #fff;
+  padding: 1em 2em;
+}
+ 
+.footer {
+  text-align: right;
+  margin-top: 50px;
+}
+ 
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #585858;
+  text-decoration: none;
+}
+ 
+.footer-btn-close {
+  width: 150px;
+  padding: 10px;
+  text-decoration: none;
+  background-color: #cfcca8;
+  color: #000000;
+  border-radius: 3px;
+}
+</style>

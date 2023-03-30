@@ -6,7 +6,8 @@ import TeamsView from "../views/cabine/TeamsView.vue";
 import TelemetriaView from "../views/telemetria/TelemetriaView.vue";
 import RealTimeView from "../views/telemetria/RealTimeView.vue";
 import OpponentDriverView from "../views/telemetria/OpponentDriverView.vue";
-import ClassificationEquipCopa from "../views/cabine/ClassificationEquipCopa.vue"
+import ClassificationEquipCopa from "../views/cabine/ClassificationEquipCopa.vue";
+import ModalDemo from "../views/test/modalDemo.vue";
 
 const routes = [
   {
@@ -48,6 +49,11 @@ const routes = [
     path: "/telemetria/opponent-driver",
     name: "opponentdriver",
     component: OpponentDriverView,
+  },
+  {
+    path: "/test/modal-demo",
+    name: "modalDemo",
+    component: ModalDemo,
   }
 ];
 
