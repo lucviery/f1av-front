@@ -1,6 +1,28 @@
 <template>
 	<div>{{ msgError }}</div>
 	<div style="display: inline-block;vertical-align: top">
+		<div v-if="visibleHistoryGranPrix" id="modal-visibleHistoryGranPrix" class="modal" style="z-index: 10;">
+			<div class="content-modal" style="height: 700px; overflow: scroll;">
+				<div class="ctnFlex">
+					<div class="op1" style="width: 100%; z-index: 10;">
+						<div style="padding: 10px;">Pista: <b>{{circuito}}</b></div>
+					</div>
+				</div>
+			
+				<div style="cursor: pointer;" v-on:click="closeHistoryGranPrix()" class="close">&times;</div>
+			</div>
+		</div>
+		<div v-if="visibleDetailDriver" id="modal-driver" class="modal" style="z-index: 10;">
+			<div class="content-modal" style="height: 700px; overflow: scroll;">
+				<div class="ctnFlex">
+					<div class="op1" style="width: 100%; z-index: 10;">
+						<div style="padding: 10px;">Piloto: <b>{{ driverName }}</b></div>
+					</div>
+				</div>
+			
+				<div style="cursor: pointer;" v-on:click="closeDetailDriver()" class="close">&times;</div>
+			</div>
+		</div>
 		<div v-if="visibleDetailLap" id="demo-modal" class="modal" style="z-index: 10;">
 			<div class="content-modal" style="height: 700px; overflow: scroll;">
 				<div class="ctnFlex">
@@ -62,12 +84,12 @@
 			</div>
 			<div v-if="visibleCabecalho" id="hide" class="titulo" style="z-index: 0;">
 				<div class="ctnFlex">
-					<div class="op2" style="text-align: left; padding: 5px; background-color: teal;">
+					<div class="op2" style="text-align: left; padding: 5px; background-color: teal; cursor: pointer;" v-on:click="openHistoryGranPrix()">
 						Circuito: <strong>{{circuito}}</strong><br />
 						Grid: <strong>{{grid}}</strong><br />
 						Data: <strong>{{data}}</strong><br />
 					</div>
-					<div class="op2" style="text-align: left; padding: 5px; background-color: teal;">
+					<div class="op2" style="text-align: left; padding: 5px; background-color: teal; cursor: pointer;">
 						Comprimento: <strong>{{trackLength}} metros</strong><br />
 						Pit Speed: <strong>{{pitSpeedLimit}} km/h</strong><br />
 						Sessão Duração: <strong>{{sessionDuration}}</strong><br />
@@ -91,8 +113,11 @@
 							<div class="divTableRow">
 								<div class="divTableCell" style="font-weight: bold">POS</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">Piloto</div>
-								<div class="divTableCell divTableCellName" style="font-weight: bold">U. Volta</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">GAP</div>
+								<div class="divTableCell divTableCellName" style="font-weight: bold">Volta R.</div>
+								<div class="divTableCell divTableCellName" style="font-weight: bold">Setor 1</div>
+								<div class="divTableCell divTableCellName" style="font-weight: bold">Setor 2</div>
+								<div class="divTableCell divTableCellName" style="font-weight: bold">U. Volta</div>																
 								<div title="Punições e Avisos (O F122 alterou a forma de computar os avisos, agora são computados todos  os avisos ao piloto do jogo)." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/icon-pa.png" width="25" heigth="25" /></div>
 								<div title="Danos a Asa dianteira esquerda." class="divTableCell"><img class="image_cabecalho"
@@ -123,15 +148,18 @@
 							<div :class="getStatusRow(telemetryRealTime)" v-for="telemetryRealTime of tableTelemetryRealTime"
 								:key="telemetryRealTime.position">
 								<div class="divTableCell" style="text-align: left;"> <label style="font-size: 16px;font-weight: bold;">{{ telemetryRealTime.position }}</label> <label :style="getCorGainLostPostion(telemetryRealTime.gainPosition)">{{ telemetryRealTime.gainPosition }}</label></div>								
-								<div :class="getStatusPilotoIA(telemetryRealTime)">
+								<div style="cursor: pointer;" :class="getStatusPilotoIA(telemetryRealTime)" v-on:click="openDetailDriver(telemetryRealTime)">
 									<img class="image_cabecalho" style="vertical-align:middle;" :src="getLogoEquipe(telemetryRealTime.equip)" width="25"	heigth="25" /> 
 									{{ telemetryRealTime.name }}
 									<div style="text-align: center; font-size: 7px;">
 										{{ telemetryRealTime.teamName }}
 									</div>
 								</div>
-								<div class="divTableCell" style="cursor: pointer;" v-on:click="openDetailLap(telemetryRealTime)">{{ telemetryRealTime.lastLap }}</div>
 								<div :class="getFont(telemetryRealTime.deltaCarFront)">{{ telemetryRealTime.deltaCarFront }}</div>
+								<div class="divTableCell" :style="getFontFastLap(telemetryRealTime.fastLapGrid)">{{ telemetryRealTime.fastLap }}</div>
+								<div class="divTableCell"><label style="display: flow-root;">{{ telemetryRealTime.sector1 }}</label><label :style="getCorDelta(telemetryRealTime.sector1FastGrid, telemetryRealTime.sector1BestGrid)">{{telemetryRealTime.sector1Delta}}</label></div>
+								<div class="divTableCell"><label style="display: flow-root;">{{ telemetryRealTime.sector2 }}</label><label :style="getCorDelta(telemetryRealTime.sector2FastGrid, telemetryRealTime.sector2BestGrid)">{{telemetryRealTime.sector2Delta}}</label></div>
+								<div class="divTableCell" style="cursor: pointer;" v-on:click="openDetailLap(telemetryRealTime)"><label v-on:click="openDetailLap(telemetryRealTime)" style="cursor: pointer; display: flow-root;">{{ telemetryRealTime.lastLap }}</label><label :style="getCorDelta(telemetryRealTime.lapFastGrid, telemetryRealTime.lapBestGrid)">{{telemetryRealTime.lapDelta}}</label></div>
 								<div class="divTableCell">{{ telemetryRealTime.penalties }} | {{ telemetryRealTime.warnings }}</div>
 								<div :class="getCorAerodinamic(telemetryRealTime.perFrontLeftWingDamage)">{{ telemetryRealTime.perFrontLeftWingDamage }}</div>
 								<div :class="getCorAerodinamic(telemetryRealTime.perFrontRightWingDamage)">{{ telemetryRealTime.perFrontRightWingDamage }}</div>
@@ -211,8 +239,10 @@ export default {
 				index: null,
 			},		
 			timer: "",
+			visibleHistoryGranPrix: false,
 			filterWeather: "SHORT_Q",
 			dateUpdate: "",
+			visibleDetailDriver: false,
 			tableTelemetryRealTime: [],
 			lapsHistory: [],
 			tableWeather: [],
@@ -716,6 +746,24 @@ export default {
 				}				
 			}
 		},
+		getCorDelta(isFast, isBest) {
+			if (isBest) {
+				return "font-size: 8px; color: darkviolet; font-weight: bold;";
+			} else {
+				if (isFast) {
+					return "font-size: 8px; color: green; font-weight: bold;";
+				}
+				else {
+					return "font-size: 8px; color: red; font-weight: bold;";
+				}				
+			}
+		},	
+		getFontFastLap(isFastLapGrid) {
+			if (isFastLapGrid) 
+				return "color: darkviolet; font-weight: bold;";
+			else
+				return "";
+		},		
 		getFont(delta) {
 			if (delta === "Interval")
 				return "divTableCell font7";
@@ -749,7 +797,20 @@ export default {
 				return "divTableCell fastSectorOrLap";
 			else 
 				return "divTableCell";
-		}
+		},
+		closeDetailDriver() {
+			this.visibleDetailDriver = false;
+		},
+		openDetailDriver(driver) {
+			this.driverName = driver.name;
+			this.visibleDetailDriver = true;
+		},
+		openHistoryGranPrix() {
+			this.visibleHistoryGranPrix = true;
+		},		
+		closeHistoryGranPrix() {
+			this.visibleHistoryGranPrix = false;
+		},
 	},
 };
 
