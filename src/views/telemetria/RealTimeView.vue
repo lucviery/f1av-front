@@ -965,7 +965,7 @@ div.font7 {
   bottom: 0;
   left: 0;
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: center;
   background: rgba(77, 77, 77, 0.7);
   transition: all 0.4s;
