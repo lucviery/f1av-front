@@ -3,7 +3,7 @@
 	<div style="display: inline-block;vertical-align: top">
 		<div v-if="visibleHistoryGranPrix" id="modal-visibleHistoryGranPrix" class="modal" style="z-index: 10;">
 			<div class="content-modal" style="height: 700px; overflow: scroll;">
-				<div class="ctnFlex">
+				<div class="ctnFlex" style="padding-top: 22px;">
 					<div class="op1" style="width: 100%; z-index: 10;">
 						<div style="padding: 10px;">Pista: <b>{{circuito}}</b></div>
 					</div>
@@ -14,7 +14,7 @@
 		</div>
 		<div v-if="visibleDetailDriver" id="modal-driver" class="modal" style="z-index: 10;">
 			<div class="content-modal" style="height: 700px; overflow: scroll;">
-				<div class="ctnFlex">
+				<div class="ctnFlex" style="padding-top: 22px;">
 					<div class="op1" style="width: 100%; z-index: 10;">
 						<div style="padding: 10px;">Piloto: <b>{{ driverName }}</b></div>
 					</div>
@@ -25,7 +25,7 @@
 		</div>
 		<div v-if="visibleDetailLap" id="demo-modal" class="modal" style="z-index: 10;">
 			<div class="content-modal" style="height: 700px; overflow: scroll;">
-				<div class="ctnFlex">
+				<div class="ctnFlex" style="padding-top: 22px;">
 					<div class="op1" style="width: 100%; z-index: 10;">
 						<div style="padding: 10px;">Piloto: <b>{{ driverName }}</b> | Volta Ideal do Piloto: <b>{{ voltaIdeal }}</b></div>
 						<div class="divTable">
@@ -992,6 +992,8 @@ div.font7 {
   right: 10px;
   color: #585858;
   text-decoration: none;
+  font-size: 30px;
+  font-weight: bold;
 }
  
 .footer-btn-close {
