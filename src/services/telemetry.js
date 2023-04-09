@@ -16,4 +16,9 @@ export default {
   getLapHistory: (participantId) => {
     return http.get(`telemetry/lap-history?participantId=${participantId}`);
   },  
+
+  getScheduleClassification: (scheduleId) => {
+    return http.get(`telemetry/schedule-classification?scheduleId=${scheduleId}`);
+  }, 
+
 };

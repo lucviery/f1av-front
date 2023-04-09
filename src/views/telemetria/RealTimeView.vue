@@ -6,6 +6,7 @@
 				<div class="ctnFlex" style="padding-top: 22px;">
 					<div class="op1" style="width: 100%; z-index: 10;">
 						<div style="padding: 10px;">Pista: <b>{{circuito}}</b></div>
+						<div class="divTableCell">Aguarde! em construção.</div>
 					</div>
 				</div>
 			
@@ -17,12 +18,53 @@
 				<div class="ctnFlex" style="padding-top: 22px;">
 					<div class="op1" style="width: 100%; z-index: 10;">
 						<div style="padding: 10px;">Piloto: <b>{{ driverName }}</b></div>
+						<div class="divTableRow" style="text-align: -webkit-center;">
+							<div class="divTableCell">Aguarde! em construção.</div>
+						</div>
 					</div>
 				</div>
 			
 				<div style="cursor: pointer;" v-on:click="closeDetailDriver()" class="close">&times;</div>
 			</div>
 		</div>
+		<div v-if="visibleDetailGranPrix" id="demo-modal" class="modal" style="z-index: 10;">
+			<div class="content-modal" style="height: 500px; overflow: scroll;">
+				<div class="ctnFlex" style="padding-top: 22px;">
+					<div class="op1" style="width: 100%; z-index: 10;">
+						<div style="padding: 10px;">Grid: <b>{{ grid }}</b> | Circuito: <b>{{ circuito }}</b> | Volta Ideal: <b>{{ voltaIdealCircuito }}</b></div>
+						<div class="divTable">
+							<div class="divTableBody">
+								<div class="divTableRow">
+									<div class="divTableCell divTableCellName" style="font-weight: bold">POSIÇÃO</div>
+									<div class="divTableCell divTableCellName" style="font-weight: bold">PILOTO</div>
+									<div class="divTableCell divTableCellName" style="font-weight: bold">EQUIPE</div>
+									<div class="divTableCell divTableCellName" style="font-weight: bold">SETOR 1</div>
+									<div class="divTableCell divTableCellName" style="font-weight: bold">SETOR 2</div>
+									<div class="divTableCell divTableCellName" style="font-weight: bold">SETOR 3</div>
+									<div class="divTableCell divTableCellName" style="font-weight: bold">VOLTA RAPIDA</div>
+									<div class="divTableCell divTableCellName" style="font-weight: bold">PUNIÇÃO</div>
+									<div class="divTableCell divTableCellName" style="font-weight: bold">STATUS</div>
+								</div>
+								<div class="divTableRow" v-for="driver of scheduleClassification"
+								:key="driver.position">
+									<div class="divTableCell" style="text-align: left;"><label style="font-size: 16px; font-weight: bold;padding-right: 3px;">{{ driver.position }}</label><label :style="getCorGainLostPostion(driver.gainPositon)">{{ driver.gainPositon }}</label></div>
+									<div class="divTableCell" style="text-align: left;">{{ driver.driverName }}</div>	
+									<div class="divTableCell">{{ driver.equip }}</div>								
+									<div :class="verifiedFastSectorOrLap(driver.setor1Fast)">{{ driver.setor1 }}</div>
+									<div :class="verifiedFastSectorOrLap(driver.setor2Fast)">{{ driver.setor2 }}</div>
+									<div :class="verifiedFastSectorOrLap(driver.setor3Fast)">{{ driver.setor3 }}</div>
+									<div :class="verifiedFastSectorOrLap(driver.lapFast)">{{ driver.strLapFast }}</div>
+									<div class="divTableCell">{{ driver.punicao }}</div>								
+									<div class="divTableCell divTableCellName" style="font-weight: bold">{{ driver.status }}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+				<div style="cursor: pointer;" v-on:click="closeDetailLap()" class="close">&times;</div>
+			</div>
+		</div>		
 		<div v-if="visibleDetailLap" id="demo-modal" class="modal" style="z-index: 10;">
 			<div class="content-modal" style="height: 700px; overflow: scroll;">
 				<div class="ctnFlex" style="padding-top: 22px;">
@@ -156,7 +198,7 @@
 									</div>
 								</div>
 								<div :class="getFont(telemetryRealTime.deltaCarFront)">{{ telemetryRealTime.deltaCarFront }}</div>
-								<div class="divTableCell" :style="getFontFastLap(telemetryRealTime.fastLapGrid)">{{ telemetryRealTime.fastLap }}</div>
+								<div class="divTableCell" :style="getFontFastLap(telemetryRealTime.fastLapGrid)" v-on:click="openDetailGranPrix()">{{ telemetryRealTime.fastLap }}</div>
 								<div class="divTableCell"><label style="display: flow-root;">{{ telemetryRealTime.sector1 }}</label><label :style="getCorDelta(telemetryRealTime.sector1FastGrid, telemetryRealTime.sector1BestGrid)">{{telemetryRealTime.sector1Delta}}</label></div>
 								<div class="divTableCell"><label style="display: flow-root;">{{ telemetryRealTime.sector2 }}</label><label :style="getCorDelta(telemetryRealTime.sector2FastGrid, telemetryRealTime.sector2BestGrid)">{{telemetryRealTime.sector2Delta}}</label></div>
 								<div class="divTableCell" style="cursor: pointer;" v-on:click="openDetailLap(telemetryRealTime)"><label v-on:click="openDetailLap(telemetryRealTime)" style="cursor: pointer; display: flow-root;">{{ telemetryRealTime.lastLap }}</label><label :style="getCorDelta(telemetryRealTime.lapFastGrid, telemetryRealTime.lapBestGrid)">{{telemetryRealTime.lapDelta}}</label></div>
@@ -245,12 +287,14 @@ export default {
 			visibleDetailDriver: false,
 			tableTelemetryRealTime: [],
 			lapsHistory: [],
+			scheduleClassification: [],
 			tableWeather: [],
 			driverName: "",
 			idealLap: "",
 			errors: [],
 			voltas: "",
 			voltaIdeal: "",
+			voltaIdealCircuito: "",
 			details: {
 				sessionType: "",
 				formula: "",
@@ -276,6 +320,7 @@ export default {
 			detailsEvent: null,
 			visibleCabecalho: true,
 			visibleDetailLap: false,
+			visibleDetailGranPrix: false,
 			sessaoNome: "",
 			circuito: "",
 			grid: "",
@@ -760,9 +805,9 @@ export default {
 		},	
 		getFontFastLap(isFastLapGrid) {
 			if (isFastLapGrid) 
-				return "color: darkviolet; font-weight: bold;";
+				return "cursor: pointer; color: darkviolet; font-weight: bold;";
 			else
-				return "";
+				return "cursor: pointer;";
 		},		
 		getFont(delta) {
 			if (delta === "Interval")
@@ -789,8 +834,27 @@ export default {
 
 			this.visibleDetailLap = true;
 		},
+		openDetailGranPrix() {
+
+			RealTimeTelemetry.getScheduleClassification(this.$route.query.season)
+					.then((result) => {
+						
+						if (result.data !== null && result.data.scheduleClassificationHeaderResource.length > 0) {
+							this.scheduleClassification = result.data.scheduleClassificationHeaderResource;
+
+							if (result.data.idealLap !== null && result.data.idealLap !== "")
+								this.voltaIdealCircuito = result.data.idealLap;
+						}	
+					})
+					.catch((e) => {
+						console.log(e);
+					});
+
+			this.visibleDetailGranPrix = true;
+		},		
 		closeDetailLap() {
 			this.visibleDetailLap = false;
+			this.visibleDetailGranPrix = false;
 		},
 		verifiedFastSectorOrLap(enabled) {
 			if (enabled)
