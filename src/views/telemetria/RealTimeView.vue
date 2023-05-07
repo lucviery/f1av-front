@@ -5,11 +5,11 @@
 			<div class="content-modal" style="height: 700px; overflow: scroll;">
 				<div class="ctnFlex" style="padding-top: 22px;">
 					<div class="op1" style="width: 100%; z-index: 10;">
-						<div style="padding: 10px;">Pista: <b>{{circuito}}</b></div>
+						<div style="padding: 10px;">Pista: <b>{{ circuito }}</b></div>
 						<div class="divTableCell">Aguarde! em construção.</div>
 					</div>
 				</div>
-			
+
 				<div style="cursor: pointer;" v-on:click="closeHistoryGranPrix()" class="close">&times;</div>
 			</div>
 		</div>
@@ -23,7 +23,7 @@
 						</div>
 					</div>
 				</div>
-			
+
 				<div style="cursor: pointer;" v-on:click="closeDetailDriver()" class="close">&times;</div>
 			</div>
 		</div>
@@ -31,7 +31,8 @@
 			<div class="content-modal" style="height: 500px; overflow: scroll;">
 				<div class="ctnFlex" style="padding-top: 22px;">
 					<div class="op1" style="width: 100%; z-index: 10;">
-						<div style="padding: 10px;">Grid: <b>{{ grid }}</b> | Circuito: <b>{{ circuito }}</b> | Volta Ideal: <b>{{ voltaIdealCircuito }}</b></div>
+						<div style="padding: 10px;">Grid: <b>{{ grid }}</b> | Circuito: <b>{{ circuito }}</b> | Volta Ideal:
+							<b>{{ voltaIdealCircuito }}</b></div>
 						<div class="divTable">
 							<div class="divTableBody">
 								<div class="divTableRow">
@@ -45,31 +46,36 @@
 									<div class="divTableCell divTableCellName" style="font-weight: bold">PUNIÇÃO</div>
 									<div class="divTableCell divTableCellName" style="font-weight: bold">STATUS</div>
 								</div>
-								<div class="divTableRow" v-for="driver of scheduleClassification"
-								:key="driver.position">
-									<div class="divTableCell" style="text-align: left;"><label style="font-size: 16px; font-weight: bold;padding-right: 3px;">{{ driver.position }}</label><label :style="getCorGainLostPostion(driver.gainPositon)">{{ driver.gainPositon }}</label></div>
-									<div class="divTableCell" style="text-align: left;">{{ driver.driverName }}</div>	
-									<div class="divTableCell">{{ driver.equip }}</div>								
-									<div :class="verifiedFastSectorOrLap(driver.setor1Fast)">{{ driver.setor1 }}</div>
-									<div :class="verifiedFastSectorOrLap(driver.setor2Fast)">{{ driver.setor2 }}</div>
-									<div :class="verifiedFastSectorOrLap(driver.setor3Fast)">{{ driver.setor3 }}</div>
+								<div class="divTableRow" v-for="driver of scheduleClassification" :key="driver.position">
+									<div class="divTableCell" style="text-align: left;"><label
+											style="font-size: 16px; font-weight: bold;padding-right: 3px;">{{
+												driver.position }}</label><label
+											:style="getCorGainLostPostion(driver.gainPositon)">{{ driver.gainPositon
+											}}</label></div>
+									<div class="divTableCell" style="text-align: left;">{{ driver.driverName }}</div>
+									<div class="divTableCell">{{ driver.equip }}</div>
+									<div :class="verifiedFastSectorOrLap(driver.setor1Fast, driver.setor1BestGrid)">{{ driver.setor1 }}</div>
+									<div :class="verifiedFastSectorOrLap(driver.setor2Fast, driver.setor2BestGrid)">{{ driver.setor2 }}</div>
+									<div :class="verifiedFastSectorOrLap(driver.setor3Fast, driver.setor3BestGrid)">{{ driver.setor3 }}</div>
 									<div :class="verifiedFastSectorOrLap(driver.lapFast)">{{ driver.strLapFast }}</div>
-									<div class="divTableCell">{{ driver.punicao }}</div>								
-									<div class="divTableCell divTableCellName" style="font-weight: bold">{{ driver.status }}</div>
+									<div class="divTableCell">{{ driver.punicao }}</div>
+									<div class="divTableCell divTableCellName" style="font-weight: bold">{{ driver.status }}
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			
+
 				<div style="cursor: pointer;" v-on:click="closeDetailLap()" class="close">&times;</div>
 			</div>
-		</div>		
+		</div>
 		<div v-if="visibleDetailLap" id="demo-modal" class="modal" style="z-index: 10;">
 			<div class="content-modal" style="height: 700px; overflow: scroll;">
 				<div class="ctnFlex" style="padding-top: 22px;">
 					<div class="op1" style="width: 100%; z-index: 10;">
-						<div style="padding: 10px;">Piloto: <b>{{ driverName }}</b> | Volta Ideal do Piloto: <b>{{ voltaIdeal }}</b></div>
+						<div style="padding: 10px;">Piloto: <b>{{ driverName }}</b> | Volta Ideal do Piloto: <b>{{
+							voltaIdeal }}</b></div>
 						<div class="divTable">
 							<div class="divTableBody">
 								<div class="divTableRow">
@@ -82,72 +88,101 @@
 									<div class="divTableCell divTableCellName" style="font-weight: bold">PNEU</div>
 									<div class="divTableCell divTableCellName" style="font-weight: bold">PUNIÇÃO</div>
 								</div>
-								<div class="divTableRow" v-for="lap of lapsHistory"
-								:key="lap.number">
-									<div class="divTableCell">{{ lap.number }}</div>								
-									<div :class="verifiedFastSectorOrLap(lap.setor1Fast)">{{ lap.setor1 }}</div>
-									<div :class="verifiedFastSectorOrLap(lap.setor2Fast)">{{ lap.setor2 }}</div>
-									<div :class="verifiedFastSectorOrLap(lap.setor3Fast)">{{ lap.setor3 }}</div>
+								<div class="divTableRow" v-for="lap of lapsHistory" :key="lap.number">
+									<div class="divTableCell">{{ lap.number }}</div>
+									<div :class="verifiedFastSectorOrLap(lap.setor1Fast, lap.setor1BestGrid)">{{ lap.setor1 }}</div>
+									<div :class="verifiedFastSectorOrLap(lap.setor2Fast, lap.setor2BestGrid)">{{ lap.setor2 }}</div>
+									<div :class="verifiedFastSectorOrLap(lap.setor3Fast, lap.setor3BestGrid)">{{ lap.setor3 }}</div>
 									<div :class="verifiedFastSectorOrLap(lap.lapFast)">{{ lap.tempo }}</div>
 									<div class="divTableCell">{{ lap.posicao }}</div>
-									<div class="divTableCell" style="background-color: #999999;"><img class="image_cabecalho" style="vertical-align:middle;" :src="getPneusLap(lap.pneu)" width="10"	heigth="10" /></div>
-									<div class="divTableCell">{{ lap.punicao }}</div>								
+									<div class="divTableCell" style="background-color: #999999;"><img
+											class="image_cabecalho" style="vertical-align:middle;"
+											:src="getPneusLap(lap.pneu)" width="10" heigth="10" /></div>
+									<div class="divTableCell">{{ lap.punicao }}</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			
+
 				<div style="cursor: pointer;" v-on:click="closeDetailLap()" class="close">&times;</div>
 			</div>
 		</div>
 		<div class="container">
 			<div class="titulo" style="z-index: 0;">
-				<div class="ctnFlex" >
-					<div class="op2" style="font-weight: bolder;display: inline-block; cursor: pointer;" v-on:click="visibleCabecalho = !visibleCabecalho">
-						<img v-if="visibleCabecalho" class="image_cabecalho" style="padding-right: 10px; vertical-align:middle;"
-											src="../../assets/icons-telemetry/seta-baixo.png" width="20" heigth="20" />
-						<img v-if="!visibleCabecalho" class="image_cabecalho" style="padding-right: 10px; vertical-align:middle;"
-											src="../../assets/icons-telemetry/seta-direita.png" width="20" heigth="20" />
-					</div>				
-					<div class="op2">
-						<div style="font-weight: bolder;display: inline-block;">Sessão: {{sessaoNome}}</div>
+				<div class="ctnFlex">
+					<div class="op2" style="font-weight: bolder;display: inline-block; cursor: pointer;"
+						v-on:click="visibleCabecalho = !visibleCabecalho">
+						<img v-if="visibleCabecalho" class="image_cabecalho"
+							style="padding-right: 10px; vertical-align:middle;"
+							src="../../assets/icons-telemetry/seta-baixo.png" width="20" heigth="20" />
+						<img v-if="!visibleCabecalho" class="image_cabecalho"
+							style="padding-right: 10px; vertical-align:middle;"
+							src="../../assets/icons-telemetry/seta-direita.png" width="20" heigth="20" />
 					</div>
 					<div class="op2">
-						<div style="font-weight: bolder;display: inline-block;">Tempo Sessão: {{sessionTimeLeft}}</div>
-					</div>	
+						<div style="font-weight: bolder;display: inline-block;">Sessão: {{ sessaoNome }}</div>
+					</div>
 					<div class="op2">
-						<div style="font-weight: bolder;display: inline-block;">Voltas: {{voltas}}</div>
-					</div>	
+						<div style="font-weight: bolder;display: inline-block;">Tempo Sessão: {{ sessionTimeLeft }}</div>
+					</div>
 					<div class="op2">
-						<div style="font-weight: bolder;display: inline-block;">Real Time: {{dateUpdate}}</div>
-					</div>													
-				</div>								
+						<div style="font-weight: bolder;display: inline-block;">Voltas: {{ voltas }}</div>
+					</div>
+					<div class="op2">
+						<div style="font-weight: bolder;display: inline-block;">Real Time: {{ dateUpdate }}</div>
+					</div>
+				</div>
 			</div>
 			<div v-if="visibleCabecalho" id="hide" class="titulo" style="z-index: 0;">
 				<div class="ctnFlex">
-					<div class="op2" style="text-align: left; padding: 5px; background-color: teal; cursor: pointer;" v-on:click="openHistoryGranPrix()">
-						Circuito: <strong>{{circuito}}</strong><br />
-						Grid: <strong>{{grid}}</strong><br />
-						Data: <strong>{{data}}</strong><br />
+					<div class="op2" style="text-align: left; padding: 5px; background-color: teal; cursor: pointer;"
+						v-on:click="openHistoryGranPrix()">
+						Circuito: <strong>{{ circuito }}</strong><br />
+						Grid: <strong>{{ grid }}</strong><br />
+						Data: <strong>{{ data }}</strong><br />
 					</div>
 					<div class="op2" style="text-align: left; padding: 5px; background-color: teal; cursor: pointer;">
-						Comprimento: <strong>{{trackLength}} metros</strong><br />
-						Pit Speed: <strong>{{pitSpeedLimit}} km/h</strong><br />
-						Sessão Duração: <strong>{{sessionDuration}}</strong><br />
-					</div>	
+						Comprimento: <strong>{{ trackLength }} metros</strong><br />
+						Pit Speed: <strong>{{ pitSpeedLimit }} km/h</strong><br />
+						Sessão Duração: <strong>{{ sessionDuration }}</strong><br />
+					</div>
 					<div class="op2" style="text-align: left; padding: 5px; background-color: teal;">
-						Clima: <strong>{{weatherDesc}}</strong><br />
-						Temperatura Pista: <strong>{{trackTemperature}}º</strong><br />
-						Temperatura Ar: <strong>{{airTemperature}}º</strong><br />
-					</div>	
+						Clima: <strong>{{ weatherDesc }}</strong><br />
+						Temperatura Pista: <strong>{{ trackTemperature }}º</strong><br />
+						Temperatura Ar: <strong>{{ airTemperature }}º</strong><br />
+					</div>
+					<div class="op2" style="padding: 5px; background-color: darkviolet;">
+						<div class="divTable">
+							<div class="divTableBody">
+								<div class="divTableRow">
+									<div class="divTableCell" style="font-weight: bold">SETOR 1</div>
+									<div class="divTableCell" style="font-weight: bold">SETOR 2</div>
+									<div class="divTableCell" style="font-weight: bold">SETOR 3</div>
+									<div class="divTableCell" style="font-weight: bold">VOLTA</div>
+								</div>
+								<div class="divTableRow">
+									<div class="divTableCell" style="font-weight: bold">{{ driverNameSector1 }}</div>
+									<div class="divTableCell" style="font-weight: bold">{{ driverNameSector2 }}</div>
+									<div class="divTableCell" style="font-weight: bold">{{ driverNameSector3 }}</div>
+									<div class="divTableCell" style="font-weight: bold">IDEAL</div>
+								</div>
+								<div class="divTableRow">
+									<div class="divTableCell" style="font-weight: bold">{{ sector1BestGrid }}</div>
+									<div class="divTableCell" style="font-weight: bold">{{ sector2BestGrid }}</div>
+									<div class="divTableCell" style="font-weight: bold">{{ sector3BestGrid }}</div>
+									<div class="divTableCell" style="font-weight: bold">{{ lapBestGrid }}</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="op2" style="padding: 5px; background-color: darkviolet;">
 						Melhor Volta<br />
-						<strong>{{driverFastLap}}</strong><br />
-						<strong>{{fastLap}}</strong><br />
-					</div>													
+						<strong>{{ driverFastLap }}</strong><br />
+						<strong>{{ fastLap }}</strong><br />
+					</div>
 				</div>
-			</div>		
+			</div>
 			<div class="ctnFlex">
 				<div class="op1">
 					<div class="divTable">
@@ -156,65 +191,127 @@
 								<div class="divTableCell" style="font-weight: bold">POS</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">Piloto</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">GAP</div>
+								<div class="divTableCell divTableCellName" style="font-weight: bold; text-align: center;">
+									Setor 1<br />VR</div>
+								<div class="divTableCell divTableCellName" style="font-weight: bold; text-align: center;">
+									Setor 2<br />VR</div>
+								<div class="divTableCell divTableCellName" style="font-weight: bold; text-align: center;">
+									Setor 3<br />VR</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">Volta R.</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">Setor 1</div>
 								<div class="divTableCell divTableCellName" style="font-weight: bold">Setor 2</div>
-								<div class="divTableCell divTableCellName" style="font-weight: bold">U. Volta</div>																
-								<div title="Punições e Avisos (O F122 alterou a forma de computar os avisos, agora são computados todos  os avisos ao piloto do jogo)." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
+								<div class="divTableCell divTableCellName" style="font-weight: bold">U. Volta</div>
+								<div title="Punições e Avisos (O F122 alterou a forma de computar os avisos, agora são computados todos  os avisos ao piloto do jogo)."
+									class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/icon-pa.png" width="25" heigth="25" /></div>
-								<div title="Danos a Asa dianteira esquerda." class="divTableCell"><img class="image_cabecalho"
-										src="../../assets/icons-telemetry/79700-ASA_esq.png" width="55" heigth="55" /></div>
-								<div title="Danos a Asa dianteira direita." class="divTableCell"><img class="image_cabecalho"
-										src="../../assets/icons-telemetry/79700-ASA_dir.png" width="55" heigth="55" /></div>
+								<div title="Danos a Asa dianteira esquerda." class="divTableCell"><img
+										class="image_cabecalho" src="../../assets/icons-telemetry/79700-ASA_esq.png"
+										width="55" heigth="55" /></div>
+								<div title="Danos a Asa dianteira direita." class="divTableCell"><img
+										class="image_cabecalho" src="../../assets/icons-telemetry/79700-ASA_dir.png"
+										width="55" heigth="55" /></div>
 								<div title="Danos a Asa Traseira." class="divTableCell"><img class="image_cabecalho"
-										src="../../assets/icons-telemetry/79700-AsaTraseira.png" width="55" heigth="55" /></div>
+										src="../../assets/icons-telemetry/79700-AsaTraseira.png" width="55" heigth="55" />
+								</div>
 								<div title="Danos ao Assoalho." class="divTableCell"><img class="image_cabecalho"
-										src="../../assets/icons-telemetry/79700-assoalho.png" width="55" heigth="55" /></div>
+										src="../../assets/icons-telemetry/79700-assoalho.png" width="55" heigth="55" />
+								</div>
 								<div title="Danos ao SIDEPOD´s." class="divTableCell"><img class="image_cabecalho"
-										src="../../assets/icons-telemetry/79700-SidePod-duplo.png" width="55" heigth="55" /></div>
+										src="../../assets/icons-telemetry/79700-SidePod-duplo.png" width="55" heigth="55" />
+								</div>
 								<div title="Danos ao diferencial." class="divTableCell"><img class="image_cabecalho"
-										src="../../assets/icons-telemetry/79700-diferencial.png" width="55" heigth="55" /></div>
-								<div title="Quantidade de voltas de combustível excedente." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/79700-diferencial.png" width="55" heigth="55" />
+								</div>
+								<div title="Quantidade de voltas de combustível excedente." class="divTableCell"
+									style="font-weight: bold"><img class="image_cabecalho"
 										src="../../assets/icons-telemetry/fuel.png" width="30" heigth="30" /></div>
-								<div title="Uso do ERS." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
-										src="../../assets/icons-telemetry/ers.png" width="30" heigth="30" /></div>
+								<div title="Uso do ERS." class="divTableCell" style="font-weight: bold"><img
+										class="image_cabecalho" src="../../assets/icons-telemetry/ers.png" width="30"
+										heigth="30" /></div>
 								<div title="Desgaste pneus dianteiros." class="divTableCell"><img class="image_cabecalho"
-										src="../../assets/icons-telemetry/79700-pneus-frente.png" width="55" heigth="55" /></div>
+										src="../../assets/icons-telemetry/79700-pneus-frente.png" width="55" heigth="55" />
+								</div>
 								<div title="Desgaste pneus traseiros." class="divTableCell"><img class="image_cabecalho"
-										src="../../assets/icons-telemetry/79700-pneus-traseira.png" width="55" heigth="55" /></div>																		
-								<div title="Pitstops e Voltas do atual pneu." class="divTableCell" style="font-weight: bold"><img class="image_cabecalho"
-										src="../../assets/icons-telemetry/icon-pv.png" width="25" heigth="25" /></div>																		
-								<div class="divTableCell" style="font-weight: bold"><img title="Pneus usados no atual momento pelos pilotos." class="image_cabecalho"
+										src="../../assets/icons-telemetry/79700-pneus-traseira.png" width="55"
+										heigth="55" /></div>
+								<div title="Pitstops e Voltas do atual pneu." class="divTableCell"
+									style="font-weight: bold"><img class="image_cabecalho"
+										src="../../assets/icons-telemetry/icon-pv.png" width="25" heigth="25" /></div>
+								<div class="divTableCell" style="font-weight: bold"><img
+										title="Pneus usados no atual momento pelos pilotos." class="image_cabecalho"
 										src="../../assets/icons-telemetry/icon-pneus.png" width="40" heigth="40" /></div>
 							</div>
-							<div :class="getStatusRow(telemetryRealTime)" v-for="telemetryRealTime of tableTelemetryRealTime"
-								:key="telemetryRealTime.position">
-								<div class="divTableCell" style="text-align: left;"> <label style="font-size: 16px;font-weight: bold;">{{ telemetryRealTime.position }}</label> <label :style="getCorGainLostPostion(telemetryRealTime.gainPosition)">{{ telemetryRealTime.gainPosition }}</label></div>								
-								<div style="cursor: pointer;" :class="getStatusPilotoIA(telemetryRealTime)" v-on:click="openDetailDriver(telemetryRealTime)">
-									<img class="image_cabecalho" style="vertical-align:middle;" :src="getLogoEquipe(telemetryRealTime.equip)" width="25"	heigth="25" /> 
+							<div :class="getStatusRow(telemetryRealTime)"
+								v-for="telemetryRealTime of tableTelemetryRealTime" :key="telemetryRealTime.position">
+								<div class="divTableCell" style="text-align: left;"> <label
+										style="font-size: 16px;font-weight: bold;">{{ telemetryRealTime.position }}</label>
+									<label :style="getCorGainLostPostion(telemetryRealTime.gainPosition)">{{
+										telemetryRealTime.gainPosition }}</label></div>
+								<div style="cursor: pointer;" :class="getStatusPilotoIA(telemetryRealTime)"
+									v-on:click="openDetailDriver(telemetryRealTime)">
+									<img class="image_cabecalho" style="vertical-align:middle;"
+										:src="getLogoEquipe(telemetryRealTime.equip)" width="25" heigth="25" />
 									{{ telemetryRealTime.name }}
 									<div style="text-align: center; font-size: 7px;">
 										{{ telemetryRealTime.teamName }}
 									</div>
 								</div>
-								<div :class="getFont(telemetryRealTime.deltaCarFront)">{{ telemetryRealTime.deltaCarFront }}</div>
-								<div class="divTableCell" :style="getFontFastLap(telemetryRealTime.fastLapGrid)" v-on:click="openDetailGranPrix()">{{ telemetryRealTime.fastLap }}</div>
-								<div class="divTableCell"><label style="display: flow-root;">{{ telemetryRealTime.sector1 }}</label><label :style="getCorDelta(telemetryRealTime.sector1FastGrid, telemetryRealTime.sector1BestGrid)">{{telemetryRealTime.sector1Delta}}</label></div>
-								<div class="divTableCell"><label style="display: flow-root;">{{ telemetryRealTime.sector2 }}</label><label :style="getCorDelta(telemetryRealTime.sector2FastGrid, telemetryRealTime.sector2BestGrid)">{{telemetryRealTime.sector2Delta}}</label></div>
-								<div class="divTableCell" style="cursor: pointer;" v-on:click="openDetailLap(telemetryRealTime)"><label v-on:click="openDetailLap(telemetryRealTime)" style="cursor: pointer; display: flow-root;">{{ telemetryRealTime.lastLap }}</label><label :style="getCorDelta(telemetryRealTime.lapFastGrid, telemetryRealTime.lapBestGrid)">{{telemetryRealTime.lapDelta}}</label></div>
-								<div class="divTableCell">{{ telemetryRealTime.penalties }} | {{ telemetryRealTime.warnings }}</div>
-								<div :class="getCorAerodinamic(telemetryRealTime.perFrontLeftWingDamage)">{{ telemetryRealTime.perFrontLeftWingDamage }}</div>
-								<div :class="getCorAerodinamic(telemetryRealTime.perFrontRightWingDamage)">{{ telemetryRealTime.perFrontRightWingDamage }}</div>
-								<div :class="getCorAerodinamic(telemetryRealTime.perRearWingDamage)">{{ telemetryRealTime.perRearWingDamage }}</div>
-								<div :class="getCorAerodinamic(telemetryRealTime.floorDamage)">{{ telemetryRealTime.floorDamage }}</div>
-								<div :class="getCorAerodinamic(telemetryRealTime.sidpodDamage)">{{ telemetryRealTime.sidpodDamage }}</div>
-								<div :class="getCorAerodinamic(telemetryRealTime.diffuserDamage)">{{ telemetryRealTime.diffuserDamage }}</div>
-								<div :class="getCorFuel(telemetryRealTime.fuelRemainingLaps)">{{ telemetryRealTime.fuelRemainingLaps }}</div>
+								<div :class="getFont(telemetryRealTime.deltaCarFront)">{{ telemetryRealTime.deltaCarFront }}
+								</div>
+								<div class="divTableCell" :style="getFontFastLap(telemetryRealTime.sector1OfFastLapGrid)">
+									<label style="display: flow-root;">{{ telemetryRealTime.sector1OfFastLap }}</label>
+								</div>
+								<div class="divTableCell" :style="getFontFastLap(telemetryRealTime.sector2OfFastLapGrid)">
+									<label style="display: flow-root;">{{ telemetryRealTime.sector2OfFastLap }}</label>
+								</div>
+								<div class="divTableCell" :style="getFontFastLap(telemetryRealTime.sector3OfFastLapGrid)">
+									<label style="display: flow-root;">{{ telemetryRealTime.sector3OfFastLap }}</label>
+								</div>
+								<div class="divTableCell" :style="getFontFastLap(telemetryRealTime.fastLapGrid)"
+									v-on:click="openDetailGranPrix()">{{ telemetryRealTime.fastLap }}</div>
+								<div class="divTableCell"><label style="display: flow-root;">{{ telemetryRealTime.sector1
+								}}</label><label
+										:style="getCorDelta(telemetryRealTime.sector1FastGrid, telemetryRealTime.sector1BestGrid)">{{ telemetryRealTime.sector1Delta }}</label>
+								</div>
+								<div class="divTableCell"><label style="display: flow-root;">{{ telemetryRealTime.sector2
+								}}</label><label
+										:style="getCorDelta(telemetryRealTime.sector2FastGrid, telemetryRealTime.sector2BestGrid)">{{ telemetryRealTime.sector2Delta }}</label>
+								</div>
+								<div class="divTableCell" style="cursor: pointer;"
+									v-on:click="openDetailLap(telemetryRealTime)"><label
+										v-on:click="openDetailLap(telemetryRealTime)"
+										style="cursor: pointer; display: flow-root;">{{ telemetryRealTime.lastLap
+										}}</label><label
+										:style="getCorDelta(telemetryRealTime.lapFastGrid, telemetryRealTime.lapBestGrid)">{{ telemetryRealTime.lapDelta }}</label>
+								</div>
+								<div class="divTableCell">{{ telemetryRealTime.penalties }} | {{ telemetryRealTime.warnings
+								}}</div>
+								<div :class="getCorAerodinamic(telemetryRealTime.perFrontLeftWingDamage)">{{
+									telemetryRealTime.perFrontLeftWingDamage }}</div>
+								<div :class="getCorAerodinamic(telemetryRealTime.perFrontRightWingDamage)">{{
+									telemetryRealTime.perFrontRightWingDamage }}</div>
+								<div :class="getCorAerodinamic(telemetryRealTime.perRearWingDamage)">{{
+									telemetryRealTime.perRearWingDamage }}</div>
+								<div :class="getCorAerodinamic(telemetryRealTime.floorDamage)">{{
+									telemetryRealTime.floorDamage }}</div>
+								<div :class="getCorAerodinamic(telemetryRealTime.sidpodDamage)">{{
+									telemetryRealTime.sidpodDamage }}</div>
+								<div :class="getCorAerodinamic(telemetryRealTime.diffuserDamage)">{{
+									telemetryRealTime.diffuserDamage }}</div>
+								<div :class="getCorFuel(telemetryRealTime.fuelRemainingLaps)">{{
+									telemetryRealTime.fuelRemainingLaps }}</div>
 								<div class="divTableCell">{{ telemetryRealTime.ersStoreEnergy }}</div>
-								<div class="divTableCell" :style="getCorPneus(telemetryRealTime.perWearFrontRight, telemetryRealTime.perWearFrontLeft)">{{ telemetryRealTime.perWearFrontRight }} | {{ telemetryRealTime.perWearFrontLeft }}</div>
-								<div class="divTableCell" :style="getCorPneus(telemetryRealTime.perWearFrontRight, telemetryRealTime.perWearFrontLeft)">{{ telemetryRealTime.perWearRearRight }} | {{ telemetryRealTime.perWearRearLeft }}</div>								
+								<div class="divTableCell"
+									:style="getCorPneus(telemetryRealTime.perWearFrontRight, telemetryRealTime.perWearFrontLeft)">
+									{{ telemetryRealTime.perWearFrontRight }} | {{ telemetryRealTime.perWearFrontLeft }}
+								</div>
+								<div class="divTableCell"
+									:style="getCorPneus(telemetryRealTime.perWearFrontRight, telemetryRealTime.perWearFrontLeft)">
+									{{ telemetryRealTime.perWearRearRight }} | {{ telemetryRealTime.perWearRearLeft }}</div>
 								<div class="divTableCell">{{ getPitVoltasOutlap(telemetryRealTime) }}</div>
-								<div class="divTableCell" style="background-color: #999999;"><img class="image_cabecalho" style="vertical-align:middle;" :src="getPneus(telemetryRealTime)" width="20"	heigth="20" /></div>								
+								<div class="divTableCell" style="background-color: #999999;"><img class="image_cabecalho"
+										style="vertical-align:middle;" :src="getPneus(telemetryRealTime)" width="20"
+										heigth="20" /></div>
 							</div>
 						</div>
 					</div>
@@ -222,28 +319,27 @@
 				<div class="op2 op2-backcolor">
 					<div class="divTableBody">
 						<div class="divTableRow">
-							<div class="divSpace" style="font-weight: bold">{{getsessionType()}}</div>
-						</div>						
-						<div class="divTableRow" v-for="itemWeatherForecast of tableWeather"
-									:key="itemWeatherForecast.id">
+							<div class="divSpace" style="font-weight: bold">{{ getsessionType() }}</div>
+						</div>
+						<div class="divTableRow" v-for="itemWeatherForecast of tableWeather" :key="itemWeatherForecast.id">
 							<div class="divSpace">
-								<img class="image_cabecalho" :src="getLogWeatherCorrida(itemWeatherForecast.timeOffset)" width="50"
-									heigth="50" />
+								<img class="image_cabecalho" :src="getLogWeatherCorrida(itemWeatherForecast.timeOffset)"
+									width="50" heigth="50" />
 								<br />
-								{{getOffSetCorrida(itemWeatherForecast.timeOffset)}}
+								{{ getOffSetCorrida(itemWeatherForecast.timeOffset) }}
 							</div>
-						</div>					
+						</div>
 					</div>
 					<div class="statusCorridaSC" :style="enableSC()">
 						<div class="fa-blink" style="background-color: black; font-size: xx-large; color: white;">
-							{{getSCorVSC()}}		
+							{{ getSCorVSC() }}
 						</div>
 					</div>
 					<div class="statusCorridaFormation" :style="enableFormationLap()">
 						<div class="fa-blink" style="background-color: black; font-size: xx-large; color: white;">
-							{{getFormationLap()}}		
+							{{ getFormationLap() }}
 						</div>
-					</div>					
+					</div>
 				</div>
 			</div>
 		</div>
@@ -279,7 +375,7 @@ export default {
 				tyre: null,
 				gainPosition: null,
 				index: null,
-			},		
+			},
 			timer: "",
 			visibleHistoryGranPrix: false,
 			filterWeather: "SHORT_Q",
@@ -311,7 +407,7 @@ export default {
 				weatherForecastSamples: [],
 			},
 			weather: {
-				id: null,	
+				id: null,
 				sessionType: "",
 				timeOffset: null,
 				weather: "",
@@ -337,15 +433,22 @@ export default {
 			lapList: "",
 			msgError: "",
 			webSocketEnabled: false,
+			driverNameSector1: "",
+			driverNameSector2: "",
+			driverNameSector3: "",
+			sector1BestGrid: "",
+			sector2BestGrid: "",
+			sector3BestGrid: "",
+			lapBestGrid: "",
 		};
 	},
 	created() {
 		this.fetchData();
-		this.timer = setInterval(this.fetchData, 5000);			
+		this.timer = setInterval(this.fetchData, 5000);
 	},
 	mounted() {
-		this.webSocketInit();
-		this.timer = setInterval(this.webSocketInit, 30000);
+		//this.webSocketInit();
+		//this.timer = setInterval(this.webSocketInit, 30000);
 	},
 	methods: {
 		async webSocketInit() {
@@ -386,8 +489,8 @@ export default {
 					this.webSocketEnabled = false;
 					console.log(error.toString());
 					console.log(`[error]`);
-				};		
-			}		
+				};
+			}
 		},
 		async fetchData() {
 			if (
@@ -408,20 +511,14 @@ export default {
 							console.log("Registros diferentes!");
 						}
 
-						this.tableTelemetryRealTime = result.data;
-						/*
-						if (this.lapList.length > 0) {
-							this.tableTelemetryRealTime.forEach(driver => {
-								this.lapList.forEach(lap => {
-									if (lap.index === driver.index) {
-										if (lap.deltaCarFront > 0)
-											driver.deltaCarFront = lap.deltaCarFront;
-										else if (lap.deltaCarFront === 0 && lap.position === 1)
-											driver.deltaCarFront = "Interval";
-									}
-								});
-							});	
-						}*/					
+						this.tableTelemetryRealTime = result.data.realTimeTemetry;
+						this.driverNameSector1 = result.data.idealLapGrid.driverNameSector1;
+						this.driverNameSector2 = result.data.idealLapGrid.driverNameSector2;
+						this.driverNameSector3 = result.data.idealLapGrid.driverNameSector3;
+						this.sector1BestGrid = result.data.idealLapGrid.sector1BestGrid;
+						this.sector2BestGrid = result.data.idealLapGrid.sector2BestGrid;
+						this.sector3BestGrid = result.data.idealLapGrid.sector3BestGrid;
+						this.lapBestGrid = result.data.idealLapGrid.lapBestGrid;
 					})
 					.catch((e) => {
 						console.log(e);
@@ -450,30 +547,30 @@ export default {
 											this.filterWeather = "Q3";
 										else
 											if (this.getsessionType() === "Q3")
-												this.filterWeather = "R";											
+												this.filterWeather = "R";
 											else
 												if (this.getsessionType() === "Corrida")
-													this.filterWeather = "Q1";																							
+													this.filterWeather = "Q1";
 								}
 								else {
 									if (this.sessaoNome === "Q2") {
-											if (this.getsessionType() === "Q2")
-												this.filterWeather = "Q3";
-											else
-												if (this.getsessionType() === "Q3")
-													this.filterWeather = "R";											
-												else
-													if (this.getsessionType() === "Corrida")
-														this.filterWeather = "Q2";																							
-									}
-									else {
+										if (this.getsessionType() === "Q2")
+											this.filterWeather = "Q3";
+										else
 											if (this.getsessionType() === "Q3")
-												this.filterWeather = "R";											
+												this.filterWeather = "R";
 											else
 												if (this.getsessionType() === "Corrida")
-													this.filterWeather = "Q3";											
-									}									
-								}							
+													this.filterWeather = "Q2";
+									}
+									else {
+										if (this.getsessionType() === "Q3")
+											this.filterWeather = "R";
+										else
+											if (this.getsessionType() === "Corrida")
+												this.filterWeather = "Q3";
+									}
+								}
 							}
 						} else {
 							this.filterWeather = "R";
@@ -483,15 +580,15 @@ export default {
 
 						this.detailsEvent = result.data;
 
-						this.detailsEvent.weatherForecastSamples.forEach(i => {						
+						this.detailsEvent.weatherForecastSamples.forEach(i => {
 							if (i.sessionType === this.filterWeather) {
 								this.tableWeather.push(i);
 							}
 						});
-						
+
 						this.voltas = this.detailsEvent.currentLap + "/" + this.detailsEvent.totalLaps;
 
-						if (this.detailsEvent.sessionType === "R")
+						if (this.detailsEvent.sessionType === "R" || this.detailsEvent.sessionType === "R2" || this.detailsEvent.sessionType === "R3")
 							this.sessaoNome = "Corrida";
 						else
 							if (this.detailsEvent.sessionType === "SHORT_Q")
@@ -504,7 +601,7 @@ export default {
 										this.sessaoNome = "Q2";
 									else
 										if (this.detailsEvent.sessionType === "Q3")
-											this.sessaoNome = "Q3";						
+											this.sessaoNome = "Q3";
 
 						this.circuito = this.detailsEvent.circuito;
 						this.grid = this.detailsEvent.grid;
@@ -602,19 +699,19 @@ export default {
 				else
 					return "";
 			}
-			
+
 			return "";
 		},
 		enableSC() {
 			if (this.detailsEvent !== null) {
 				if (this.detailsEvent.safetyCarStatus === "FULL_SAFETY_CAR")
-					return "visibility: visible;";			
+					return "visibility: visible;";
 
 				if (this.detailsEvent.safetyCarStatus === "VIRTUAL_SAFETY_CAR")
-					return "visibility: visible;";			
+					return "visibility: visible;";
 			}
 
-			return "visibility: hidden;";	
+			return "visibility: hidden;";
 		},
 		getSCorVSC() {
 			if (this.detailsEvent !== null) {
@@ -622,7 +719,7 @@ export default {
 					return "SC";
 
 				if (this.detailsEvent.safetyCarStatus === "VIRTUAL_SAFETY_CAR")
-					return "VSC";											
+					return "VSC";
 			}
 			return "";
 		},
@@ -633,7 +730,7 @@ export default {
 				else
 					if (this.tableWeather[0].sessionType === "SHORT_Q")
 						return "Qualy";
-					else 
+					else
 						return this.tableWeather[0].sessionType;
 			} else {
 				return "";
@@ -642,7 +739,7 @@ export default {
 		enableFormationLap() {
 			if (this.detailsEvent !== null) {
 				if (this.detailsEvent.safetyCarStatus === "FORMATION_LAP")
-					return "visibility: visible;";			
+					return "visibility: visible;";
 				else
 					return "visibility: hidden;";
 			}
@@ -651,14 +748,14 @@ export default {
 		},
 		getFormationLap() {
 			if (this.detailsEvent !== null && this.detailsEvent.safetyCarStatus === "FORMATION_LAP")
-				return "FL";	
+				return "FL";
 
 			return "";
 		},
 		getDescription() {
 			if (this.detailsEvent !== null)
 				return this.detailsEvent.trackId;
-			else 
+			else
 				return "Evento não iniciado!";
 		},
 		getLogoEquipe(equip) {
@@ -673,7 +770,7 @@ export default {
 			}
 			else
 				return "";
-		},	
+		},
 		getPitVoltasOutlap(obj) {
 			if (obj.resultStatus === "ACTIVE" && obj.status === "OUT_LAP")
 				return "OL";
@@ -682,8 +779,8 @@ export default {
 		},
 		getStatusRow(obj) {
 			if (obj.resultStatus !== "ACTIVE" && obj.resultStatus !== "FINISHED")
-			return "divTableRow statusPiloto";
-			
+				return "divTableRow statusPiloto";
+
 			return "divTableRow";
 		},
 		getCorFuel(fuelRemainingLaps) {
@@ -692,7 +789,7 @@ export default {
 				return "divTableCell alert3";
 			else if (floatFuel <= 0.0)
 				return "divTableCell alert-critical";
-				else return "divTableCell";
+			else return "divTableCell";
 		},
 		getCorAerodinamic(perFrontLeftWingDamage) {
 			let floatFrontLeftWingDamage = parseFloat(perFrontLeftWingDamage);
@@ -701,17 +798,17 @@ export default {
 			else if (floatFrontLeftWingDamage > 10.0 && floatFrontLeftWingDamage <= 30)
 				return "divTableCell alert2";
 			else if (floatFrontLeftWingDamage > 30.0 && floatFrontLeftWingDamage <= 50)
-				return "divTableCell alert3";				
+				return "divTableCell alert3";
 			else if (floatFrontLeftWingDamage > 50)
 				return "divTableCell alert-critical";
-				else return "divTableCell";
+			else return "divTableCell";
 		},
 		getPneus(obj) {
 			var images = require.context(
-						"../../assets/icons-telemetry/",
-						false,
-						/\.png$/
-					);
+				"../../assets/icons-telemetry/",
+				false,
+				/\.png$/
+			);
 
 			if (obj.resultStatus === 'FINISHED') {
 				return images("./bandeirada.png");
@@ -730,17 +827,17 @@ export default {
 		},
 		getPneusLap(obj) {
 			var images = require.context(
-						"../../assets/icons-telemetry/",
-						false,
-						/\.png$/
-					);
+				"../../assets/icons-telemetry/",
+				false,
+				/\.png$/
+			);
 
 			if (obj.tyre !== "") {
 				return images("./" + obj + ".png");
 			}
 			else
 				return "";
-		},		
+		},
 		getCorPneus(right, left) {
 			let percR = parseFloat(right);
 			let percL = parseFloat(left);
@@ -756,7 +853,7 @@ export default {
 			else if (perc <= 20)
 				return "background-color:#ffff002e";
 			else if (perc <= 25)
-				return "background-color:#ffff004a";				
+				return "background-color:#ffff004a";
 			else if (perc <= 30)
 				return "background-color:#ffff0050";
 			else if (perc <= 35)
@@ -764,7 +861,7 @@ export default {
 			else if (perc <= 40)
 				return "background-color:#ffff006b";
 			else if (perc <= 45)
-				return "background-color:#ffff00a3";												
+				return "background-color:#ffff00a3";
 			else if (perc <= 50)
 				return "background-color:#ffff00bf";
 			else if (perc <= 55)
@@ -774,9 +871,9 @@ export default {
 			else if (perc <= 70)
 				return "background-color:#ff9900d6";
 			else if (perc <= 75)
-				return "background-color:#ff3b00d6";				
+				return "background-color:#ff3b00d6";
 			else if (perc <= 80)
-				return "background-color:#ff3b00eb";																				
+				return "background-color:#ff3b00eb";
 			else return "background-color:#ff0000fc";
 		},
 		getCorGainLostPostion(gainPosition) {
@@ -788,7 +885,7 @@ export default {
 				}
 				else {
 					return "font-size: 8px; font-weight: bold;";
-				}				
+				}
 			}
 		},
 		getCorDelta(isFast, isBest) {
@@ -800,15 +897,15 @@ export default {
 				}
 				else {
 					return "font-size: 8px; color: red; font-weight: bold;";
-				}				
+				}
 			}
-		},	
+		},
 		getFontFastLap(isFastLapGrid) {
-			if (isFastLapGrid) 
+			if (isFastLapGrid)
 				return "cursor: pointer; color: darkviolet; font-weight: bold;";
 			else
 				return "cursor: pointer;";
-		},		
+		},
 		getFont(delta) {
 			if (delta === "Interval")
 				return "divTableCell font7";
@@ -819,48 +916,53 @@ export default {
 			this.driverName = driver.name;
 
 			RealTimeTelemetry.getLapHistory(driver.scheduleParticipantId)
-					.then((result) => {
-						
-						if (result.data !== null && result.data.lapHistoryTelemetryResource.length > 0) {
-							this.lapsHistory = result.data.lapHistoryTelemetryResource;
+				.then((result) => {
 
-							if (result.data.idealLap !== null && result.data.idealLap !== "")
-								this.voltaIdeal = result.data.idealLap;
-						}	
-					})
-					.catch((e) => {
-						console.log(e);
-					});
+					if (result.data !== null && result.data.lapHistoryTelemetryResource.length > 0) {
+						this.lapsHistory = result.data.lapHistoryTelemetryResource;
+
+						if (result.data.idealLap !== null && result.data.idealLap !== "")
+							this.voltaIdeal = result.data.idealLap;
+					}
+				})
+				.catch((e) => {
+					console.log(e);
+				});
 
 			this.visibleDetailLap = true;
 		},
 		openDetailGranPrix() {
 
 			RealTimeTelemetry.getScheduleClassification(this.$route.query.season)
-					.then((result) => {
-						
-						if (result.data !== null && result.data.scheduleClassificationHeaderResource.length > 0) {
-							this.scheduleClassification = result.data.scheduleClassificationHeaderResource;
+				.then((result) => {
 
-							if (result.data.idealLap !== null && result.data.idealLap !== "")
-								this.voltaIdealCircuito = result.data.idealLap;
-						}	
-					})
-					.catch((e) => {
-						console.log(e);
-					});
+					if (result.data !== null && result.data.scheduleClassificationHeaderResource.length > 0) {
+						this.scheduleClassification = result.data.scheduleClassificationHeaderResource;
+
+						if (result.data.idealLap !== null && result.data.idealLap !== "")
+							this.voltaIdealCircuito = result.data.idealLap;
+					}
+				})
+				.catch((e) => {
+					console.log(e);
+				});
 
 			this.visibleDetailGranPrix = true;
-		},		
+		},
 		closeDetailLap() {
 			this.visibleDetailLap = false;
 			this.visibleDetailGranPrix = false;
 		},
-		verifiedFastSectorOrLap(enabled) {
-			if (enabled)
-				return "divTableCell fastSectorOrLap";
-			else 
-				return "divTableCell";
+		verifiedFastSectorOrLap(fastLap, bestLapGrid) {
+			console.log(fastLap);
+
+			if (bestLapGrid)
+				return "divTableCell bestGridSectorOrLap";
+			else
+				if (fastLap)
+					return "divTableCell fastSectorOrLap";
+				else
+					return "divTableCell";
 		},
 		closeDetailDriver() {
 			this.visibleDetailDriver = false;
@@ -871,7 +973,7 @@ export default {
 		},
 		openHistoryGranPrix() {
 			this.visibleHistoryGranPrix = true;
-		},		
+		},
 		closeHistoryGranPrix() {
 			this.visibleHistoryGranPrix = false;
 		},
@@ -899,17 +1001,21 @@ function formatDate(date) {
 	padding: 3px 10px;
 	vertical-align: middle;
 }
+
 .divTable {
 	display: table;
 	width: 100%;
 }
+
 .divTableRow {
 	display: table-row;
 }
+
 .divTableHeading {
 	background-color: #EEE;
 	display: table-header-group;
 }
+
 .divTableCell,
 .divTableHead {
 	border: 1px solid #999999;
@@ -917,10 +1023,12 @@ function formatDate(date) {
 	padding: 3px 8px;
 	vertical-align: middle;
 }
+
 .divTableCellName {
 	text-align: left;
 	vertical-align: middle;
 }
+
 .divTableHeading {
 	background-color: #EEE;
 	display: table-header-group;
@@ -937,11 +1045,12 @@ function formatDate(date) {
 	display: table-row-group;
 }
 
-.container{
-  display: flex;
-  flex-direction: column;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.container {
+	display: flex;
+	flex-direction: column;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 .titulo {
 	background-color: rgb(100, 100, 102);
 	text-align: left;
@@ -949,128 +1058,157 @@ function formatDate(date) {
 	padding: 5px;
 	color: aliceblue;
 }
-.ctnFlex{
+
+.ctnFlex {
 	display: flex;
 	justify-content: space-between;
 	font-size: 3mm;
 	text-transform: uppercase;
 }
- div.op1 {
+
+div.op1 {
 	display: inline-block;
 	background-color: rgb(243, 237, 237);
 	text-align: center;
 }
+
 div.op2 {
 	display: inline-block;
 	margin-right: 0vw;
 	text-align: center;
 }
+
 div.op2-backcolor {
 	background-color: #809983;
 }
+
 div.statusCorridaSC {
-	padding: 8px; 
-	vertical-align: middle; 
-	text-align: center; 
+	padding: 8px;
+	vertical-align: middle;
+	text-align: center;
 	background-color: yellow;
 }
+
 div.statusCorridaFormation {
-	padding: 8px; 
-	vertical-align: middle; 
-	text-align: center; 
+	padding: 8px;
+	vertical-align: middle;
+	text-align: center;
 	background-color: green;
 }
+
 div.statusCorridaDisabled {
-	padding: 8px; 
-	vertical-align: middle; 
-	text-align: center; 
+	padding: 8px;
+	vertical-align: middle;
+	text-align: center;
 	background-color: black;
 }
+
 div.statusPiloto {
 	background-color: #999999;
 	text-decoration: line-through;
 }
+
 div.statusPilotoIA {
 	text-decoration: line-through;
 }
+
 div.alert1 {
 	background-color: rgb(253, 255, 164);
 }
+
 div.alert2 {
 	background-color: rgb(250, 229, 108);
 }
+
 div.alert3 {
 	background-color: rgb(251, 255, 0);
 }
+
 div.alert-critical {
 	background-color: maroon;
 	color: white;
 }
+
 div.font7 {
 	font-size: 7px;
 }
 
 @keyframes fa-blink {
-     0% { opacity: 1; }
-     50% { opacity: 0.5; }
-     100% { opacity: 0; }
- }
-.fa-blink {
-   -webkit-animation: fa-blink .75s linear infinite;
-   -moz-animation: fa-blink .75s linear infinite;
-   -ms-animation: fa-blink .75s linear infinite;
-   -o-animation: fa-blink .75s linear infinite;
-   animation: fa-blink .75s linear infinite;
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0.5;
+	}
+
+	100% {
+		opacity: 0;
+	}
 }
+
+.fa-blink {
+	-webkit-animation: fa-blink .75s linear infinite;
+	-moz-animation: fa-blink .75s linear infinite;
+	-ms-animation: fa-blink .75s linear infinite;
+	-o-animation: fa-blink .75s linear infinite;
+	animation: fa-blink .75s linear infinite;
+}
+
 .modal {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  align-items: start;
-  justify-content: center;
-  background: rgba(77, 77, 77, 0.7);
-  transition: all 0.4s;
-  opacity: 1;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	align-items: start;
+	justify-content: center;
+	background: rgba(77, 77, 77, 0.7);
+	transition: all 0.4s;
+	opacity: 1;
 }
 
 .content-modal {
-  border-radius: 4px;
-  position: relative;
-  width: 700px;
-  max-width: 90%;
-  background: #fff;
-  padding: 1em 2em;
+	border-radius: 4px;
+	position: relative;
+	width: 700px;
+	max-width: 90%;
+	background: #fff;
+	padding: 1em 2em;
 }
- 
+
 .footer {
-  text-align: right;
-  margin-top: 50px;
+	text-align: right;
+	margin-top: 50px;
 }
- 
+
 .close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: #585858;
-  text-decoration: none;
-  font-size: 30px;
-  font-weight: bold;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	color: #585858;
+	text-decoration: none;
+	font-size: 30px;
+	font-weight: bold;
 }
- 
+
 .footer-btn-close {
-  width: 150px;
-  padding: 10px;
-  text-decoration: none;
-  background-color: #cfcca8;
-  color: #000000;
-  border-radius: 3px;
+	width: 150px;
+	padding: 10px;
+	text-decoration: none;
+	background-color: #cfcca8;
+	color: #000000;
+	border-radius: 3px;
+}
+
+.bestGridSectorOrLap {
+	background-color: darkviolet;
+	color: white;
 }
 
 .fastSectorOrLap {
-	background-color: darkviolet;
-    color: white;
+	background-color: #0f9701;
+	color: white;
 }
 </style>
